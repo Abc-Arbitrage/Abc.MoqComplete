@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Abc.MoqComplete</id>
+    <version>$version$</version>
+    <releaseNotes>
+	Provide completion for Moq
+    </releaseNotes>
+    <title>MoqComplete</title>
+    <authors>ABC Arbitrage Asset Management</authors>
+    <owners>ABC Arbitrage Asset Management</owners>
+    <copyright>Copyright © ABC Arbitrage Asset Management, 2014-2019</copyright>
+	<iconUrl>C:\Dev\abc\moqcomplete\Abc.MoqComplete\Deployment\icon.png</iconUrl>
+    <!-- <projectUrl></projectUrl> -->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Code completion for Moq</description>
+    <language>en-US</language>
+    <tags>resharper r# nunit xunit moq mock mocking testing tests completion</tags>
+    <dependencies>
+      <dependency id="Wave" version="[183.0]" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\MoqComplete.dll" target="DotFiles" />
+    <file src="bin\MoqComplete.pdb" target="DotFiles" />
+  </files>
+</package>
