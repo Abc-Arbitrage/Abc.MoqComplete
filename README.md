@@ -6,7 +6,11 @@ Works with Resharper 2018.3.1
 ### It.IsAny completion
 Suggest `It.IsAny()` when setting up mocked method
 
-![](Media/ItIsAnyCompletion.gif)
+![](Media/ItIsAny_SetupCompletion.gif)
+
+Suggest `It.IsAny()` when using verify on mocked method
+
+![](Media/ItIsAny_VerifyCompletion.gif)
 
 ### Callback Completion
 Suggest full `Callback<...>` method
