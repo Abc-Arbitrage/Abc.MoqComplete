@@ -16,7 +16,7 @@ namespace ConsoleApp1.Tests
         public void METHOD()
         {
             Mock<ITestInterface> temp = new Mock<ITestInterface>();
-            temp.Setup(x => x.BuildSomething(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<bool>(){caret}))
+            temp.Setup(x => x.BuildSomething(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<bool>())){caret}
         }
     }
 }

@@ -69,16 +69,21 @@ namespace MoqComplete.CompletionProvider
                 {
                     var parameter = method.Parameters.Select(x => "It.IsAny<" + x.Type.GetPresentableName(CSharpLanguage.Instance) + ">()");
                     var proposedCompletion = string.Join(", ", parameter);
-                    AddLookup(context, collector, proposedCompletion);
+                    AddLookup(context, collector, proposedCompletion, 2);
                 });
             }
 
             return true;
         }
 
-        private static void AddLookup(CSharpCodeCompletionContext context, IItemsCollector collector, string proposedCompletion)
+        private static void AddLookup(CSharpCodeCompletionContext context, IItemsCollector collector, string proposedCompletion, int? offset = null)
         {
             var textLookupItem = CSharpLookupItemFactory.Instance.CreateKeywordLookupItem(context, proposedCompletion, TailType.None, PsiSymbolsThemedIcons.Method.Id);
+            if (offset != null)
+            {
+                textLookupItem.SetInsertCaretOffset(offset.Value);
+                textLookupItem.SetReplaceCaretOffset(offset.Value);
+            }
             textLookupItem.WithInitializedRanges(context.CompletionRanges, context.BasicContext);
             textLookupItem.PlaceTop();
             collector.Add(textLookupItem);
