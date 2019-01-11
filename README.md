@@ -13,6 +13,5 @@ Suggest full Callback<...> method
 ### Mock suggestion
 Suggest existing mock.Object
 ![](Media/MockCompletion.gif)
-
 Or new Mock in constructor
 ![](Media/MockProposalCompletion.gif)

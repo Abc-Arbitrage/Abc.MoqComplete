@@ -11,10 +11,11 @@
     <owners>ABC Arbitrage Asset Management</owners>
     <copyright>Copyright © ABC Arbitrage Asset Management, 2014-2019</copyright>
 	<iconUrl>C:\Dev\abc\moqcomplete\Abc.MoqComplete\Deployment\icon.png</iconUrl>
-    <!-- <projectUrl></projectUrl> -->
+    <projectUrl>https://github.com/Abc-Arbitrage/Abc.MoqComplete</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Code completion for Moq</description>
     <language>en-US</language>
+	<summary>Provide completion for It.IsAny, Callback, suggest mock in constructor</summary>
     <tags>resharper r# nunit xunit moq mock mocking testing tests completion</tags>
     <dependencies>
       <dependency id="Wave" version="[183.0]" />
