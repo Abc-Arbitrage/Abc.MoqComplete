@@ -39,7 +39,7 @@ namespace MoqComplete.Extensions
 
         public static bool IsMoqSetupMethod([CanBeNull] IDeclaredElement declaredElement) => IsMethodString(declaredElement, 
                                                                                                             "Method:Moq.Mock`1.Setup(System.Linq.Expressions.Expression`1[TDelegate -> System.Action`1[T -> T]] expression)",
-                                                                                                            "Method:Moq.Mock`1.Setup(System.Linq.Expressions.Expression`1[TDelegate -> System.Action`1[T -> T]] expression)");
+                                                                                                            "Method:Moq.Mock`1.Setup(System.Linq.Expressions.Expression`1[TDelegate -> System.Func`2[T -> T, TResult -> TResult]] expression)");
 
         public static bool IsMoqSetupMethod([CanBeNull] this IInvocationExpression invocationExpression) => IsMethod(invocationExpression, IsMoqSetupMethod);
 
@@ -48,7 +48,7 @@ namespace MoqComplete.Extensions
         public static bool IsMoqVerifyMethod([CanBeNull] IDeclaredElement declaredElement)
             => IsMethodString(declaredElement, 
                               "Method:Moq.Mock`1.Verify(System.Linq.Expressions.Expression`1[TDelegate -> System.Action`1[T -> T]] expression)",
-                              "Method:Moq.Mock`1.Verify(System.Linq.Expressions.Expression`1[TDelegate -> System.Action`1[T -> T]] expression)");
+                              "Method:Moq.Mock`1.Verify(System.Linq.Expressions.Expression`1[TDelegate -> System.Func`2[T -> T, TResult -> TResult]] expression)");
 
         private static bool IsMethod([CanBeNull] this IInvocationExpression invocationExpression, Func<IDeclaredElement, bool> methodFilter)
         {
