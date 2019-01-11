@@ -10,7 +10,7 @@
     <authors>ABC Arbitrage Asset Management</authors>
     <owners>ABC Arbitrage Asset Management</owners>
     <copyright>Copyright © ABC Arbitrage Asset Management, 2014-2019</copyright>
-	<iconUrl>C:\Dev\abc\moqcomplete\Abc.MoqComplete\Deployment\icon.png</iconUrl>
+	<iconUrl>https://raw.githubusercontent.com/Abc-Arbitrage/Abc.MoqComplete/master/Abc.MoqComplete/Deployment/icon.png</iconUrl>
     <projectUrl>https://github.com/Abc-Arbitrage/Abc.MoqComplete</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Code completion for Moq</description>
