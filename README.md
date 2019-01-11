@@ -1,5 +1,6 @@
 # Abc.MoqComplete
 MoqComplete is a Resharper plugin which provide auto-completion for the Moq framework
+Works with Resharper 2018.3.1
 
 ## Features
 ### It.IsAny completion
@@ -20,3 +21,6 @@ Suggest existing `mock.Object`
 Or new `Mock` in constructor
 
 ![](Media/MockProposalCompletion.gif)
+
+## About
+Inspired by AgentZorge, which is deprecated
