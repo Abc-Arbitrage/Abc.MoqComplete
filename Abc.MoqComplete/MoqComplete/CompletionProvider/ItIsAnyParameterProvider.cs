@@ -11,6 +11,7 @@ using JetBrains.ReSharper.Psi.Resources;
 using JetBrains.ReSharper.Psi.Tree;
 using MoqComplete.Extensions;
 using System.Linq;
+using JetBrains.DocumentModel;
 
 namespace MoqComplete.CompletionProvider
 {
@@ -36,12 +37,18 @@ namespace MoqComplete.CompletionProvider
             if (mockedMethodInvocationExpression == null)
                 return false;
 
-            var setupMethodInvocationExpression = mockedMethodInvocationExpression.GetParentSafe<ILambdaExpression>()
+            var methodInvocation = mockedMethodInvocationExpression.GetParentSafe<ILambdaExpression>()
                                                                                   .GetParentSafe<IArgument>()
                                                                                   .GetParentSafe<IArgumentList>()
                                                                                   .GetParentSafe<IInvocationExpression>();
 
-            if (setupMethodInvocationExpression == null || !setupMethodInvocationExpression.IsMoqSetupMethod())
+            if (methodInvocation == null)
+                return false;
+
+            var isSetup = methodInvocation.IsMoqSetupMethod();
+            var isVerify = methodInvocation.IsMoqVerifyMethod();
+
+            if (!isSetup && !isVerify)
                 return false;
 
             var argumentIndex = mockedMethodArgument.IndexOf();
@@ -69,7 +76,7 @@ namespace MoqComplete.CompletionProvider
                 {
                     var parameter = method.Parameters.Select(x => "It.IsAny<" + x.Type.GetPresentableName(CSharpLanguage.Instance) + ">()");
                     var proposedCompletion = string.Join(", ", parameter);
-                    AddLookup(context, collector, proposedCompletion, 2);
+                    AddLookup(context, collector, proposedCompletion, isSetup ? 2 : 1);
                 });
             }
 
@@ -84,8 +91,8 @@ namespace MoqComplete.CompletionProvider
                 textLookupItem.SetInsertCaretOffset(offset.Value);
                 textLookupItem.SetReplaceCaretOffset(offset.Value);
             }
-            textLookupItem.WithInitializedRanges(context.CompletionRanges, context.BasicContext);
             textLookupItem.PlaceTop();
+            textLookupItem.WithHighSelectionPriority();
             collector.Add(textLookupItem);
         }
     }

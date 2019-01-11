@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+using JetBrains.Annotations;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Resolve;
@@ -36,26 +37,35 @@ namespace MoqComplete.Extensions
             return null;
         }
 
-        public static bool IsMoqSetupMethod([CanBeNull] IDeclaredElement declaredElement)
-        {
-            var declaredElementAsString = declaredElement.ConvertToString();
-            if (declaredElementAsString == "Method:Moq.Mock`1.Setup(System.Linq.Expressions.Expression`1[TDelegate -> System.Action`1[T -> T]] expression)")
-                return true;
-            if (declaredElementAsString == "Method:Moq.Mock`1.Setup(System.Linq.Expressions.Expression`1[TDelegate -> System.Func`2[T -> T, TResult -> TResult]] expression)")
-                return true;
-            return false;
-        }
+        public static bool IsMoqSetupMethod([CanBeNull] IDeclaredElement declaredElement) => IsMethodString(declaredElement, 
+                                                                                                            "Method:Moq.Mock`1.Setup(System.Linq.Expressions.Expression`1[TDelegate -> System.Action`1[T -> T]] expression)",
+                                                                                                            "Method:Moq.Mock`1.Setup(System.Linq.Expressions.Expression`1[TDelegate -> System.Action`1[T -> T]] expression)");
 
-        public static bool IsMoqSetupMethod([CanBeNull] this IInvocationExpression invocationExpression)
+        public static bool IsMoqSetupMethod([CanBeNull] this IInvocationExpression invocationExpression) => IsMethod(invocationExpression, IsMoqSetupMethod);
+
+        public static bool IsMoqVerifyMethod([CanBeNull] this IInvocationExpression invocationExpression) => IsMethod(invocationExpression, IsMoqVerifyMethod);
+
+        public static bool IsMoqVerifyMethod([CanBeNull] IDeclaredElement declaredElement)
+            => IsMethodString(declaredElement, 
+                              "Method:Moq.Mock`1.Verify(System.Linq.Expressions.Expression`1[TDelegate -> System.Action`1[T -> T]] expression)",
+                              "Method:Moq.Mock`1.Verify(System.Linq.Expressions.Expression`1[TDelegate -> System.Action`1[T -> T]] expression)");
+
+        private static bool IsMethod([CanBeNull] this IInvocationExpression invocationExpression, Func<IDeclaredElement, bool> methodFilter)
         {
             if (invocationExpression == null || invocationExpression.Reference == null)
                 return false;
 
             var resolveResult = invocationExpression.Reference.Resolve();
             if (resolveResult.ResolveErrorType == ResolveErrorType.MULTIPLE_CANDIDATES)
-                return resolveResult.Result.Candidates.Any(IsMoqSetupMethod);
+                return resolveResult.Result.Candidates.Any(methodFilter);
 
-            return IsMoqSetupMethod(resolveResult.DeclaredElement);
+            return methodFilter(resolveResult.DeclaredElement);
+        }
+
+        private static bool IsMethodString([CanBeNull] IDeclaredElement declaredElement, params string[] methodName)
+        {
+            var declaredElementAsString = declaredElement.ConvertToString();
+            return methodName.Contains(declaredElementAsString);
         }
     }
 }
