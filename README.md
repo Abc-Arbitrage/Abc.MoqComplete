@@ -11,6 +11,8 @@ Suggest full Callback<...> method
 ![](Media/CallbackCompletion.gif)
 
 ### Mock suggestion
-Suggest existing mock.Object or new Mock<IInterface.Object>() in constructor
+Suggest existing mock.Object
 ![](Media/MockCompletion.gif)
+
+Or new Mock in constructor
 ![](Media/MockProposalCompletion.gif)
