@@ -50,6 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeAnalysis\SupiciousCallbackAnalyzer.cs" />
+    <Compile Include="CodeAnalysis\SuspiciousCallbackWarning.cs" />
     <Compile Include="CompletionProvider\CallbackMethodProvider.cs" />
     <Compile Include="CompletionProvider\ItIsAnyParameterProvider.cs" />
     <Compile Include="CompletionProvider\SuggestMockProvider.cs" />

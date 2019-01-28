@@ -1,9 +1,9 @@
-﻿using System;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Resx.Utils;
+using System;
 using System.Linq;
 
 namespace MoqComplete.Extensions
@@ -37,7 +37,7 @@ namespace MoqComplete.Extensions
             return null;
         }
 
-        public static bool IsMoqSetupMethod([CanBeNull] IDeclaredElement declaredElement) => IsMethodString(declaredElement, 
+        public static bool IsMoqSetupMethod([CanBeNull] IDeclaredElement declaredElement) => IsMethodString(declaredElement,
                                                                                                             "Method:Moq.Mock`1.Setup(System.Linq.Expressions.Expression`1[TDelegate -> System.Action`1[T -> T]] expression)",
                                                                                                             "Method:Moq.Mock`1.Setup(System.Linq.Expressions.Expression`1[TDelegate -> System.Func`2[T -> T, TResult -> TResult]] expression)");
 
@@ -45,10 +45,22 @@ namespace MoqComplete.Extensions
 
         public static bool IsMoqVerifyMethod([CanBeNull] this IInvocationExpression invocationExpression) => IsMethod(invocationExpression, IsMoqVerifyMethod);
 
+        public static bool IsMoqCallbackMethod([CanBeNull] this IInvocationExpression expression)
+            => IsMethod(expression, IsMoqCallbackMethod);
+
         public static bool IsMoqVerifyMethod([CanBeNull] IDeclaredElement declaredElement)
-            => IsMethodString(declaredElement, 
+            => IsMethodString(declaredElement,
                               "Method:Moq.Mock`1.Verify(System.Linq.Expressions.Expression`1[TDelegate -> System.Action`1[T -> T]] expression)",
                               "Method:Moq.Mock`1.Verify(System.Linq.Expressions.Expression`1[TDelegate -> System.Func`2[T -> T, TResult -> TResult]] expression)");
+
+        private static bool IsMoqCallbackMethod(IDeclaredElement declaredElement)
+        {
+            var methodString = declaredElement.ConvertToString();
+            return methodString != null
+                   && (methodString.StartsWith("Method:Moq.Language.ICallback.Callback(System.Action")
+                       || methodString.StartsWith("Method:Moq.Language.ICallback`2.Callback(System.Action"));
+
+        }
 
         private static bool IsMethod([CanBeNull] this IInvocationExpression invocationExpression, Func<IDeclaredElement, bool> methodFilter)
         {
