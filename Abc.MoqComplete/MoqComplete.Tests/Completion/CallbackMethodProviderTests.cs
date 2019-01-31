@@ -20,6 +20,7 @@ namespace MoqComplete.Tests.Completion
         }
 
         [TestCase("callbackCompletion")]
+        [TestCase("callbackCompletion_afterReturn")]
         public void should_fill_with_callback(string testSrc) => DoOneTest(testSrc);
     }
 }

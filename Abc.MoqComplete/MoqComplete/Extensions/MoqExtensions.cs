@@ -48,10 +48,18 @@ namespace MoqComplete.Extensions
         public static bool IsMoqCallbackMethod([CanBeNull] this IInvocationExpression expression)
             => IsMethod(expression, IsMoqCallbackMethod);
 
+        public static bool IsMoqReturnMethod([CanBeNull] this IInvocationExpression invocationExpression) => IsMethod(invocationExpression, IsMoqReturnMethod);
+
         public static bool IsMoqVerifyMethod([CanBeNull] IDeclaredElement declaredElement)
             => IsMethodString(declaredElement,
                               "Method:Moq.Mock`1.Verify(System.Linq.Expressions.Expression`1[TDelegate -> System.Action`1[T -> T]] expression)",
                               "Method:Moq.Mock`1.Verify(System.Linq.Expressions.Expression`1[TDelegate -> System.Func`2[T -> T, TResult -> TResult]] expression)");
+
+        public static bool IsMoqReturnMethod([CanBeNull] IDeclaredElement declaredElement)
+        {
+            var methodString = declaredElement.ConvertToString();
+            return methodString != null && (methodString.StartsWith("Method:Moq.Language.IReturns`2.Returns") || methodString.StartsWith("Method:Moq.Language.IReturns`1.Returns"));
+        }
 
         private static bool IsMoqCallbackMethod(IDeclaredElement declaredElement)
         {

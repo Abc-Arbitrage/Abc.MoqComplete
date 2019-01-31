@@ -11,7 +11,6 @@ using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.ExpectedTypes;
 using JetBrains.ReSharper.Psi.Resources;
 using JetBrains.ReSharper.Psi.Tree;
-using JetBrains.UI.RichText;
 using MoqComplete.Extensions;
 using System.Linq;
 
@@ -29,14 +28,18 @@ namespace MoqComplete.CompletionProvider
         protected override bool AddLookupItems(CSharpCodeCompletionContext context, IItemsCollector collector)
         {
             var identifier = context.TerminatedContext.TreeNode as IIdentifier;
-            var setupExpression = identifier.GetParentSafe<IReferenceExpression>();
-            if (setupExpression == null)
+            var expression = identifier.GetParentSafe<IReferenceExpression>();
+            if (expression == null)
                 return false;
 
-            if (!(setupExpression.ConditionalQualifier is IInvocationExpression setupInvocation))
+            if (!(expression.ConditionalQualifier is IInvocationExpression invocation))
                 return false;
 
-            var mockedMethod = setupInvocation.GetMockedMethodFromSetupMethod();
+            if (invocation.IsMoqReturnMethod())
+                invocation = invocation.InvokedExpression?.FirstChild as IInvocationExpression;
+                
+            var mockedMethod = invocation.GetMockedMethodFromSetupMethod();
+
             if (mockedMethod == null || mockedMethod.Parameters.Count == 0)
                 return false;
 
