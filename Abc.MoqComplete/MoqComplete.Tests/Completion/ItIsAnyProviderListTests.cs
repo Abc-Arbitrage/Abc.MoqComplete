@@ -1,10 +1,9 @@
-﻿using System;
-using JetBrains.ReSharper.FeaturesTestFramework.Completion;
+﻿using JetBrains.ReSharper.FeaturesTestFramework.Completion;
 using JetBrains.ReSharper.TestFramework;
 using MoqComplete.CompletionProvider;
 using NUnit.Framework;
 
-namespace MoqComplete.Tests
+namespace MoqComplete.Tests.Completion
 {
     [TestNetCore21("Moq/4.10.1")]
     public class ItIsAnyProviderListTests : CodeCompletionTestBase

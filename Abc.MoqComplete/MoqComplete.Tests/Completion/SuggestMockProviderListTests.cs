@@ -3,13 +3,13 @@ using JetBrains.ReSharper.TestFramework;
 using MoqComplete.CompletionProvider;
 using NUnit.Framework;
 
-namespace MoqComplete.Tests
+namespace MoqComplete.Tests.Completion
 {
     [TestNetCore21("Moq/4.10.1")]
-    public class SuggestMockProviderActionTests : CodeCompletionTestBase
+    public class SuggestMockProviderListTests : CodeCompletionTestBase
     {
         private SuggestMockProvider _suggestMockProvider;
-        protected override CodeCompletionTestType TestType => CodeCompletionTestType.Action;
+        protected override CodeCompletionTestType TestType => CodeCompletionTestType.List;
         protected override string RelativeTestDataPath => "MockCompletion";
 
         [SetUp]
@@ -18,8 +18,7 @@ namespace MoqComplete.Tests
             _suggestMockProvider = new SuggestMockProvider();
         }
 
-        [TestCase("mockCompletionParam")]
-        [TestCase("mockSuggestionParam")]
-        public void should_fill_with_mock_object(string testSrc) => DoOneTest(testSrc);
+        [TestCase("mockCompletionList")]
+        public void should_list_mock(string testSrc) => DoOneTest(testSrc);
     }
 }
