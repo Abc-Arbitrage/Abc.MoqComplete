@@ -1,0 +1,26 @@
+﻿using System;
+using Moq;
+
+namespace ConsoleApp1.Tests
+{
+    public interface ITestInterface
+    {
+        int BuildSomething(int theInt, string theString, bool theBool);
+    }
+
+    public class Test1
+    {
+       public void METHOD()
+        {
+            var mock = new Mock<ITestInterface>();
+            var count = 0;
+            mock.Setup(x => x.BuildSomething(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<bool>()))
+				.Returns(0)
+				.Callback|<int, string>|(0)(|(i, s, arg3)|(1) => count += i);
+            Console.WriteLine(count);
+        }
+    }
+}
+---------------------------------------------------------
+(0): ReSharper Warning: (T) 'Suspicious Callback method call: Generic types do not match' (E) ''
+(1): ReSharper Underlined Error Highlighting: Incompatible anonymous function signature

@@ -51,10 +51,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeAnalysis\SuspiciousCallbackAnalyzerTests.cs" />
     <Compile Include="Completion\CallbackMethodProviderTests.cs" />
     <Compile Include="Completion\ItIsAnyProviderActionTests.cs" />
     <Compile Include="Completion\ItIsAnyProviderListTests.cs" />
-    <Compile Include="Completion\MoqCompleteTestsAssembly.cs" />
+    <Compile Include="MoqCompleteTestsAssembly.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Completion\SuggestMockProviderActionTests.cs" />
     <Compile Include="Completion\SuggestMockProviderListTests.cs" />
@@ -180,5 +181,6 @@
       <Version>4.10.1</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
