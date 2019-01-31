@@ -26,5 +26,10 @@ Or new `Mock` in constructor
 
 ![](Media/MockProposalCompletion.gif)
 
+### Mock suggestion
+Detect suspicious `Callback`
+
+![](Media/SuspiciousCallback.gif)
+
 ## About
 Inspired by AgentZorge, which is deprecated
