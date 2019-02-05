@@ -23,7 +23,7 @@ Detect suspicious `Callback`
 ![](Media/SuspiciousCallback.gif)
 
 ### Mock suggestion
-Suggest existing `mock.Object`
+Suggest existing `mock.Object` (Works only with Nunit and MSTests)
 
 ![](Media/MockCompletion.gif)
 
