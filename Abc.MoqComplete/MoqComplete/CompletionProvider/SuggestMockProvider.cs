@@ -26,17 +26,14 @@ namespace MoqComplete.CompletionProvider
 
         protected override bool AddLookupItems(CSharpCodeCompletionContext context, IItemsCollector collector)
         {
-            bool moqIsSeen = false;
             var candidateExistingElements = new List<ISymbolInfo>();
             var table = GetSymbolTable(context);
 
             table?.ForAllSymbolInfos(info =>
             {
                 var declaredElement = info.GetDeclaredElement();
-                if (declaredElement.ConvertToString() == "Class:Moq.Mock")
-                    moqIsSeen = true;
-
                 var type = declaredElement.Type();
+
                 if (type != null)
                 {
                     if (type.GetClassType().ConvertToString() == "Class:Moq.Mock`1")
@@ -54,12 +51,10 @@ namespace MoqComplete.CompletionProvider
             {
                 var proposedCompletion = candidateExistingElement.ShortName + ".Object";
                 var lookupItem = GetLookupItem(context, proposedCompletion);
-                lookupItem.PlaceTop();
-
                 collector.Add(lookupItem);
             }
 
-            if (moqIsSeen && !candidateExistingElements.Any() && context.ExpectedTypesContext != null)
+            if (context.ExpectedTypesContext != null)
             {
                 foreach (var expectedType in context.ExpectedTypesContext.ExpectedITypes)
                 {
@@ -71,12 +66,6 @@ namespace MoqComplete.CompletionProvider
                         string typeName = expectedType.Type.GetPresentableName(CSharpLanguage.Instance);
                         var proposedCompletion = "new Mock<" + typeName + ">().Object";
                         var lookupItem = GetLookupItem(context, proposedCompletion);
-
-                        if (candidateExistingElements.Any())
-                            lookupItem.PlaceBottom();
-                        else
-                            lookupItem.PlaceTop();
-
                         collector.Add(lookupItem);
                     }
                 }
@@ -88,6 +77,7 @@ namespace MoqComplete.CompletionProvider
         {
             var lookupItem = CSharpLookupItemFactory.Instance.CreateKeywordLookupItem(context, proposedCompletion, TailType.None, PsiSymbolsThemedIcons.Variable.Id);
             lookupItem.WithInitializedRanges(context.CompletionRanges, context.BasicContext);
+            lookupItem.PlaceTop();
             return lookupItem;
         }
     }
