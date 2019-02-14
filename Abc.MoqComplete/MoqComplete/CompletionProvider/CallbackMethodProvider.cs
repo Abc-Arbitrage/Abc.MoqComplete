@@ -1,4 +1,5 @@
-﻿using JetBrains.ReSharper.Feature.Services.CodeCompletion;
+﻿using JetBrains.ProjectModel;
+using JetBrains.ReSharper.Feature.Services.CodeCompletion;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion.Infrastructure;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion.Infrastructure.AspectLookupItems.BaseInfrastructure;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion.Infrastructure.AspectLookupItems.Info;
@@ -12,6 +13,7 @@ using JetBrains.ReSharper.Psi.ExpectedTypes;
 using JetBrains.ReSharper.Psi.Resources;
 using JetBrains.ReSharper.Psi.Tree;
 using MoqComplete.Extensions;
+using MoqComplete.Services;
 using System.Linq;
 
 namespace MoqComplete.CompletionProvider
@@ -27,6 +29,8 @@ namespace MoqComplete.CompletionProvider
 
         protected override bool AddLookupItems(CSharpCodeCompletionContext context, IItemsCollector collector)
         {
+            var methodIdentitifer = context.BasicContext.Solution.GetComponent<IMoqMethodIdentifier>();
+            var mockedMethodProvider = context.BasicContext.Solution.GetComponent<IMockedMethodProvider>();
             var identifier = context.TerminatedContext.TreeNode as IIdentifier;
             var expression = identifier.GetParentSafe<IReferenceExpression>();
             if (expression == null)
@@ -35,10 +39,10 @@ namespace MoqComplete.CompletionProvider
             if (!(expression.ConditionalQualifier is IInvocationExpression invocation))
                 return false;
 
-            if (invocation.IsMoqReturnMethod())
+            if (methodIdentitifer.IsMoqReturnMethod(invocation))
                 invocation = invocation.InvokedExpression?.FirstChild as IInvocationExpression;
-                
-            var mockedMethod = invocation.GetMockedMethodFromSetupMethod();
+
+            var mockedMethod = mockedMethodProvider.GetMockedMethodFromSetupMethod(invocation);
 
             if (mockedMethod == null || mockedMethod.Parameters.Count == 0)
                 return false;

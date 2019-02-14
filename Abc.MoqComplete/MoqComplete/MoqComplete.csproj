@@ -55,9 +55,12 @@
     <Compile Include="CompletionProvider\CallbackMethodProvider.cs" />
     <Compile Include="CompletionProvider\ItIsAnyParameterProvider.cs" />
     <Compile Include="CompletionProvider\SuggestMockProvider.cs" />
-    <Compile Include="Extensions\MoqExtensions.cs" />
     <Compile Include="Extensions\ResharperExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IMockedMethodProvider.cs" />
+    <Compile Include="Services\IMoqMethodIdentifier.cs" />
+    <Compile Include="Services\MockedMethodProvider.cs" />
+    <Compile Include="Services\MoqMethodIdentifier.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Antlr2.Tools">

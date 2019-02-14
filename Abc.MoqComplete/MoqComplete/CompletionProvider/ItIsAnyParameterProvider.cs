@@ -1,4 +1,5 @@
-﻿using JetBrains.ReSharper.Feature.Services.CodeCompletion;
+﻿using JetBrains.ProjectModel;
+using JetBrains.ReSharper.Feature.Services.CodeCompletion;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion.Infrastructure;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion.Infrastructure.LookupItems;
 using JetBrains.ReSharper.Feature.Services.CSharp.CodeCompletion.Infrastructure;
@@ -10,8 +11,8 @@ using JetBrains.ReSharper.Psi.ExpectedTypes;
 using JetBrains.ReSharper.Psi.Resources;
 using JetBrains.ReSharper.Psi.Tree;
 using MoqComplete.Extensions;
+using MoqComplete.Services;
 using System.Linq;
-using JetBrains.DocumentModel;
 
 namespace MoqComplete.CompletionProvider
 {
@@ -26,6 +27,7 @@ namespace MoqComplete.CompletionProvider
 
         protected override bool AddLookupItems(CSharpCodeCompletionContext context, IItemsCollector collector)
         {
+            var methodIdentitifer = context.BasicContext.Solution.GetComponent<IMoqMethodIdentifier>();
             var identifier = context.TerminatedContext.TreeNode as IIdentifier;
             var mockedMethodArgument = identifier.GetParentSafe<IReferenceExpression>().GetParentSafe<ICSharpArgument>();
 
@@ -45,8 +47,8 @@ namespace MoqComplete.CompletionProvider
             if (methodInvocation == null)
                 return false;
 
-            var isSetup = methodInvocation.IsMoqSetupMethod();
-            var isVerify = methodInvocation.IsMoqVerifyMethod();
+            var isSetup = methodIdentitifer.IsMoqSetupMethod(methodInvocation);
+            var isVerify = methodIdentitifer.IsMoqVerifyMethod(methodInvocation);
 
             if (!isSetup && !isVerify)
                 return false;

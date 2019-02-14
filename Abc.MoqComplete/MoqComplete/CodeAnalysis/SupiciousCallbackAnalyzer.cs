@@ -1,10 +1,11 @@
-﻿using JetBrains.ReSharper.Feature.Services.Daemon;
+﻿using JetBrains.DocumentModel;
+using JetBrains.ProjectModel;
+using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
-using MoqComplete.Extensions;
+using MoqComplete.Services;
 using System.Linq;
-using JetBrains.DocumentModel;
 
 namespace MoqComplete.CodeAnalysis
 {
@@ -13,7 +14,10 @@ namespace MoqComplete.CodeAnalysis
     {
         protected override void Run(IInvocationExpression element, ElementProblemAnalyzerData data, IHighlightingConsumer consumer)
         {
-            if (!element.IsMoqCallbackMethod())
+            var methodIdentitifer = element.GetSolution().GetComponent<IMoqMethodIdentifier>();
+            var mockedMethodProvider = element.GetSolution().GetComponent<IMockedMethodProvider>();
+
+            if (!methodIdentitifer.IsMoqCallbackMethod(element))
                 return;
 
             var typeParameters = element.TypeArguments;
@@ -25,7 +29,7 @@ namespace MoqComplete.CodeAnalysis
 
             while (pointer != null && mockedMethod == null && pointer.FirstChild is IInvocationExpression methodInvocation)
             {
-                mockedMethod = methodInvocation.GetMockedMethodFromSetupMethod();
+                mockedMethod = mockedMethodProvider.GetMockedMethodFromSetupMethod(methodInvocation);
                 pointer = methodInvocation.InvokedExpression;
             }
 
