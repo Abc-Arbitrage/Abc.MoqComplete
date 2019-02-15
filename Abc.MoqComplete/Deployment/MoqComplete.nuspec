@@ -4,7 +4,7 @@
     <id>Abc.MoqComplete</id>
     <version>$version$</version>
     <releaseNotes>
-	Provide Callback completion after Returns
+	Enhance Mock.Object completion
     </releaseNotes>
     <title>MoqComplete</title>
     <authors>ABC Arbitrage Asset Management</authors>

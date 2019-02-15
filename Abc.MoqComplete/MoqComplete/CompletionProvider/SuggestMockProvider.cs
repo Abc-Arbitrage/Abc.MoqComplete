@@ -19,45 +19,24 @@ namespace MoqComplete.CompletionProvider
     [Language(typeof(CSharpLanguage))]
     public class SuggestMockProvider : CSharpItemsProviderBase<CSharpCodeCompletionContext>
     {
-        private readonly string[] _testAttributes = new[]
-        {
-            "Constructor:NUnit.Framework.SetUpAttribute..ctor()",
-            "Constructor:NUnit.Framework.TestFixtureAttribute..ctor()",
-            "Constructor:Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute..ctor()",
-            "Constructor:Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute..ctor()"
-        };
-
-
         protected override bool IsAvailable(CSharpCodeCompletionContext context)
         {
             var codeCompletionType = context.BasicContext.CodeCompletionType;
             if (codeCompletionType != CodeCompletionType.BasicCompletion && codeCompletionType != CodeCompletionType.SmartCompletion)
                 return false;
 
-            var currentNode = context.TerminatedContext.TreeNode;
-            var attributes = new List<IAttribute>();
-
-            while (currentNode?.Parent != null)
-                currentNode = currentNode.Parent;
-
-            if (!(currentNode is ISandBox sandBox))
+            var mock = GetSymbolTable(context)?.GetSymbolInfos("Mock");
+            
+            if (mock == null)
                 return false;
-
-            currentNode = sandBox.ContextNode;
-
-            while (currentNode != null)
+            
+            return mock.Any(m =>
             {
-                if (currentNode is IAttributesOwnerDeclaration attributeDeclaration)
-                    attributes.AddRange(attributeDeclaration.Attributes);
+                if (m.GetDeclaredElement() is IClass @class)
+                    return @class.GetClrName().FullName.StartsWith("Moq.Mock");
 
-                currentNode = currentNode.Parent;
-            }
-
-            if (attributes.Count == 0)
                 return false;
-
-            var attributesString = attributes.Select(x => x.Reference?.Resolve()?.DeclaredElement?.ConvertToString());
-            return attributesString.Any(str => _testAttributes.Contains(str));
+            });
         }
 
         protected override bool AddLookupItems(CSharpCodeCompletionContext context, IItemsCollector collector)
