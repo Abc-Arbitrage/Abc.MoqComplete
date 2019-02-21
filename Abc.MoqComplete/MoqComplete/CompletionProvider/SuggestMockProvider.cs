@@ -19,24 +19,23 @@ namespace MoqComplete.CompletionProvider
     [Language(typeof(CSharpLanguage))]
     public class SuggestMockProvider : CSharpItemsProviderBase<CSharpCodeCompletionContext>
     {
+        private readonly Dictionary<string, bool> _isMoqContainedByProjectName = new Dictionary<string, bool>();
+        private const string _moqReferenceName = "Moq";
+
         protected override bool IsAvailable(CSharpCodeCompletionContext context)
         {
             var codeCompletionType = context.BasicContext.CodeCompletionType;
             if (codeCompletionType != CodeCompletionType.BasicCompletion && codeCompletionType != CodeCompletionType.SmartCompletion)
                 return false;
 
-            var mock = GetSymbolTable(context)?.GetSymbolInfos("Mock");
-            
-            if (mock == null)
-                return false;
-            
-            return mock.Any(m =>
+            var psiModule = context.PsiModule;
+            if (!_isMoqContainedByProjectName.TryGetValue(psiModule.DisplayName, out var isMoqcontained))
             {
-                if (m.GetDeclaredElement() is IClass @class)
-                    return @class.GetClrName().FullName.StartsWith("Moq.Mock");
+                isMoqcontained = psiModule.GetReferences(null).Any(r => r.Module.Name == _moqReferenceName);
+                _isMoqContainedByProjectName.Add(psiModule.DisplayName, isMoqcontained);
+            }
 
-                return false;
-            });
+            return isMoqcontained;
         }
 
         protected override bool AddLookupItems(CSharpCodeCompletionContext context, IItemsCollector collector)
