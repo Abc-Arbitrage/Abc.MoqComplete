@@ -55,6 +55,7 @@
     <Compile Include="Completion\CallbackMethodProviderTests.cs" />
     <Compile Include="Completion\ItIsAnyProviderActionTests.cs" />
     <Compile Include="Completion\ItIsAnyProviderListTests.cs" />
+    <Compile Include="Completion\ReturnsMethodProviderTests.cs" />
     <Compile Include="MoqCompleteTestsAssembly.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

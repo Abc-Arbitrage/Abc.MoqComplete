@@ -54,6 +54,7 @@
     <Compile Include="CodeAnalysis\SuspiciousCallbackWarning.cs" />
     <Compile Include="CompletionProvider\CallbackMethodProvider.cs" />
     <Compile Include="CompletionProvider\ItIsAnyParameterProvider.cs" />
+    <Compile Include="CompletionProvider\ReturnsMethodProvider.cs" />
     <Compile Include="CompletionProvider\SuggestMockProvider.cs" />
     <Compile Include="Extensions\ResharperExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
