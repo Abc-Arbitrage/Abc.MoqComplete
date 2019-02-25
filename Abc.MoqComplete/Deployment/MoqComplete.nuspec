@@ -4,7 +4,7 @@
     <id>Abc.MoqComplete</id>
     <version>$version$</version>
     <releaseNotes>
-	Enhance Mock.Object completion
+	Add completion for Returns method
     </releaseNotes>
     <title>MoqComplete</title>
     <authors>ABC Arbitrage Asset Management</authors>
