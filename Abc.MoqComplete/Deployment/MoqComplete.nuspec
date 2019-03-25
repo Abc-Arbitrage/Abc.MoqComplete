@@ -4,7 +4,7 @@
     <id>Abc.MoqComplete</id>
     <version>$version$</version>
     <releaseNotes>
-	Add completion for Returns method
+	Fix issue with suspicious callback when using generic methods
     </releaseNotes>
     <title>MoqComplete</title>
     <authors>ABC Arbitrage Asset Management</authors>

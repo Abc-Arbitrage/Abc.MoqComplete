@@ -23,9 +23,11 @@ namespace MoqComplete.Tests.CodeAnalysis
         [TestCase("typeCountMismatch_return_before")]
         [TestCase("typeMismatch_return_after")]
         [TestCase("typeCountMismatch_return_after")]
+        [TestCase("typeMismatch_generic")]
         public void should_detect_suspicious_callback(string testSrc) => DoOneTest(testSrc);
 
         [TestCase("no_types")]
-        public void should_not_detect_suspicious_callbacl(string testSrc) => DoOneTest(testSrc);
+        [TestCase("generic_types")]
+        public void should_not_detect_suspicious_callback(string testSrc) => DoOneTest(testSrc);
     }
 }

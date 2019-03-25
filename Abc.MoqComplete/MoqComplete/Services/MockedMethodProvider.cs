@@ -2,6 +2,7 @@
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Resolve;
+using JetBrains.ReSharper.Psi.Tree;
 
 namespace MoqComplete.Services
 {
@@ -17,6 +18,26 @@ namespace MoqComplete.Services
 
         public IMethod GetMockedMethodFromSetupMethod(IInvocationExpression invocationExpression)
         {
+            var mockMethodInvocationExpression = GetMockedMethodInvocation(invocationExpression);
+
+            if (mockMethodInvocationExpression?.Reference == null)
+                return null;
+
+            var targetMethodResolveResult = mockMethodInvocationExpression.Reference.Resolve();
+            if (targetMethodResolveResult.ResolveErrorType == ResolveErrorType.OK)
+                return targetMethodResolveResult.DeclaredElement as IMethod;
+
+            return null;
+        }
+
+        public TreeNodeCollection<ICSharpArgument>? GetMockedMethodParametersFromSetupMethod(IInvocationExpression invocationExpression)
+        {
+            var mockMethodInvocationExpression = GetMockedMethodInvocation(invocationExpression);
+            return mockMethodInvocationExpression?.ArgumentList?.Arguments;
+        }
+
+        private IInvocationExpression GetMockedMethodInvocation(IInvocationExpression invocationExpression)
+        {
             if (invocationExpression == null || !_methodIdentifier.IsMoqSetupMethod(invocationExpression))
                 return null;
 
@@ -28,17 +49,7 @@ namespace MoqComplete.Services
             if (lambdaExpression == null)
                 return null;
 
-            var mockMethodInvocationExpression = lambdaExpression.BodyExpression as IInvocationExpression;
-            if (mockMethodInvocationExpression == null || mockMethodInvocationExpression.Reference == null)
-                return null;
-
-            var targetMethodResolveResult = mockMethodInvocationExpression.Reference.Resolve();
-            if (targetMethodResolveResult.ResolveErrorType == ResolveErrorType.OK)
-            {
-                return targetMethodResolveResult.DeclaredElement as IMethod;
-            }
-
-            return null;
+            return lambdaExpression.BodyExpression as IInvocationExpression;
         }
     }
 }

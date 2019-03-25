@@ -1,8 +1,11 @@
-﻿using JetBrains.DocumentModel;
+﻿using System.Collections;
+using JetBrains.DocumentModel;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Psi;
+using JetBrains.ReSharper.Psi.CSharp.Conversions;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
+using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Tree;
 using MoqComplete.Services;
 using System.Linq;
@@ -16,6 +19,7 @@ namespace MoqComplete.CodeAnalysis
         {
             var methodIdentitifer = element.GetSolution().GetComponent<IMoqMethodIdentifier>();
             var mockedMethodProvider = element.GetSolution().GetComponent<IMockedMethodProvider>();
+            var conversionRule = element.GetTypeConversionRule();
 
             if (!methodIdentitifer.IsMoqCallbackMethod(element))
                 return;
@@ -25,18 +29,18 @@ namespace MoqComplete.CodeAnalysis
                 return;
 
             var pointer = element.InvokedExpression;
-            IMethod mockedMethod = null;
+            TreeNodeCollection<ICSharpArgument>? arguments = null;
 
-            while (pointer != null && mockedMethod == null && pointer.FirstChild is IInvocationExpression methodInvocation)
+            while (pointer != null && arguments == null && pointer.FirstChild is IInvocationExpression methodInvocation)
             {
-                mockedMethod = mockedMethodProvider.GetMockedMethodFromSetupMethod(methodInvocation);
+                arguments = mockedMethodProvider.GetMockedMethodParametersFromSetupMethod(methodInvocation);
                 pointer = methodInvocation.InvokedExpression;
             }
 
-            if (mockedMethod == null)
+            if (arguments == null)
                 return;
 
-            var expectedTypesParameter = mockedMethod.Parameters.Select(x => x.Type).ToArray();
+            var expectedTypesParameter = arguments.Value.Select(x => x.Value.Type()).ToArray();
 
             if (expectedTypesParameter.Length <= 0)
                 return;
