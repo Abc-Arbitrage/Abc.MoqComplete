@@ -78,7 +78,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="JetBrains.ExternalAnnotations">
-      <Version>10.2.54</Version>
+      <Version>10.2.62</Version>
     </PackageReference>
     <PackageReference Include="JetBrains.Platform.Core.Ide">
       <Version>183.0.20181225.200024</Version>
@@ -159,7 +159,7 @@
       <Version>183.0.20181226.120010</Version>
     </PackageReference>
     <PackageReference Include="JetBrains.ReSharper.SDK">
-      <Version>2018.3.1</Version>
+      <Version>2019.1.1</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>

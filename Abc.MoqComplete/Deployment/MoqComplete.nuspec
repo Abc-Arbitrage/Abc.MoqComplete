@@ -4,7 +4,7 @@
     <id>Abc.MoqComplete</id>
     <version>$version$</version>
     <releaseNotes>
-	Fix issue with suspicious callback when using generic methods
+	Update to Resharper 2019.1
     </releaseNotes>
     <title>MoqComplete</title>
     <authors>ABC Arbitrage Asset Management</authors>
@@ -19,7 +19,7 @@
 	<summary>Provide completion for It.IsAny, Callback, suggest mock in constructor</summary>
     <tags>resharper r# nunit xunit moq mock mocking testing tests completion</tags>
     <dependencies>
-      <dependency id="Wave" version="[183.0]" />
+      <dependency id="Wave" version="[191.0]" />
     </dependencies>
   </metadata>
   <files>
