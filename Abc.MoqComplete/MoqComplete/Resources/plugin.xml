@@ -1,0 +1,15 @@
+<idea-plugin>
+    <id>Abc.MoqComplete.Rider</id>
+    <name>MoqComplete</name>
+    <version>0.0.0.1</version>
+    <vendor url="https://github.com/Abc-Arbitrage/Abc.MoqComplete">ABC Arbitrage Asset Management</vendor>
+    <idea-version since-build="191.7141" until-build="191.*" />
+    <depends>com.intellij.modules.rider</depends>
+
+    <description>
+        <![CDATA[
+<p>Code completion for Moq</p>
+<p>Provide completion for It.IsAny, Callback, suggest mock in constructor</p>
+]]>
+    </description>
+</idea-plugin>
