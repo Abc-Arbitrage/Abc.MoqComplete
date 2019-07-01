@@ -3,16 +3,13 @@
     <TargetFramework>net472</TargetFramework>
  	<Company>ABC arbitrage Asset Management</Company>
 	<Copyright>Copyright © ABC arbitrage Asset Management 2019</Copyright>
+	<IsPackable>False</IsPackable>
  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\MoqComplete\MoqComplete.csproj"/>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="JetBrains.ReSharper.SDK.Tests">
-      <Version>2018.3.1</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="JetBrains.ReSharper.SDK.Tests" Version="$(SdkVersion)" />
     <PackageReference Include="Moq">
       <Version>4.10.1</Version>
     </PackageReference>

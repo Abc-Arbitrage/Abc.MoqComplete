@@ -3,13 +3,19 @@
     <TargetFramework>net472</TargetFramework>
 	<Company>ABC arbitrage Asset Management</Company>
 	<Copyright>Copyright © ABC arbitrage Asset Management 2019</Copyright>
+	<IsPackable>True</IsPackable>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="JetBrains.ReSharper.SDK">
-      <Version>2019.1.2</Version>
+    <PackageReference Include="JetBrains.ReSharper.SDK" Version="$(SdkVersion)">
+      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Wave" Version="$(WaveVersion)" />	
   </ItemGroup>
   <ItemGroup>
     <None Remove="*\plugin.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\MoqComplete\net472\MoqComplete.*" PackagePath="dotFiles" Pack="true" />
   </ItemGroup>
 </Project>

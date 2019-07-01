@@ -1,0 +1,13 @@
+<Project>
+  <PropertyGroup>
+    <SdkVersion>2019.1.2</SdkVersion>
+    <Title>MoqComplete</Title>
+    <Description>Code completion for Moq</Description>
+    <Authors>ABC Arbitrage Asset Management</Authors>
+    <Copyright>Copyright © ABC Arbitrage Asset Management, 2014-2019</Copyright>
+    <PackageTags>resharper r# nunit xunit moq mock mocking testing tests completion</PackageTags>
+    <PackageProjectUrl>https://github.com/Abc-Arbitrage/Abc.MoqComplete</PackageProjectUrl>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/Abc-Arbitrage/Abc.MoqComplete/master/Abc.MoqComplete/Deployment/icon.png</PackageIconUrl>
+  </PropertyGroup>
+</Project>

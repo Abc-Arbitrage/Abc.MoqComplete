@@ -1,8 +1,0 @@
-<Project>
-  <PropertyGroup>
-    <RootNamespace>MoqComplete</RootNamespace>
-    <DefaultItemExcludes>$(DefaultItemExcludes);obj\**</DefaultItemExcludes>
-    <BaseIntermediateOutputPath>obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
-    <OutputPath>bin\$(MSBuildProjectName)\</OutputPath>
-  </PropertyGroup>
-</Project>
