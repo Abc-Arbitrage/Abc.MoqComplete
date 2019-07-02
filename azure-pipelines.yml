@@ -32,4 +32,4 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
     pathtoCustomTestAdapters: 'Abc.MoqComplete/CustomAdapter/nunittestadapter'
-    testAssemblyVer2: '**/MoqComplete.Tests.dll'
+    testAssemblyVer2: '**/Abc.MoqComplete.Tests.dll'

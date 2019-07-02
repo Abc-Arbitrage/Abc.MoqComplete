@@ -6,7 +6,7 @@
 	<IsPackable>False</IsPackable>
  </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MoqComplete\MoqComplete.csproj"/>
+    <ProjectReference Include="..\Abc.MoqComplete\Abc.MoqComplete.csproj"/>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="JetBrains.ReSharper.SDK.Tests" Version="$(SdkVersion)" />

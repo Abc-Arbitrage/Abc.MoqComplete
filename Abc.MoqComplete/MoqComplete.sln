@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoqComplete", "MoqComplete\MoqComplete.csproj", "{0CC201AA-4CDD-454F-AE45-93A50B6B772E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abc.MoqComplete", "Abc.MoqComplete\Abc.MoqComplete.csproj", "{0CC201AA-4CDD-454F-AE45-93A50B6B772E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoqComplete.Tests", "MoqComplete.Tests\MoqComplete.Tests.csproj", "{861AAD72-682B-4E32-B68A-AF45DA05EAB7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abc.MoqComplete.Tests", "Abc.MoqComplete.Tests\Abc.MoqComplete.Tests.csproj", "{861AAD72-682B-4E32-B68A-AF45DA05EAB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoqComplete.Rider", "MoqComplete\MoqComplete.Rider.csproj", "{98492790-1637-4090-AEEA-D2883DE35757}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abc.MoqComplete.Rider", "Abc.MoqComplete\Abc.MoqComplete.Rider.csproj", "{98492790-1637-4090-AEEA-D2883DE35757}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

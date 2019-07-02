@@ -1,5 +1,5 @@
 $PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
-$PluginId = "MoqComplete"
+$PluginId = "Abc.MoqComplete"
 $SolutionPath = "$PSScriptRoot\..\..\MoqComplete.sln"
 $SourceBasePath = "$PSScriptRoot\..\..\"
 
