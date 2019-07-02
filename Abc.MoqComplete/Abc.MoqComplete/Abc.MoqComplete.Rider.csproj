@@ -14,5 +14,7 @@
   <ItemGroup>
     <Content Include="bin\Abc.MoqComplete.Rider\$(Configuration)\Abc.MoqComplete.Rider.*" PackagePath="dotnet" Pack="true" />
     <Content Include="Resources\plugin.xml" PackagePath="META-INF" Pack="true" />
+    <Content Include="Resources\pluginIcon.svg" PackagePath="META-INF" Pack="true" />
+    <Content Include="Resources\pluginIcon_dark.svg" PackagePath="META-INF" Pack="true" />
   </ItemGroup>  
 </Project>
