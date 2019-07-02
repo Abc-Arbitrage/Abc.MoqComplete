@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+ 	<Company>ABC arbitrage Asset Management</Company>
+	<Copyright>Copyright © ABC arbitrage Asset Management 2019</Copyright>
+	<IsPackable>False</IsPackable>
+ </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Abc.MoqComplete\Abc.MoqComplete.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="JetBrains.ReSharper.SDK.Tests" Version="$(SdkVersion)" />
+    <PackageReference Include="Moq">
+      <Version>4.10.1</Version>
+    </PackageReference>
+    <PackageReference Include="NUnitTestAdapter" Version="2.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="data\**\*" />
+    <None Remove="data\**\*" />
+    <EmbeddedResource Remove="data\**\*" />
+    <Content Remove="data\**\*" />
+  </ItemGroup>
+
+</Project>

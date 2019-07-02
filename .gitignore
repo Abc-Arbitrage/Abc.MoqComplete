@@ -4,6 +4,7 @@ Thumbs.db
 #Ignore files built by Visual Studio
 *.obj
 *.exe
+*.dll
 *.pdb
 *.user
 *.aps
@@ -31,3 +32,4 @@ _ReSharper*/
 #Nuget packages folder
 packages/
 *.nupkg
+*/.idea/*

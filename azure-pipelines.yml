@@ -7,7 +7,7 @@ trigger:
 - '*'
 
 pool:
-  vmImage: 'VS2017-Win2016'
+  vmImage: 'windows-2019'
 
 variables:
   solution: '**/*.sln'
@@ -31,5 +31,4 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-    pathtoCustomTestAdapters: 'Abc.MoqComplete/CustomAdapter/nunittestadapter'
-    testAssemblyVer2: '**/bin/**/MoqComplete.Tests.dll'
+    testAssemblyVer2: '**/bin/**/Abc.MoqComplete.Tests.dll'

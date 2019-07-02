@@ -3,24 +3,24 @@ using JetBrains.ReSharper.TestFramework;
 using MoqComplete.CompletionProvider;
 using NUnit.Framework;
 
-namespace MoqComplete.Tests.Completion
+namespace Abc.MoqComplete.Tests.Completion
 {
     [TestNetCore21("Moq/4.10.1")]
-    public class ReturnsMethodProviderTests: CodeCompletionTestBase
+    public class CallbackMethodProviderTests: CodeCompletionTestBase
     {
-        private CallbackMethodProvider _returnsProvider;
+        private CallbackMethodProvider _callbackProvider;
         protected override CodeCompletionTestType TestType => CodeCompletionTestType.Action;
-        protected override string RelativeTestDataPath => "ReturnsCompletion";
+        protected override string RelativeTestDataPath => "CallbackCompletion";
 
         [SetUp]
         public void SetUp()
         {
             // /!\ Mandatory otherwise the completion is not done
-            _returnsProvider = new CallbackMethodProvider();
+            _callbackProvider = new CallbackMethodProvider();
         }
 
-        [TestCase("returnsCompletion")]
-        [TestCase("returnsCompletion_afterCallback")]
+        [TestCase("callbackCompletion")]
+        [TestCase("callbackCompletion_afterReturn")]
         public void should_fill_with_callback(string testSrc) => DoOneTest(testSrc);
     }
 }
