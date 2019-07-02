@@ -3,7 +3,7 @@ using JetBrains.ReSharper.TestFramework;
 using MoqComplete.CodeAnalysis;
 using NUnit.Framework;
 
-namespace MoqComplete.Tests.CodeAnalysis
+namespace Abc.MoqComplete.Tests.CodeAnalysis
 {
     [TestNetCore21("Moq/4.10.1")]
     public class SuspiciousCallbackAnalyzerTests : CSharpHighlightingTestBase

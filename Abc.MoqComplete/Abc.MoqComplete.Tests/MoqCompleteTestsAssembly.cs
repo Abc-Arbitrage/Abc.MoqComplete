@@ -11,7 +11,7 @@ using NUnit.Framework;
 [assembly: TestDataPathBase("Abc.MoqComplete.Tests/data")]
 #pragma warning restore 618
 
-namespace MoqComplete.Tests
+namespace Abc.MoqComplete.Tests
 {
     [ZoneDefinition]
     public interface IUnitTestZone : ITestsEnvZone, IRequire<PsiFeatureTestZone>

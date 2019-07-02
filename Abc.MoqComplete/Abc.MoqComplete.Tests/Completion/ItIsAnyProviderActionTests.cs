@@ -3,7 +3,7 @@ using JetBrains.ReSharper.TestFramework;
 using MoqComplete.CompletionProvider;
 using NUnit.Framework;
 
-namespace MoqComplete.Tests.Completion
+namespace Abc.MoqComplete.Tests.Completion
 {
     [TestNetCore21("Moq/4.10.1")]
     public class ItIsAnyProviderActionTests : CodeCompletionTestBase
