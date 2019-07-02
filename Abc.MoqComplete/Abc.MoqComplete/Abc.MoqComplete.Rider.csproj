@@ -3,11 +3,16 @@
     <TargetFramework>net472</TargetFramework>
 	<Company>ABC arbitrage Asset Management</Company>
 	<Copyright>Copyright © ABC arbitrage Asset Management 2019</Copyright>
-     <IsPackable>False</IsPackable>
+	<IsPackable>True</IsPackable>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="JetBrains.Rider.SDK">
       <Version>$(SdkVersion)</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Abc.MoqComplete.Rider\$(Configuration)\Abc.MoqComplete.Rider.*" PackagePath="dotnet" Pack="true" />
+    <Content Include="Resources\plugin.xml" PackagePath="META-INF" Pack="true" />
+  </ItemGroup>  
 </Project>

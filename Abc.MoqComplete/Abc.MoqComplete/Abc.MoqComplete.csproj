@@ -16,6 +16,6 @@
     <None Remove="*\plugin.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\MoqComplete\net472\MoqComplete.*" PackagePath="dotFiles" Pack="true" />
+    <Content Include="bin\Abc.MoqComplete\$(Configuration)\Abc.MoqComplete.*" PackagePath="dotFiles" Pack="true" />
   </ItemGroup>
 </Project>

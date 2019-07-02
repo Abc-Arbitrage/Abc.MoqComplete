@@ -1,7 +1,7 @@
 $PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
 $PluginId = "Abc.MoqComplete"
-$SolutionPath = "$PSScriptRoot\..\..\MoqComplete.sln"
-$SourceBasePath = "$PSScriptRoot\..\..\"
+$SolutionPath = "$PSScriptRoot\..\MoqComplete.sln"
+$SourceBasePath = "$PSScriptRoot\..\"
 
 $VsWhereOutput = [xml] (& "vswhere.exe" -format xml)
 $VisualStudio = $VsWhereOutput.instances.instance |
