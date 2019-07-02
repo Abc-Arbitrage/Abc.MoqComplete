@@ -1,4 +1,5 @@
-﻿using JetBrains.ReSharper.Feature.Services.CodeCompletion;
+﻿using JetBrains.ProjectModel;
+using JetBrains.ReSharper.Feature.Services.CodeCompletion;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion.Infrastructure.LookupItems;
 using JetBrains.ReSharper.Feature.Services.CSharp.CodeCompletion.Infrastructure;
 using JetBrains.ReSharper.Features.Intellisense.CodeCompletion.CSharp;
@@ -11,6 +12,7 @@ using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Resources;
 using JetBrains.ReSharper.Psi.Resx.Utils;
 using JetBrains.ReSharper.Psi.Util;
+using MoqComplete.Services;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,23 +21,15 @@ namespace MoqComplete.CompletionProvider
     [Language(typeof(CSharpLanguage))]
     public class SuggestMockProvider : CSharpItemsProviderBase<CSharpCodeCompletionContext>
     {
-        private readonly Dictionary<string, bool> _isMoqContainedByProjectName = new Dictionary<string, bool>();
-        private const string _moqReferenceName = "Moq";
-
         protected override bool IsAvailable(CSharpCodeCompletionContext context)
         {
             var codeCompletionType = context.BasicContext.CodeCompletionType;
             if (codeCompletionType != CodeCompletionType.BasicCompletion && codeCompletionType != CodeCompletionType.SmartCompletion)
                 return false;
 
-            var psiModule = context.PsiModule;
-            if (!_isMoqContainedByProjectName.TryGetValue(psiModule.DisplayName, out var isMoqcontained))
-            {
-                isMoqcontained = psiModule.GetReferences(null).Any(r => r.Module.Name == _moqReferenceName);
-                _isMoqContainedByProjectName.Add(psiModule.DisplayName, isMoqcontained);
-            }
+            var testProjectProvider = context.BasicContext.Solution.GetComponent<ITestProjectProvider>();
 
-            return isMoqcontained;
+            return testProjectProvider.IsTestProject(context.PsiModule);
         }
 
         protected override bool AddLookupItems(CSharpCodeCompletionContext context, IItemsCollector collector)

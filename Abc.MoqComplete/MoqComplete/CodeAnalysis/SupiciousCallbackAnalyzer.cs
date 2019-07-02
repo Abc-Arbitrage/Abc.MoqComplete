@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using JetBrains.DocumentModel;
+﻿using JetBrains.DocumentModel;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Psi;
-using JetBrains.ReSharper.Psi.CSharp.Conversions;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Tree;
@@ -19,7 +17,6 @@ namespace MoqComplete.CodeAnalysis
         {
             var methodIdentitifer = element.GetSolution().GetComponent<IMoqMethodIdentifier>();
             var mockedMethodProvider = element.GetSolution().GetComponent<IMockedMethodProvider>();
-            var conversionRule = element.GetTypeConversionRule();
 
             if (!methodIdentitifer.IsMoqCallbackMethod(element))
                 return;
