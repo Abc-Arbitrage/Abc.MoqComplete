@@ -1,4 +1,5 @@
 Param(
+	$Configuration = "Debug",
     $RootSuffix = "MoqComplete",
     $Version = "1.0.0"
 )
@@ -12,7 +13,7 @@ $UserProjectXmlFile = "$SourceBasePath\$PluginId\$PluginId.csproj.user"
 
 if (!(Test-Path "$UserProjectXmlFile")) {
     # Determine download link
-    $ReleaseUrl = "https://data.services.jetbrains.com/products/releases?code=RSU&type=eap&type=release"
+    $ReleaseUrl = "https://data.services.jetbrains.com/products/releases?code=RSU&type=release"
     $DownloadLink = [uri] $(Invoke-WebRequest -UseBasicParsing $ReleaseUrl | ConvertFrom-Json).RSU[0].downloads.windows.link
 
     # Download installer
