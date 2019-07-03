@@ -3,7 +3,7 @@ using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
 
-namespace MoqComplete.Services
+namespace Abc.MoqComplete.Services
 {
     public interface IMockedMethodProvider
     {

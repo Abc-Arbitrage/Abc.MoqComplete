@@ -1,6 +1,6 @@
 ﻿using JetBrains.Application.BuildScript.Application.Zones;
 
-namespace MoqComplete
+namespace Abc.MoqComplete
 {
     [ZoneMarker]
     public sealed class ZoneMarker

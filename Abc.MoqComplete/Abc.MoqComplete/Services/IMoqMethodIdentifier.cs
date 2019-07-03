@@ -1,7 +1,7 @@
 ﻿using JetBrains.Annotations;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 
-namespace MoqComplete.Services
+namespace Abc.MoqComplete.Services
 {
     public interface IMoqMethodIdentifier
     {

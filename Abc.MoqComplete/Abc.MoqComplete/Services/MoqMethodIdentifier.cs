@@ -1,13 +1,13 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+using System.Linq;
+using JetBrains.Annotations;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Resx.Utils;
-using System;
-using System.Linq;
 
-namespace MoqComplete.Services
+namespace Abc.MoqComplete.Services
 {
     [SolutionComponent]
     public class MoqMethodIdentifier : IMoqMethodIdentifier

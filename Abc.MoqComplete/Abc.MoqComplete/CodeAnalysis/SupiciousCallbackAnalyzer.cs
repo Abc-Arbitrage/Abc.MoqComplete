@@ -1,14 +1,12 @@
-﻿using JetBrains.DocumentModel;
+﻿using System.Linq;
+using Abc.MoqComplete.Services;
+using JetBrains.DocumentModel;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.Daemon;
-using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
-using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Tree;
-using MoqComplete.Services;
-using System.Linq;
 
-namespace MoqComplete.CodeAnalysis
+namespace Abc.MoqComplete.CodeAnalysis
 {
     [ElementProblemAnalyzer(typeof(IInvocationExpression), HighlightingTypes = new[] { typeof(SuspiciousCallbackWarning) })]
     public class SupiciousCallbackAnalyzer : ElementProblemAnalyzer<IInvocationExpression>

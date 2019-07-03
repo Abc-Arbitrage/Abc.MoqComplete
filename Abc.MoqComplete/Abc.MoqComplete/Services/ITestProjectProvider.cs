@@ -1,6 +1,6 @@
 ﻿using JetBrains.ReSharper.Psi.Modules;
 
-namespace MoqComplete.Services
+namespace Abc.MoqComplete.Services
 {
     public interface ITestProjectProvider
     {

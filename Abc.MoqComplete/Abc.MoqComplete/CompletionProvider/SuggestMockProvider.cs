@@ -1,4 +1,7 @@
-﻿using JetBrains.ProjectModel;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Abc.MoqComplete.Services;
+using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion.Infrastructure.LookupItems;
 using JetBrains.ReSharper.Feature.Services.CSharp.CodeCompletion.Infrastructure;
@@ -6,17 +9,13 @@ using JetBrains.ReSharper.Features.Intellisense.CodeCompletion.CSharp;
 using JetBrains.ReSharper.Features.Intellisense.CodeCompletion.CSharp.Rules;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
-using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.ExpectedTypes;
 using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Resources;
 using JetBrains.ReSharper.Psi.Resx.Utils;
 using JetBrains.ReSharper.Psi.Util;
-using MoqComplete.Services;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace MoqComplete.CompletionProvider
+namespace Abc.MoqComplete.CompletionProvider
 {
     [Language(typeof(CSharpLanguage))]
     public class SuggestMockProvider : CSharpItemsProviderBase<CSharpCodeCompletionContext>

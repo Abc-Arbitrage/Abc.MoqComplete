@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using Abc.MoqComplete.Extensions;
+using Abc.MoqComplete.Services;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion.Infrastructure;
@@ -13,10 +15,8 @@ using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.ExpectedTypes;
 using JetBrains.ReSharper.Psi.Resources;
 using JetBrains.ReSharper.Psi.Tree;
-using MoqComplete.Extensions;
-using MoqComplete.Services;
 
-namespace MoqComplete.CompletionProvider
+namespace Abc.MoqComplete.CompletionProvider
 {
     [Language(typeof(CSharpLanguage))]
     public class ReturnsMethodProvider : ItemsProviderOfSpecificContext<CSharpCodeCompletionContext>

@@ -1,4 +1,9 @@
-﻿using JetBrains.Application.Progress;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Abc.MoqComplete.Services;
+using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
 using JetBrains.ReSharper.Feature.Services.CSharp.Analyses.Bulbs;
@@ -7,20 +12,14 @@ using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Naming.Extentions;
 using JetBrains.ReSharper.Psi.Naming.Impl;
 using JetBrains.ReSharper.Psi.Naming.Settings;
-using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.TextControl;
 using JetBrains.Util;
-using MoqComplete.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using IBlock = JetBrains.ReSharper.Psi.CSharp.Tree.IBlock;
 using IClassBody = JetBrains.ReSharper.Psi.CSharp.Tree.IClassBody;
 using IClassLikeDeclaration = JetBrains.ReSharper.Psi.CSharp.Tree.IClassLikeDeclaration;
 using IObjectCreationExpression = JetBrains.ReSharper.Psi.CSharp.Tree.IObjectCreationExpression;
 
-namespace MoqComplete.ContextActions
+namespace Abc.MoqComplete.ContextActions
 {
     [ContextAction(Group = "C#", Name = "Fill with Mock", Description = "Fills the constructor with mocks", Priority = short.MinValue)]
     public class FillWithMockContextAction : ContextActionBase

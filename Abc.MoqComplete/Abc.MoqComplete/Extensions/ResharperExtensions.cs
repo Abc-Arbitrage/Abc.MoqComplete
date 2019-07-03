@@ -1,7 +1,7 @@
 ﻿using JetBrains.Annotations;
 using JetBrains.ReSharper.Psi.Tree;
 
-namespace MoqComplete.Extensions
+namespace Abc.MoqComplete.Extensions
 {
     internal static class ResharperExtensions
     {

@@ -1,9 +1,9 @@
-﻿using JetBrains.ProjectModel;
-using JetBrains.ReSharper.Psi.Modules;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using JetBrains.ProjectModel;
+using JetBrains.ReSharper.Psi.Modules;
 
-namespace MoqComplete.Services
+namespace Abc.MoqComplete.Services
 {
     [SolutionComponent]
     public class TestProjectProvider : ITestProjectProvider
