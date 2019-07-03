@@ -56,28 +56,55 @@ namespace MoqComplete.ContextActions
             var constructor = c.Constructors.ToArray().OrderByDescending(x => x.Parameters.Count).FirstOrDefault(x => !x.IsParameterless);
             if (constructor == null)
                 return null;
-            
+
             var parameters = GetParameters(constructor.ToString()).ToArray();
             var naming = _dataProvider.PsiServices.Naming;
+            var mockFieldsByType = GetFields(classBody);
 
             for (int i = 0; i < constructor.Parameters.Count; i++)
             {
                 var shortName = constructor.Parameters[i].ShortName;
-                var mockType = TypeFactory.CreateTypeByCLRName($"Moq.Mock<{parameters[i]}>", _dataProvider.PsiModule);
-                var field = _dataProvider.ElementFactory.CreateTypeMemberDeclaration("private $0 $1;", (object)mockType, (object)shortName);
-                var options = new SuggestionOptions(defaultName: shortName);
-                var name = naming.Suggestion.GetDerivedName(field.DeclaredElement, NamedElementKinds.PrivateInstanceFields, ScopeKind.Common, _selectedElement.Language, options, _dataProvider.SourceFile);
-                field.SetName(name);
-                classDeclaration.AddClassMemberDeclaration((IClassMemberDeclaration)field);
+                var typeString = GetGenericMock(parameters[i]);
+                
+                if (!mockFieldsByType.TryGetValue(typeString, out var name))
+                {
+                    var mockType = TypeFactory.CreateTypeByCLRName(typeString, _dataProvider.PsiModule);
+                    var field = _dataProvider.ElementFactory.CreateTypeMemberDeclaration("private $0 $1;", (object)mockType, (object)shortName);
+                    var options = new SuggestionOptions(defaultName: shortName);
+                    name = naming.Suggestion.GetDerivedName(field.DeclaredElement, NamedElementKinds.PrivateInstanceFields, ScopeKind.Common, _selectedElement.Language,
+                                                                options, _dataProvider.SourceFile);
+                    field.SetName(name);
+                    classDeclaration.AddClassMemberDeclaration((IClassMemberDeclaration)field);
+
+                    var statement = _dataProvider.ElementFactory.CreateStatement("$0 = new Mock<$1>();", (object)name, (object)parameters[i]);
+                    block.AddStatementBefore(statement, _selectedElement.GetContainingStatement());
+                }
 
                 var argument = _dataProvider.ElementFactory.CreateArgument(ParameterKind.VALUE, _dataProvider.ElementFactory.CreateExpression($"{name}.Object"));
                 _selectedElement.AddArgumentBefore(argument, null);
-
-                var statement = _dataProvider.ElementFactory.CreateStatement("$0 = new Mock<$1>();", (object)name, (object)parameters[i]);
-                block.AddStatementBefore(statement, _selectedElement.GetContainingStatement());
             }
 
             return null;
+        }
+
+        private static string GetGenericMock(string typeStr) => $"Moq.Mock<{typeStr}>";
+
+        private Dictionary<string, string> GetFields(IClassBody classBody)
+        {
+            var dic = new Dictionary<string, string>();
+            var fields = classBody.FieldDeclarations.Select(x => x.TypeUsage.FirstChild as IReferenceName).Where(x => x != null && x.ShortName == "Mock").ToArray();
+
+            foreach (var referenceName in fields)
+            {
+                var types = referenceName.TypeArguments.Select(x => x.GetPresentableName(_selectedElement.Language, DeclaredElementPresenterTextStyles.Empty).Text);
+                var strType = string.Join(",", types);
+                var mockType = GetGenericMock(strType);
+                var field = (IFieldDeclaration)referenceName.Parent.NextSibling.NextSibling;
+                if (!dic.ContainsKey(mockType))
+                    dic.Add(mockType, field.DeclaredName);
+            }
+
+            return dic;
         }
 
         private IEnumerable<string> GetParameters(string constructorString)

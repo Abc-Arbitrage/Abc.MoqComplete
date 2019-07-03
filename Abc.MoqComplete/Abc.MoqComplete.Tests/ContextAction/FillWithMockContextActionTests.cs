@@ -12,9 +12,7 @@ namespace Abc.MoqComplete.Tests.ContextAction
         protected override string ExtraPath => "";
 
         [TestCase("fill_with_mock")]
-        public void should_test_availability(string name)
-        {
-            DoOneTest(name);
-        }
+        [TestCase("fill_with_mock_with_existing_mock")]
+        public void should_test_availability(string name) => DoOneTest(name);
     }
 }
