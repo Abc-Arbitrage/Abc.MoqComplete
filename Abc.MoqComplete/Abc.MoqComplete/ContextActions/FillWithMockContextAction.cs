@@ -15,6 +15,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using IBlock = JetBrains.ReSharper.Psi.CSharp.Tree.IBlock;
+using IClassBody = JetBrains.ReSharper.Psi.CSharp.Tree.IClassBody;
+using IClassLikeDeclaration = JetBrains.ReSharper.Psi.CSharp.Tree.IClassLikeDeclaration;
+using IObjectCreationExpression = JetBrains.ReSharper.Psi.CSharp.Tree.IObjectCreationExpression;
 
 namespace MoqComplete.ContextActions
 {
@@ -39,23 +43,20 @@ namespace MoqComplete.ContextActions
 
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
-            var node = _selectedElement.Parent;
-            while (node != null && !(node is IClassBody))
-                node = node.Parent;
+            var block = _dataProvider.GetSelectedElement<IBlock>();
+            var classBody = _dataProvider.GetSelectedElement<IClassBody>();
+            var classDeclaration = classBody?.GetContainingTypeDeclaration() as IClassLikeDeclaration;
 
-            var declaration = ((IClassBody)node)?.GetContainingTypeDeclaration() as IClassLikeDeclaration;
-
-            if (declaration == null)
+            if (classDeclaration == null || block == null)
                 return null;
 
             if (!(_selectedElement.TypeReference.Resolve()?.DeclaredElement is IClass c))
                 return null;
 
             var constructor = c.Constructors.ToArray().OrderByDescending(x => x.Parameters.Count).FirstOrDefault(x => !x.IsParameterless);
-
             if (constructor == null)
                 return null;
-
+            
             var parameters = GetParameters(constructor.ToString()).ToArray();
             var naming = _dataProvider.PsiServices.Naming;
 
@@ -63,14 +64,17 @@ namespace MoqComplete.ContextActions
             {
                 var shortName = constructor.Parameters[i].ShortName;
                 var mockType = TypeFactory.CreateTypeByCLRName($"Moq.Mock<{parameters[i]}>", _dataProvider.PsiModule);
-                var field = _dataProvider.ElementFactory.CreateTypeMemberDeclaration("private readonly $0 $1 = new $0();", (object)mockType, (object)shortName);
+                var field = _dataProvider.ElementFactory.CreateTypeMemberDeclaration("private $0 $1;", (object)mockType, (object)shortName);
                 var options = new SuggestionOptions(defaultName: shortName);
                 var name = naming.Suggestion.GetDerivedName(field.DeclaredElement, NamedElementKinds.PrivateInstanceFields, ScopeKind.Common, _selectedElement.Language, options, _dataProvider.SourceFile);
                 field.SetName(name);
-                declaration.AddClassMemberDeclaration((IClassMemberDeclaration)field);
+                classDeclaration.AddClassMemberDeclaration((IClassMemberDeclaration)field);
 
                 var argument = _dataProvider.ElementFactory.CreateArgument(ParameterKind.VALUE, _dataProvider.ElementFactory.CreateExpression($"{name}.Object"));
                 _selectedElement.AddArgumentBefore(argument, null);
+
+                var statement = _dataProvider.ElementFactory.CreateStatement("$0 = new Mock<$1>();", (object)name, (object)parameters[i]);
+                block.AddStatementBefore(statement, _selectedElement.GetContainingStatement());
             }
 
             return null;
