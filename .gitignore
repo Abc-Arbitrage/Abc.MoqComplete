@@ -33,3 +33,5 @@ _ReSharper*/
 packages/
 *.nupkg
 */.idea/*
+*.zip
+*.nupkg
