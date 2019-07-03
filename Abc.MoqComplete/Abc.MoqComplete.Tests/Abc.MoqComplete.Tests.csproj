@@ -17,9 +17,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="data\**\*" />
-    <None Remove="data\**\*" />
-    <EmbeddedResource Remove="data\**\*" />
-    <Content Remove="data\**\*" />
   </ItemGroup>
 
 </Project>
