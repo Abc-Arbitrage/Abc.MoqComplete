@@ -38,7 +38,7 @@ namespace MoqComplete.ContextActions
             var testProjectProvider = GetComponent<ITestProjectProvider>();
             _selectedElement = _dataProvider.GetSelectedElement<IObjectCreationExpression>(false, false);
 
-            return testProjectProvider.IsTestProject(_dataProvider.PsiModule) && _selectedElement != null;
+            return testProjectProvider.IsTestProject(_dataProvider.PsiModule) && _selectedElement != null && _selectedElement.Arguments.Count == 0;
         }
 
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
@@ -100,6 +100,7 @@ namespace MoqComplete.ContextActions
                 var strType = string.Join(",", types);
                 var mockType = GetGenericMock(strType);
                 var field = (IFieldDeclaration)referenceName.Parent.NextSibling.NextSibling;
+
                 if (!dic.ContainsKey(mockType))
                     dic.Add(mockType, field.DeclaredName);
             }

@@ -12,6 +12,7 @@ namespace Abc.MoqComplete.Tests.ContextAction
         protected override string ExtraPath => "";
 
         [TestCase("available_action")]
+        [TestCase("unavailable_action")]
         public void should_test_availability(string name)
         {
             DoOneTest(name);
