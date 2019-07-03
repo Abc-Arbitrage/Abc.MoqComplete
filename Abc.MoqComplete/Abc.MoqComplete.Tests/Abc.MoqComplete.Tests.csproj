@@ -17,6 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="data\**\*" />
+    <Content Include="data\**\*" />
   </ItemGroup>
 
 </Project>
