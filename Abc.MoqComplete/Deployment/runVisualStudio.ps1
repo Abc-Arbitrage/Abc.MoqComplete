@@ -52,7 +52,7 @@ if (!(Test-Path "$UserProjectXmlFile")) {
     }
 
     # Install plugin
-    Invoke-Exe $MSBuildPath "/t:Restore;Rebuild;Pack" "$SolutionPath" "/v:minimal" "/p:PackageVersion=$Version" "/p:PackageOutputPath=`"$OutputDirectory`""
+    Invoke-Exe $MSBuildPath "/t:Restore;Rebuild;Pack" "$SolutionPath" "/v:minimal" "/p:Configuration=$Configuration" "/p:PackageVersion=$Version" "/p:PackageOutputPath=`"$OutputDirectory`""
     Invoke-Exe $NuGetPath install $PluginId -OutputDirectory "$PluginRepository" -Source "$OutputDirectory" -DependencyVersion Ignore
 
     Write-Output "Re-installing experimental hive"
