@@ -1,9 +1,0 @@
-{
-  "profiles": {
-    "Abc.MoqComplete": {
-      "commandName": "Executable",
-      "executablePath": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Professional\\Common7\\IDE\\devenv.exe",
-      "commandLineArgs": "/rootSuffix MoqComplete /ReSharper.Internal \"C:\\git\\dotnet\\src\\Abc.FinancialAnalysisService\\Abc.FinancialAnalysisService.sln\""
-    }
-  }
-}
