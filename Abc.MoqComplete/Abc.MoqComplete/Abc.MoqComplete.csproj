@@ -18,4 +18,7 @@
   <ItemGroup>
     <Content Include="bin\Abc.MoqComplete\$(Configuration)\Abc.MoqComplete.*" PackagePath="dotFiles" Pack="true" />
   </ItemGroup>
+ <ItemGroup>
+   <ReferencePath Include="@(Reference->HasMetadata('HintPath')->'$(MSBuildProjectDirectory)\%(HintPath)')" />
+ </ItemGroup>
 </Project>

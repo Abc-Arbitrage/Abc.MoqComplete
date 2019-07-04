@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Abc.MoqComplete.Extensions;
 using Abc.MoqComplete.Services;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion;
@@ -84,7 +85,7 @@ namespace Abc.MoqComplete.CompletionProvider
         {
             var lookupItem = CSharpLookupItemFactory.Instance.CreateKeywordLookupItem(context, proposedCompletion, TailType.None, PsiSymbolsThemedIcons.Variable.Id);
             lookupItem.WithInitializedRanges(context.CompletionRanges, context.BasicContext);
-            lookupItem.PlaceTop();
+            lookupItem.SetTopPriority();
             return lookupItem;
         }
     }

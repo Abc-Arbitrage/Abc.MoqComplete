@@ -1,12 +1,12 @@
-﻿using System.Linq;
+using System.Linq;
 using Abc.MoqComplete.Extensions;
 using Abc.MoqComplete.Services;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion;
-using JetBrains.ReSharper.Feature.Services.CodeCompletion.Infrastructure;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion.Infrastructure.LookupItems;
 using JetBrains.ReSharper.Feature.Services.CSharp.CodeCompletion.Infrastructure;
 using JetBrains.ReSharper.Features.Intellisense.CodeCompletion.CSharp;
+using JetBrains.ReSharper.Features.Intellisense.CodeCompletion.CSharp.Rules;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
@@ -17,7 +17,7 @@ using JetBrains.ReSharper.Psi.Tree;
 namespace Abc.MoqComplete.CompletionProvider
 {
     [Language(typeof(CSharpLanguage))]
-    public sealed class ItIsAnyParameterProvider : ItemsProviderOfSpecificContext<CSharpCodeCompletionContext>
+    public sealed class ItIsAnyParameterProvider : CSharpItemsProviderBase<CSharpCodeCompletionContext>
     {
         protected override bool IsAvailable(CSharpCodeCompletionContext context)
         {
@@ -93,8 +93,7 @@ namespace Abc.MoqComplete.CompletionProvider
                 textLookupItem.SetInsertCaretOffset(offset.Value);
                 textLookupItem.SetReplaceCaretOffset(offset.Value);
             }
-            textLookupItem.PlaceTop();
-            textLookupItem.WithHighSelectionPriority();
+            textLookupItem.SetTopPriority();
             collector.Add(textLookupItem);
         }
     }

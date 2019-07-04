@@ -58,7 +58,7 @@ namespace Abc.MoqComplete.CompletionProvider
             item.SetInsertCaretOffset(-1);
             item.SetReplaceCaretOffset(-1);
             item.WithInitializedRanges(context.CompletionRanges, context.BasicContext);
-            item.PlaceTop();
+            item.SetTopPriority();
             collector.Add(item);
             return true;
         }
