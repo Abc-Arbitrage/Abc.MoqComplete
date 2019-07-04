@@ -20,5 +20,8 @@
     <Compile Remove="data\**\*" />
     <Content Include="data\**\*" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="data\MockVariableNameCompletion\" />
+  </ItemGroup>
 
 </Project>
