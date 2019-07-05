@@ -41,7 +41,13 @@ Or new `Mock` in constructor
 
 ### Fill with Mock
 Fill an object with `Mock` objects
+
 ![](Media/fillWithMock.gif)
+
+### Mock variable name completion
+Suggest the mock variable name
+
+![](Media/proposeMockVarName.gif)
 
 ## About
 Inspired by AgentZorge, which is deprecated
