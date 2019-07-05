@@ -8,7 +8,7 @@ using JetBrains.ReSharper.Features.Intellisense.CodeCompletion.CSharp.Rules;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
 
-namespace MoqComplete.CompletionProvider
+namespace Abc.MoqComplete.CompletionProvider
 {
     [Language(typeof(CSharpLanguage))]
     public sealed class SlowPriorityAdjuster : ISlowCodeCompletionItemsProvider

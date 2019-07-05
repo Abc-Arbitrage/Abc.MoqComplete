@@ -39,6 +39,9 @@ Or new `Mock` in constructor
 
 ![](Media/MockProposalCompletion.gif)
 
+### Fill with Mock
+Fill an object with 'Mock' objects
+![](Media/fillWithMock.gif)
 
 ## About
 Inspired by AgentZorge, which is deprecated
