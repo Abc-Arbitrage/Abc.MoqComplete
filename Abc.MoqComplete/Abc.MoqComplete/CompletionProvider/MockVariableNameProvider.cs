@@ -1,4 +1,5 @@
-﻿using JetBrains.ReSharper.Feature.Services.CodeCompletion;
+﻿using Abc.MoqComplete.Extensions;
+using JetBrains.ReSharper.Feature.Services.CodeCompletion;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion.Infrastructure;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion.Infrastructure.LookupItems;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion.Infrastructure.LookupItems.Impl;
@@ -52,12 +53,12 @@ namespace Abc.MoqComplete.CompletionProvider
             if (localVarDeclaration != null)
             {
                 kind = NamedElementKinds.Locals;
-                scalarTypeName = localVarDeclaration.ScalarTypeName;
+                scalarTypeName = localVarDeclaration.GetScalarTypename();
             }
 
             else if (fieldDeclaration != null)
             {
-                scalarTypeName = fieldDeclaration.ScalarTypeName;
+                scalarTypeName = fieldDeclaration.GetScalarTypename();
                 var isPrivate = fieldDeclaration.GetAccessRights().Has(AccessRights.PRIVATE);
 
                 if (fieldDeclaration.IsStatic)
@@ -112,12 +113,12 @@ namespace Abc.MoqComplete.CompletionProvider
 
                     var textLookupItem = new TextLookupItem(proposedName);
                     textLookupItem.InitializeRanges(context.CompletionRanges, context.BasicContext);
-                    textLookupItem.PlaceTop();
+                    textLookupItem.SetTopPriority();
                     collector.Add(textLookupItem);
 
                     var textLookupItem2 = new TextLookupItem(proposedName + "Mock");
                     textLookupItem2.InitializeRanges(context.CompletionRanges, context.BasicContext);
-                    textLookupItem2.PlaceTop();
+                    textLookupItem2.SetTopPriority();
                     collector.Add(textLookupItem2);
                 }
             }

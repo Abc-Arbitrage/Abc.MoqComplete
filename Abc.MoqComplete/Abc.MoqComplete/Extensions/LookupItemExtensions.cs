@@ -8,7 +8,6 @@ namespace Abc.MoqComplete.Extensions
 
         public static void SetTopPriority(this ILookupItem lookupItem)
         {
-            lookupItem.PlaceTop(0);
             lookupItem.WithHighSelectionPriority();
             lookupItem.Placement.OrderString = MoqCompleteOrderString;
         }

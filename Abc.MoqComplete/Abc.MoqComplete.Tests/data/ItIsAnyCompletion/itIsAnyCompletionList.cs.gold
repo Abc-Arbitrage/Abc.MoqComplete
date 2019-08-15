@@ -1,11 +1,11 @@
 ﻿# 82 ITEMS #
 
-It.IsAny<int>()
-+ It.IsAny<string>()
-It.IsAny<string>(), It.IsAny<int>(), It.IsAny<bool>()
 It.IsAny<int>(), It.IsAny<string>(), It.IsAny<bool>()
+It.IsAny<string>(), It.IsAny<int>(), It.IsAny<bool>()
+It.IsAny<int>()
+It.IsAny<string>()
 ITestInterface
-It
++ It
 ---- FULL EVALUATION ----
 ClassInterfaceType (in System.Runtime.InteropServices)
 ComInterfaceType (in System.Runtime.InteropServices)

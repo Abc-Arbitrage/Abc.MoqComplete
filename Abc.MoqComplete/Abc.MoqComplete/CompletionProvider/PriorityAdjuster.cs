@@ -48,7 +48,6 @@ namespace Abc.MoqComplete.CompletionProvider
                 otherItems.ForEach(x =>
                 {
                     var rank = (byte)(x.Placement.Rank == 255 ? 255 : x.Placement.Rank + 1);
-                    x.PlaceBottom();
                     x.WithLowSelectionPriority();
                     x.Placement.Rank = rank;
                 });
