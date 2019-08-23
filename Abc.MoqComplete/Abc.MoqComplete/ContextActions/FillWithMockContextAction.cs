@@ -34,7 +34,7 @@ namespace Abc.MoqComplete.ContextActions
 
         public override bool IsAvailable(IUserDataHolder cache)
         {
-            var testProjectProvider = GetComponent<ITestProjectProvider>();
+            var testProjectProvider = ComponentResolver.GetComponent<ITestProjectProvider>(_dataProvider);
             _selectedElement = _dataProvider.GetSelectedElement<IObjectCreationExpression>(false, false);
 
             return testProjectProvider.IsTestProject(_dataProvider.PsiModule) && _selectedElement != null && _selectedElement.Arguments.Count == 0;
@@ -127,11 +127,7 @@ namespace Abc.MoqComplete.ContextActions
                     sb.Append(constructorString[index]);
             }
         }
-
-        private T GetComponent<T>()
-            where T : class
-            => _dataProvider.PsiModule.GetSolution().GetComponent<T>();
-
-        public override string Text => "Fill with Mock";
+        
+        public override string Text => "Fill with Mocks";
     }
 }
