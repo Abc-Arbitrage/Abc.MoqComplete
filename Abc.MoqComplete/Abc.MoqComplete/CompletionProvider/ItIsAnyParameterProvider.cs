@@ -11,6 +11,7 @@ using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.ExpectedTypes;
+using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Resources;
 using JetBrains.ReSharper.Psi.Tree;
 
@@ -74,15 +75,23 @@ namespace Abc.MoqComplete.CompletionProvider
                 var declaredElements = Enumerable.Repeat(mockedMethodResolved.DeclaredElement, 1).Concat(mockedMethodResolved.Result.Candidates).Where(x => x != null);
                 var methods = declaredElements.OfType<IMethod>().Where(x => x.Parameters.Count > 1).ToList();
 
-                methods.ForEach(method =>
+                foreach (var method in methods)
                 {
-                    var parameter = method.Parameters.Select(x => "It.IsAny<" + x.Type.GetPresentableName(CSharpLanguage.Instance) + ">()");
+                    var parameter = method.Parameters.Select(x => GetItIsAny(x, mockedMethodResolved.Substitution));
                     var proposedCompletion = string.Join(", ", parameter);
                     AddLookup(context, collector, proposedCompletion, isSetup ? 2 : 1);
-                });
+                }
             }
 
             return true;
+        }
+
+        private static string GetItIsAny(IParameter x, ISubstitution substitution)
+        {
+            if (substitution == null)
+                return "It.IsAny<" + x.Type.GetPresentableName(CSharpLanguage.Instance) + ">()";
+
+            return "It.IsAny<" + substitution.Apply(x.Type).GetPresentableName(CSharpLanguage.Instance) + ">()";
         }
 
         private static void AddLookup(CSharpCodeCompletionContext context, IItemsCollector collector, string proposedCompletion, int? offset = null)

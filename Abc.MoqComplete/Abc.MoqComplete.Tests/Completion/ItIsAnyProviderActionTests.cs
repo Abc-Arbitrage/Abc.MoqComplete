@@ -21,6 +21,7 @@ namespace Abc.MoqComplete.Tests.Completion
 
         [TestCase("itIsAnyCompletionFull")]
         [TestCase("itIsAnyCompletionParam")]
+        [TestCase("itIsAnyCompletionGeneric")]
         [TestCase("itIsAnyVerifyCompletionFull")]
         public void should_fill_with_it_isAny(string testSrc) => DoOneTest(testSrc);
     }
