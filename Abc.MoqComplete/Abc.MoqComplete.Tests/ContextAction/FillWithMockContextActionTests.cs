@@ -13,6 +13,7 @@ namespace Abc.MoqComplete.Tests.ContextAction
 
         [TestCase("fill_with_mock")]
         [TestCase("fill_with_mock_with_existing_mock")]
+        [TestCase("fill_parameters_with_generics")]
         public void should_test_execution(string name) => DoOneTest(name);
     }
 }

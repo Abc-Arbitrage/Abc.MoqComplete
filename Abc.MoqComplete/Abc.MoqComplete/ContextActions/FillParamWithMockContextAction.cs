@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Abc.MoqComplete.ContextActions.Services;
 
 namespace Abc.MoqComplete.ContextActions
 {
@@ -27,6 +28,7 @@ namespace Abc.MoqComplete.ContextActions
         private IClassBody _classBody;
         private IBlock _block;
         private IConstructor _constructor;
+        private IParameterProvider _parameterProvider;
 
         public FillParamWithMockContextAction(ICSharpContextActionDataProvider dataProvider)
         {
@@ -36,6 +38,7 @@ namespace Abc.MoqComplete.ContextActions
         public override bool IsAvailable(IUserDataHolder cache)
         {
             var testProjectProvider = ComponentResolver.GetComponent<ITestProjectProvider>(_dataProvider);
+            _parameterProvider = ComponentResolver.GetComponent<IParameterProvider>(_dataProvider);
             _selectedElement = _dataProvider.GetSelectedElement<IObjectCreationExpression>(false, false);
             _block = _dataProvider.GetSelectedElement<IBlock>();
             _classBody = _dataProvider.GetSelectedElement<IClassBody>();
@@ -58,7 +61,7 @@ namespace Abc.MoqComplete.ContextActions
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
             var argumentList = _selectedElement.ArgumentList;
-            var parameters = GetParameters(_constructor.ToString()).ToArray();
+            var parameters = _parameterProvider.GetParameters(_constructor.ToString()).ToArray();
             var mockFieldsByType = GetFields(_classBody);
             var shortName = _constructor.Parameters[_parameterNumber].ShortName;
             var currentParam = parameters[_parameterNumber];
@@ -111,28 +114,7 @@ namespace Abc.MoqComplete.ContextActions
 
             return dic;
         }
-
-        private IEnumerable<string> GetParameters(string constructorString)
-        {
-            var index = 0;
-
-            while (constructorString[index] != '(')
-                index++;
-
-            var sb = new StringBuilder();
-            while (constructorString[index] != ')')
-            {
-                index++;
-                if (constructorString[index] == ',' || constructorString[index] == ')')
-                {
-                    yield return sb.ToString();
-                    sb.Clear();
-                }
-                else
-                    sb.Append(constructorString[index]);
-            }
-        }
-
+        
         public override string Text => "Fill current parameter with Mock";
     }
 }

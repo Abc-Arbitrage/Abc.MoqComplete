@@ -17,4 +17,7 @@
     <Content Include="Resources\pluginIcon.svg" PackagePath="META-INF" Pack="true" />
     <Content Include="Resources\pluginIcon_dark.svg" PackagePath="META-INF" Pack="true" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ContextActions\Services\" />
+  </ItemGroup>
 </Project>

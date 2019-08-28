@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Abc.MoqComplete.ContextActions.Services;
 using Abc.MoqComplete.Services;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
@@ -26,6 +27,7 @@ namespace Abc.MoqComplete.ContextActions
     {
         private readonly ICSharpContextActionDataProvider _dataProvider;
         private IObjectCreationExpression _selectedElement;
+        private IParameterProvider _parameterProvider;
 
         public FillWithMockContextAction(ICSharpContextActionDataProvider dataProvider)
         {
@@ -36,6 +38,7 @@ namespace Abc.MoqComplete.ContextActions
         {
             var testProjectProvider = ComponentResolver.GetComponent<ITestProjectProvider>(_dataProvider);
             _selectedElement = _dataProvider.GetSelectedElement<IObjectCreationExpression>(false, false);
+            _parameterProvider = ComponentResolver.GetComponent<IParameterProvider>(_dataProvider);
 
             return testProjectProvider.IsTestProject(_dataProvider.PsiModule) && _selectedElement != null && _selectedElement.Arguments.Count == 0;
         }
@@ -56,7 +59,7 @@ namespace Abc.MoqComplete.ContextActions
             if (constructor == null)
                 return null;
 
-            var parameters = GetParameters(constructor.ToString()).ToArray();
+            var parameters = _parameterProvider.GetParameters(constructor.ToString()).ToArray();
             var naming = _dataProvider.PsiServices.Naming;
             var mockFieldsByType = GetFields(classBody);
 
@@ -107,27 +110,6 @@ namespace Abc.MoqComplete.ContextActions
             return dic;
         }
 
-        private IEnumerable<string> GetParameters(string constructorString)
-        {
-            var index = 0;
-
-            while (constructorString[index] != '(')
-                index++;
-
-            var sb = new StringBuilder();
-            while (constructorString[index] != ')')
-            {
-                index++;
-                if (constructorString[index] == ',' || constructorString[index] == ')')
-                {
-                    yield return sb.ToString();
-                    sb.Clear();
-                }
-                else
-                    sb.Append(constructorString[index]);
-            }
-        }
-        
         public override string Text => "Fill with Mocks";
     }
 }
