@@ -1,9 +1,9 @@
 ﻿# 82 ITEMS #
 
-It.IsAny<int>(), It.IsAny<string>(), It.IsAny<bool>()
-It.IsAny<string>(), It.IsAny<int>(), It.IsAny<bool>()
 It.IsAny<int>()
 It.IsAny<string>()
+It.IsAny<int>(), It.IsAny<string>(), It.IsAny<bool>()
+It.IsAny<string>(), It.IsAny<int>(), It.IsAny<bool>()
 ITestInterface
 + It
 ---- FULL EVALUATION ----
