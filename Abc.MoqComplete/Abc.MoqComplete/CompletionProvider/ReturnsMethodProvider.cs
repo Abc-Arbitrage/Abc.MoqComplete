@@ -44,11 +44,11 @@ namespace Abc.MoqComplete.CompletionProvider
                 invocation = invocation.InvokedExpression?.FirstChild as IInvocationExpression;
 
             var mockedMethod = mockedMethodProvider.GetMockedMethodFromSetupMethod(invocation);
-
+            
             if (mockedMethod == null || mockedMethod.Parameters.Count == 0)
                 return false;
 
-            var types = mockedMethod.Parameters.Select(p => p.Type.GetPresentableName(CSharpLanguage.Instance));
+            var types = mockedMethodProvider.GetMockedMethodParameterTypes(invocation);
             var variablesName = mockedMethod.Parameters.Select(p => p.ShortName);
             var proposedCallback = $"Returns<{string.Join(",", types)}>(({string.Join(",", variablesName)}) => )";
             var item = CSharpLookupItemFactory.Instance.CreateKeywordLookupItem(context, proposedCallback, TailType.None, PsiSymbolsThemedIcons.Method.Id) as LookupItem<TextualInfo>;
