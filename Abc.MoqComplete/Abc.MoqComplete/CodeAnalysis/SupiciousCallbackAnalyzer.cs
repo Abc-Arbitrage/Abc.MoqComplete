@@ -9,14 +9,14 @@ using JetBrains.ReSharper.Psi.Tree;
 namespace Abc.MoqComplete.CodeAnalysis
 {
     [ElementProblemAnalyzer(typeof(IInvocationExpression), HighlightingTypes = new[] { typeof(SuspiciousCallbackWarning) })]
-    public class SupiciousCallbackAnalyzer : ElementProblemAnalyzer<IInvocationExpression>
+    public class SuspiciousCallbackAnalyzer : ElementProblemAnalyzer<IInvocationExpression>
     {
         protected override void Run(IInvocationExpression element, ElementProblemAnalyzerData data, IHighlightingConsumer consumer)
         {
-            var methodIdentitifer = element.GetSolution().GetComponent<IMoqMethodIdentifier>();
+            var methodIdentifier = element.GetSolution().GetComponent<IMoqMethodIdentifier>();
             var mockedMethodProvider = element.GetSolution().GetComponent<IMockedMethodProvider>();
 
-            if (!methodIdentitifer.IsMoqCallbackMethod(element))
+            if (!methodIdentifier.IsMoqCallbackMethod(element))
                 return;
 
             var typeParameters = element.TypeArguments;
