@@ -15,6 +15,8 @@ namespace Abc.MoqComplete.Tests.ContextAction
         [TestCase("fill_first_param_with_existing_mock")]
         [TestCase("fill_second_param_with_mock")]
         [TestCase("fill_second_param_with_existing_mock")]
+        [TestCase("fill_first_param_with_mock_with_existing_param")]
+        [TestCase("fill_second_parameter")]
         public void should_test_execution(string name) => DoOneTest(name);
     }
 }

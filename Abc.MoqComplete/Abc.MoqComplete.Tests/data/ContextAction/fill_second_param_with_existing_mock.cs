@@ -36,7 +36,7 @@ namespace ConsoleApp1.Tests
         {
             myTest = new Mock<Test1.ITest>();
             myTest2 = new Mock<Test1.ITest2>();
-            var t = new Test1(myTest.Object{caret});
+            var t = new Test1(myTest.Object,{caret});
         }
     }
 }

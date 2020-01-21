@@ -1,4 +1,5 @@
-﻿using Abc.MoqComplete.Services;
+﻿using Abc.MoqComplete.ContextActions.Services;
+using Abc.MoqComplete.Services;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
@@ -13,8 +14,6 @@ using JetBrains.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Abc.MoqComplete.ContextActions.Services;
 
 namespace Abc.MoqComplete.ContextActions
 {
@@ -23,7 +22,6 @@ namespace Abc.MoqComplete.ContextActions
     {
         private readonly ICSharpContextActionDataProvider _dataProvider;
         private IObjectCreationExpression _selectedElement;
-        private int _parameterNumber;
         private IClassLikeDeclaration _classDeclaration;
         private IClassBody _classBody;
         private IBlock _block;
@@ -50,8 +48,8 @@ namespace Abc.MoqComplete.ContextActions
             if (!(_selectedElement.TypeReference?.Resolve().DeclaredElement is IClass c))
                 return false;
 
-            _parameterNumber = _selectedElement.ArgumentList.Arguments.Count(x => x.Kind != ParameterKind.UNKNOWN);
-            _constructor = c.Constructors.ToArray().FirstOrDefault(x => !x.IsParameterless && x.Parameters.Count > _parameterNumber);
+            var parameterCount = _selectedElement.ArgumentList.Arguments.Count(x => x.Kind != ParameterKind.UNKNOWN);
+            _constructor = c.Constructors.ToArray().FirstOrDefault(x => !x.IsParameterless && x.Parameters.Count > parameterCount);
             if (_constructor == null)
                 return false;
 
@@ -63,8 +61,9 @@ namespace Abc.MoqComplete.ContextActions
             var argumentList = _selectedElement.ArgumentList;
             var parameters = _parameterProvider.GetParameters(_constructor.ToString()).ToArray();
             var mockFieldsByType = GetFields(_classBody);
-            var shortName = _constructor.Parameters[_parameterNumber].ShortName;
-            var currentParam = parameters[_parameterNumber];
+            var parameterNumber = GetCurrentParameterNumber();
+            var shortName = _constructor.Parameters[parameterNumber].ShortName;
+            var currentParam = parameters[parameterNumber];
             var typeString = GetGenericMock(currentParam);
 
             if (!mockFieldsByType.TryGetValue(typeString, out var name))
@@ -81,17 +80,48 @@ namespace Abc.MoqComplete.ContextActions
             }
 
             var argument = _dataProvider.ElementFactory.CreateArgument(ParameterKind.VALUE, _dataProvider.ElementFactory.CreateExpression($"{name}.Object"));
-            var previousArgument = _parameterNumber != 0 ? argumentList.Arguments[_parameterNumber - 1] : null;
-            var arg = _selectedElement.AddArgumentAfter(argument, previousArgument);
+            ICSharpArgument arg;
+            var shouldRemoveEndComma = true;
+
+            if (argumentList.Arguments.Count <= 1)
+                arg = _selectedElement.AddArgumentAfter(argument, null);
+            else if (parameterNumber != 0)
+                arg = _selectedElement.AddArgumentAfter(argument, argumentList.Arguments[parameterNumber - 1]);
+            else
+            {
+                arg = _selectedElement.AddArgumentBefore(argument, argumentList.Arguments[1]);
+                shouldRemoveEndComma = false;
+            }
+
             var argumentRange = arg.GetDocumentRange();
-            
+
             // Remove last comma Hack!
             return textControl =>
             {
-                var range = new TextRange(argumentRange.EndOffset.Offset, argumentRange.EndOffset.Offset + 1);
-                if (textControl.Document.GetText(range) == ",")
+                TextRange range;
+                
+                if (shouldRemoveEndComma)
+                    range = new TextRange(argumentRange.EndOffset.Offset, argumentRange.EndOffset.Offset + 1);
+                else
+                    range = new TextRange(argumentRange.StartOffset.Offset - 2, argumentRange.StartOffset.Offset);
+
+                var text = textControl.Document.GetText(range);
+                
+                if (text.Contains(","))
                     textControl.Document.DeleteText(range);
             };
+        }
+
+        private int GetCurrentParameterNumber()
+        {
+            var delimiterPositions = _selectedElement.Delimiters.Select(x => x.GetNavigationRange().StartOffset.Offset).ToArray();
+            var currentPosition = _dataProvider.DocumentSelection.StartOffset.Offset;
+
+            var parameterNumber = 0;
+            while (parameterNumber < delimiterPositions.Length && currentPosition > delimiterPositions[parameterNumber])
+                parameterNumber++;
+
+            return parameterNumber;
         }
 
         private static string GetGenericMock(string typeStr) => $"Moq.Mock<{typeStr}>";
@@ -114,7 +144,7 @@ namespace Abc.MoqComplete.ContextActions
 
             return dic;
         }
-        
+
         public override string Text => "Fill current parameter with Mock";
     }
 }
