@@ -39,7 +39,7 @@ namespace ConsoleApp1.Tests
         {
             myTest = new Mock<ITest>();
             myTest2 = new Mock<ITest2>();
-            var t = new Test1(myTest.Object{on}, myTest2.Object{on},{on});
+            var t = new Test1(myTest.Object{off}, myTest2.Object{off},{on});
         }
     }
 }

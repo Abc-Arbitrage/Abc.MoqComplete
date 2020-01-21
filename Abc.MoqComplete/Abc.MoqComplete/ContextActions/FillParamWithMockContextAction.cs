@@ -14,6 +14,9 @@ using JetBrains.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.ReSharper.Psi.Impl.CodeStyle;
+using JetBrains.ReSharper.Psi.Parsing;
+using JetBrains.ReSharper.Psi.Tree;
 
 namespace Abc.MoqComplete.ContextActions
 {
@@ -36,6 +39,10 @@ namespace Abc.MoqComplete.ContextActions
         public override bool IsAvailable(IUserDataHolder cache)
         {
             var testProjectProvider = ComponentResolver.GetComponent<ITestProjectProvider>(_dataProvider);
+
+            if (!testProjectProvider.IsTestProject(_dataProvider.PsiModule))
+                return false;
+
             _parameterProvider = ComponentResolver.GetComponent<IParameterProvider>(_dataProvider);
             _selectedElement = _dataProvider.GetSelectedElement<IObjectCreationExpression>(false, false);
             _block = _dataProvider.GetSelectedElement<IBlock>();
@@ -53,7 +60,27 @@ namespace Abc.MoqComplete.ContextActions
             if (_constructor == null)
                 return false;
 
-            return testProjectProvider.IsTestProject(_dataProvider.PsiModule);
+            var previousTokenType = _dataProvider.TokenBeforeCaret?.NodeType as ITokenNodeType;
+            var nextTokenType = _dataProvider.TokenAfterCaret?.NodeType as ITokenNodeType;
+            if (previousTokenType == null || nextTokenType == null)
+                return false;
+
+            if (previousTokenType.TokenRepresentation == " ")
+                previousTokenType = _dataProvider.PsiFile.FindTokenAt(_dataProvider.TokenBeforeCaret.GetTreeStartOffset() - 1)?.NodeType as ITokenNodeType;
+
+            if (nextTokenType.TokenRepresentation == " ")
+                nextTokenType = _dataProvider.PsiFile.FindTokenAt(_dataProvider.TokenBeforeCaret.GetTreeEndOffset() + 1)?.NodeType as ITokenNodeType;
+
+            if (previousTokenType == null || nextTokenType == null)
+                return false;
+
+            if (previousTokenType.TokenRepresentation == "(")
+                return nextTokenType.TokenRepresentation == ")" || nextTokenType.TokenRepresentation == ",";
+
+            if (previousTokenType.TokenRepresentation == ",")
+                return !nextTokenType.IsIdentifier;
+
+            return false;
         }
 
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)

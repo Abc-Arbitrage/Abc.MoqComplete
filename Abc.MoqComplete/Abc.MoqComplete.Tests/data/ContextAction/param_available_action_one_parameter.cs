@@ -37,7 +37,7 @@ namespace ConsoleApp1.Tests
         public void METHOD()
         {
             myTest = new Mock<ITest>();{off}
-            var t = new Test1(myTest.Object{on},{on});
+            var t = new Test1(myTest.Object{off},{on});
         }
     }
 }

@@ -30,7 +30,7 @@ namespace ConsoleApp1.Tests
         [Test]
         public void METHOD({off})
         {{off}
-            var t = new{on} Test1({on});
+            var t = new{off} Test1({on});
         }
     }
 }
