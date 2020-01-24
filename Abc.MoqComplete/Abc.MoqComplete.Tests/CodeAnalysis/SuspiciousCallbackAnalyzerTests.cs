@@ -19,6 +19,7 @@ namespace Abc.MoqComplete.Tests.CodeAnalysis
 
         [TestCase("no_types")]
         [TestCase("generic_types")]
+        [TestCase("implementation_types")]
         public void should_not_detect_suspicious_callback(string testSrc) => DoOneTest(testSrc);
     }
 }

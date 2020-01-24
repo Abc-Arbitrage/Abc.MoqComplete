@@ -3,6 +3,8 @@ using Abc.MoqComplete.Services;
 using JetBrains.DocumentModel;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.Daemon;
+using JetBrains.ReSharper.Psi.CSharp.Conversions;
+using JetBrains.ReSharper.Psi.CSharp.Impl;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
 
@@ -19,8 +21,8 @@ namespace Abc.MoqComplete.CodeAnalysis
             if (!methodIdentifier.IsMoqCallbackMethod(element))
                 return;
 
-            var typeParameters = element.TypeArguments;
-            if (typeParameters.Count == 0)
+            var expectedtypeParameters = element.TypeArguments;
+            if (expectedtypeParameters.Count == 0)
                 return;
 
             var pointer = element.InvokedExpression;
@@ -35,18 +37,22 @@ namespace Abc.MoqComplete.CodeAnalysis
             if (arguments == null)
                 return;
 
-            var expectedTypesParameter = arguments.Value.Select(x => x.Value.Type()).ToArray();
+            var actualTypesParameters = arguments.Value.Select(x => x.Value.Type()).ToArray();
+            var rule = element.GetPsiModule().GetTypeConversionRule();
 
-            if (expectedTypesParameter.Length <= 0)
+            if (actualTypesParameters.Length <= 0)
                 return;
 
-            if (typeParameters.Count != expectedTypesParameter.Length)
+            if (expectedtypeParameters.Count != actualTypesParameters.Length)
                 AddWarning(element, consumer);
             else
             {
-                for (int i = 0; i < typeParameters.Count; i++)
+                for (int i = 0; i < expectedtypeParameters.Count; i++)
                 {
-                    if (!typeParameters[i].Equals(expectedTypesParameter[i]))
+                    var actualParameterType = actualTypesParameters[i];
+                    var expectedParameterType = expectedtypeParameters[i];
+
+                    if (!actualParameterType.Equals(expectedParameterType) && !actualParameterType.IsImplicitlyConvertibleTo(expectedParameterType, rule))
                         AddWarning(element, consumer);
                 }
             }
