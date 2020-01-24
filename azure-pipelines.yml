@@ -43,7 +43,7 @@ steps:
     
 - task: PowerShell@2
   inputs:
-    filePath: 'build_rider_plugin.ps1'
+    filePath: 'Abc.MoqComplete\Deployment\build_rider_plugin.ps1'
     arguments: '$(Build.ArtifactStagingDirectory)'
 
 - task: PublishBuildArtifacts@1
