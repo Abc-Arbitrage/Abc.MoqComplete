@@ -17,6 +17,10 @@ variables:
 steps:
 - task: NuGetToolInstaller@0
 
+- task: PowerShell@2
+  inputs:
+    filePath: 'Abc.MoqComplete\Deployment\update_rider_version.ps1'
+
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
