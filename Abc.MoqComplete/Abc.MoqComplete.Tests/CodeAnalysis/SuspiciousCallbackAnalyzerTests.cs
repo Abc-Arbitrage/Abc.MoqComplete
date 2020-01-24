@@ -8,17 +8,8 @@ namespace Abc.MoqComplete.Tests.CodeAnalysis
     [TestNetCore21("Moq/4.10.1")]
     public class SuspiciousCallbackAnalyzerTests : CSharpHighlightingTestBase
     {
-        private SuspiciousCallbackAnalyzer _analyzer;
         protected override string RelativeTestDataPath => "SuspiciousCallback";
         
-        [SetUp]
-        public void SetUp()
-        {
-            base.SetUp();
-            // /!\ Mandatory otherwise the completion is not done
-            _analyzer = new SuspiciousCallbackAnalyzer();
-        }
-
         [TestCase("typeMismatch_return_before")]
         [TestCase("typeCountMismatch_return_before")]
         [TestCase("typeMismatch_return_after")]
