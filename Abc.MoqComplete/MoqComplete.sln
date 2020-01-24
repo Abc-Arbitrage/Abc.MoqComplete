@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abc.MoqComplete.Tests", "Ab
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abc.MoqComplete.Rider", "Abc.MoqComplete\Abc.MoqComplete.Rider.csproj", "{98492790-1637-4090-AEEA-D2883DE35757}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "@ Solution Items", "@ Solution Items", "{EE7F9EA7-3EBB-4970-8714-915825BBFABB}"
+ProjectSection(SolutionItems) = preProject
+	Directory.Build.props = Directory.Build.props
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

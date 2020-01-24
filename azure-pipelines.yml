@@ -34,7 +34,20 @@ steps:
     testAssemblyVer2: '**/bin/**/Abc.MoqComplete.Tests.dll'
     
 - task: DotNetCoreCLI@2
+  displayName: Pack
   inputs:
-    command: test
-    projects: '**/*Tests/*.csproj'
-    arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
+    command: pack
+    configuration: Release
+    packDirectory: '$(Build.ArtifactStagingDirectory)'
+    verbosityPack: Minimal
+    
+- task: PowerShell@2
+  inputs:
+    filePath: 'build_rider_plugin.ps1'
+    arguments: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'BuildResult'
+    publishLocation: 'Container'

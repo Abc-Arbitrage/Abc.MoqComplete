@@ -3,7 +3,7 @@
   <idea-version since-build="193.5233" until-build="193.*" />
   <id>Abc.MoqComplete.Rider</id>
   <name>MoqComplete</name>
-  <version>1.2.10</version>
+  <version>1.2.11</version>
   <vendor url="https://github.com/Abc-Arbitrage/Abc.MoqComplete">ABC Arbitrage Asset Management</vendor>
   <description><![CDATA[
 <p>Code completion for Moq: Provide completion for It.IsAny, Callback, suggest mock in constructor</p>
