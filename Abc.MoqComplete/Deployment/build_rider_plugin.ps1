@@ -1,6 +1,6 @@
 $artifactDirectory = $args[0]
 $PluginId = "Abc.MoqComplete"
-$BuildPropsFilePath = "..\Directory.Build.props"
+$BuildPropsFilePath = "Abc.MoqComplete\Directory.Build.props"
 
 # Get the version number
 if (Test-Path $BuildPropsFilePath) {
