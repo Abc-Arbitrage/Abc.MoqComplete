@@ -16,22 +16,27 @@ variables:
 
 steps:
 - task: NuGetToolInstaller@0
+  displayName: Acquire Nuget
 
 - task: PowerShell@2
+  displayName: Update rider version from Directory.Build.props
   inputs:
     filePath: 'Abc.MoqComplete\Deployment\update_rider_version.ps1'
 
 - task: NuGetCommand@2
+  displayName: Nuget restore solution
   inputs:
     restoreSolution: '$(solution)'
 
 - task: VSBuild@1
+  displayName: Build
   inputs:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
 - task: VSTest@2
+  displayName: Test
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
@@ -46,11 +51,13 @@ steps:
     verbosityPack: Minimal
     
 - task: PowerShell@2
+  displayName: Fix rider plugin
   inputs:
     filePath: 'Abc.MoqComplete\Deployment\build_rider_plugin.ps1'
     arguments: '$(Build.ArtifactStagingDirectory)'
 
 - task: PublishBuildArtifacts@1
+  displayName: Publish Artifacts
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'BuildResult'
