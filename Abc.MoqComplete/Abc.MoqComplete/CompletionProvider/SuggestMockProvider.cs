@@ -34,51 +34,21 @@ namespace Abc.MoqComplete.CompletionProvider
 
         protected override bool AddLookupItems(CSharpCodeCompletionContext context, IItemsCollector collector)
         {
-            var candidateExistingElements = new List<ISymbolInfo>();
-            var table = GetSymbolTable(context);
+            if (context.ExpectedTypesContext == null)
+                return false;
 
-            table?.ForAllSymbolInfos(info =>
+            foreach (var expectedType in context.ExpectedTypesContext.ExpectedITypes)
             {
-                var declaredElement = info.GetDeclaredElement();
-                var type = declaredElement.Type();
-
-                if (type != null)
+                if (expectedType.Type.IsInterfaceType())
                 {
-                    if (type.GetClassType().ConvertToString() == "Class:Moq.Mock`1")
-                    {
-                        IType typeParameter = TypesUtil.GetTypeArgumentValue(type, 0);
-                        if (typeParameter != null && context.ExpectedTypesContext != null && context.ExpectedTypesContext.ExpectedITypes != null && context.ExpectedTypesContext.ExpectedITypes.Select(x => x.Type).Where(x => x != null).Any(x => typeParameter.IsExplicitlyConvertibleTo(x, ClrPredefinedTypeConversionRule.INSTANCE)))
-                        {
-                            candidateExistingElements.Add(info);
-                        }
-                    }
-                }
-            });
-
-            foreach (var candidateExistingElement in candidateExistingElements)
-            {
-                var proposedCompletion = candidateExistingElement.ShortName + ".Object";
-                var lookupItem = GetLookupItem(context, proposedCompletion);
-                collector.Add(lookupItem);
-            }
-
-            if (context.ExpectedTypesContext != null)
-            {
-                foreach (var expectedType in context.ExpectedTypesContext.ExpectedITypes)
-                {
-                    if (expectedType.Type == null)
-                        continue;
-
-                    if (expectedType.Type.IsInterfaceType())
-                    {
-                        string typeName = expectedType.Type.GetPresentableName(CSharpLanguage.Instance);
-                        var proposedCompletion = "new Mock<" + typeName + ">().Object";
-                        var lookupItem = GetLookupItem(context, proposedCompletion);
-                        collector.Add(lookupItem);
-                    }
+                    var typeName = expectedType.Type.GetPresentableName(CSharpLanguage.Instance);
+                    var newMock = GetLookupItem(context, "new Mock<" + typeName + ">().Object");
+                    var mockOf = GetLookupItem(context, $"Mock.Of<{typeName}>()");
+                    collector.Add(newMock);
+                    collector.Add(mockOf);
                 }
             }
-            return true;
+            return context.ExpectedTypesContext.ExpectedITypes.Count > 0;
         }
 
         private static ILookupItem GetLookupItem(CSharpCodeCompletionContext context, string proposedCompletion)
