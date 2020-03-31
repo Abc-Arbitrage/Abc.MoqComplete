@@ -9,17 +9,22 @@ namespace Abc.MoqComplete.Services
     public class TestProjectProvider : ITestProjectProvider
     {
         private readonly Dictionary<string, bool> _isMoqContainedByProjectName = new Dictionary<string, bool>();
-        private const string _moqReferenceName = "Moq";
+
+        private static readonly string[] MoqReferenceNames =
+        {
+            "Moq",
+            "Moq.AutoMock"
+        };
 
         public bool IsTestProject(IPsiModule psiModule)
         {
-            if (!_isMoqContainedByProjectName.TryGetValue(psiModule.DisplayName, out var isMoqcontained))
+            if (!_isMoqContainedByProjectName.TryGetValue(psiModule.DisplayName, out var isMoqContained))
             {
-                isMoqcontained = psiModule.GetReferences(null).Any(r => r.Module.Name == _moqReferenceName);
-                _isMoqContainedByProjectName.Add(psiModule.DisplayName, isMoqcontained);
+                isMoqContained = psiModule.GetReferences(null).Any(r => MoqReferenceNames.Contains(r.Module.Name));
+                _isMoqContainedByProjectName.Add(psiModule.DisplayName, isMoqContained);
             }
 
-            return isMoqcontained;
+            return isMoqContained;
         }
     }
 }
