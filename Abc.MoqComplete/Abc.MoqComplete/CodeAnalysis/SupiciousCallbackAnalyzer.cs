@@ -21,8 +21,8 @@ namespace Abc.MoqComplete.CodeAnalysis
             if (!methodIdentifier.IsMoqCallbackMethod(element))
                 return;
 
-            var expectedtypeParameters = element.TypeArguments;
-            if (expectedtypeParameters.Count == 0)
+            var expectedTypeParameters = element.TypeArguments;
+            if (expectedTypeParameters.Count == 0)
                 return;
 
             var pointer = element.InvokedExpression;
@@ -43,14 +43,14 @@ namespace Abc.MoqComplete.CodeAnalysis
             if (actualTypesParameters.Length <= 0)
                 return;
 
-            if (expectedtypeParameters.Count != actualTypesParameters.Length)
+            if (expectedTypeParameters.Count != actualTypesParameters.Length)
                 AddWarning(element, consumer);
             else
             {
-                for (int i = 0; i < expectedtypeParameters.Count; i++)
+                for (int i = 0; i < expectedTypeParameters.Count; i++)
                 {
                     var actualParameterType = actualTypesParameters[i];
-                    var expectedParameterType = expectedtypeParameters[i];
+                    var expectedParameterType = expectedTypeParameters[i];
 
                     if (!actualParameterType.Equals(expectedParameterType) && !actualParameterType.IsImplicitlyConvertibleTo(expectedParameterType, rule))
                         AddWarning(element, consumer);

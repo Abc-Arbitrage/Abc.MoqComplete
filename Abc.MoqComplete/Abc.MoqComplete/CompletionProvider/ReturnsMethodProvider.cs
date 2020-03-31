@@ -29,7 +29,7 @@ namespace Abc.MoqComplete.CompletionProvider
 
         protected override bool AddLookupItems(CSharpCodeCompletionContext context, IItemsCollector collector)
         {
-            var methodIdentitifer = context.BasicContext.Solution.GetComponent<IMoqMethodIdentifier>();
+            var methodIdentifier = context.BasicContext.Solution.GetComponent<IMoqMethodIdentifier>();
             var mockedMethodProvider = context.BasicContext.Solution.GetComponent<IMockedMethodProvider>();
             var identifier = context.TerminatedContext.TreeNode as IIdentifier;
             var expression = identifier.GetParentSafe<IReferenceExpression>();
@@ -40,7 +40,7 @@ namespace Abc.MoqComplete.CompletionProvider
             if (!(expression.ConditionalQualifier is IInvocationExpression invocation))
                 return false;
 
-            if (methodIdentitifer.IsMoqCallbackMethod(invocation))
+            if (methodIdentifier.IsMoqCallbackMethod(invocation))
                 invocation = invocation.InvokedExpression?.FirstChild as IInvocationExpression;
 
             var mockedMethod = mockedMethodProvider.GetMockedMethodFromSetupMethod(invocation);
