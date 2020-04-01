@@ -10,10 +10,8 @@ namespace Abc.MoqComplete.Services
 		public bool IsAutoMockerSetupMethod(IInvocationExpression invocationExpression)
 		{
 			return IsMethod(invocationExpression,
-				declaredElement => IsMethodString(declaredElement,
-					"Method:Moq.AutoMock.AutoMocker.Setup(System.Linq.Expressions.Expression`1[TDelegate -> System.Func`2[T -> TService, TResult -> TReturn]] setup)",
-					"Method:Moq.AutoMock.AutoMocker.Setup(System.Linq.Expressions.Expression`1[TDelegate -> System.Action`1[T -> TService]] setup)",
-					"Method:Moq.AutoMock.AutoMocker.Setup(System.Linq.Expressions.Expression`1[TDelegate -> System.Func`2[T -> TService, TResult -> System.Object]] setup)"));
+				declaredElement => IsMethodStartingWithString(declaredElement,
+					"Method:Moq.AutoMock.AutoMocker.Setup"));
 		}
 
 		/// <inheritdoc />
