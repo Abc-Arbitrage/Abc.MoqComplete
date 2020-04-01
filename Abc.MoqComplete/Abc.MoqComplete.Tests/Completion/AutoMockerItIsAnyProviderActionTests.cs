@@ -9,7 +9,7 @@ namespace Abc.MoqComplete.Tests.Completion
 	{
 		protected override CodeCompletionTestType TestType => CodeCompletionTestType.Action;
 
-		protected override string RelativeTestDataPath => "ItIsAnyCompletion";
+		protected override string RelativeTestDataPath => "AutoMockerItIsAnyCompletion";
 
 		[TestCase("itIsAnyCompletionFull")]
 		[TestCase("itIsAnyCompletionParam")]

@@ -29,7 +29,6 @@ namespace Abc.MoqComplete.CompletionProvider
 
 		protected override bool AddLookupItems(CSharpCodeCompletionContext context, IItemsCollector collector)
 		{
-			var methodIdentifier = context.BasicContext.Solution.GetComponent<IAutoMockerMethodIdentifier>();
 			var identifier = context.TerminatedContext.TreeNode as IIdentifier;
 			var mockedMethodArgument = identifier.GetParentSafe<IReferenceExpression>().GetParentSafe<ICSharpArgument>();
 
@@ -46,6 +45,7 @@ namespace Abc.MoqComplete.CompletionProvider
 				return false;
 			}
 
+			var methodIdentifier = context.BasicContext.Solution.GetComponent<IAutoMockerMethodIdentifier>();
 			var isSetup = methodIdentifier.IsAutoMockerSetupMethod(methodInvocation);
 			var isVerify = methodIdentifier.IsAutoMockerVerifyMethod(methodInvocation);
 

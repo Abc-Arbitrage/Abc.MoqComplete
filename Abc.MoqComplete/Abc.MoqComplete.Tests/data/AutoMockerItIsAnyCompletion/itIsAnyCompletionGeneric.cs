@@ -26,8 +26,8 @@ namespace ConsoleApp1.Tests
         [Test]
         public void METHOD()
         {
-            var m = new Mock<Test1.ITest2>();
-            m.Setup(x=>x.Coco(It{caret}));
+            var _mocker = new AutoMocker();
+            _mocker.Setup<Test1.ITest2>(x=>x.Coco(It{caret}));
         }
     }
 }

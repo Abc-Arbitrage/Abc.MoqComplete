@@ -17,7 +17,7 @@ namespace ConsoleApp1.Tests
         public void METHOD()
         {
             var _mocker = new AutoMocker();
-            temp.Setup<ITestInterface>(x => x.BuildSomething(It{caret}))
+            _mocker.Setup<ITestInterface>(x => x.BuildSomething(It{caret}))
         }
     }
 }
