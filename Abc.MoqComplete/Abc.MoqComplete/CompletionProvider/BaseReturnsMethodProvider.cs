@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Abc.MoqComplete.Extensions;
 using Abc.MoqComplete.Services;
 using JetBrains.ProjectModel;
@@ -8,7 +9,6 @@ using JetBrains.ReSharper.Feature.Services.CodeCompletion.Infrastructure.LookupI
 using JetBrains.ReSharper.Feature.Services.CSharp.CodeCompletion.Infrastructure;
 using JetBrains.ReSharper.Features.Intellisense.CodeCompletion.CSharp;
 using JetBrains.ReSharper.Psi;
-using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.ExpectedTypes;
 using JetBrains.ReSharper.Psi.Resources;
@@ -16,9 +16,13 @@ using JetBrains.ReSharper.Psi.Tree;
 
 namespace Abc.MoqComplete.CompletionProvider
 {
-	[Language(typeof(CSharpLanguage))]
-	public class AutoMockerReturnsMethodProviderReturnsMethodProvider : ItemsProviderOfSpecificContext<CSharpCodeCompletionContext>
+	public abstract class BaseReturnsMethodProvider : ItemsProviderOfSpecificContext<CSharpCodeCompletionContext>
 	{
+		protected abstract IMethod GetMockedMethodFromSetupMethod(ISolution solution, IInvocationExpression invocation);
+
+		protected abstract IEnumerable<string> GetMockedMethodParameterTypes(ISolution solution, IInvocationExpression invocation);
+
+		/// <inheritdoc />
 		protected override bool IsAvailable(CSharpCodeCompletionContext context)
 		{
 			var codeCompletionType = context.BasicContext.CodeCompletionType;
@@ -26,10 +30,11 @@ namespace Abc.MoqComplete.CompletionProvider
 			return codeCompletionType == CodeCompletionType.SmartCompletion || codeCompletionType == CodeCompletionType.BasicCompletion;
 		}
 
+		/// <inheritdoc />
 		protected override bool AddLookupItems(CSharpCodeCompletionContext context, IItemsCollector collector)
 		{
-			var methodIdentifier = context.BasicContext.Solution.GetComponent<IMoqMethodIdentifier>();
-			var mockedMethodProvider = context.BasicContext.Solution.GetComponent<IAutoMockerMockedMethodProvider>();
+
+			var solution = context.BasicContext.Solution;
 			var identifier = context.TerminatedContext.TreeNode as IIdentifier;
 			var expression = identifier.GetParentSafe<IReferenceExpression>();
 
@@ -42,20 +47,20 @@ namespace Abc.MoqComplete.CompletionProvider
 			{
 				return false;
 			}
-
+			var methodIdentifier = solution.GetComponent<IMoqMethodIdentifier>();
 			if (methodIdentifier.IsMoqCallbackMethod(invocation))
 			{
 				invocation = invocation.InvokedExpression?.FirstChild as IInvocationExpression;
 			}
 
-			var mockedMethod = mockedMethodProvider.GetMockedMethodFromSetupMethod(invocation);
+			var mockedMethod = GetMockedMethodFromSetupMethod(solution, invocation);
 
 			if (mockedMethod == null || mockedMethod.Parameters.Count == 0)
 			{
 				return false;
 			}
 
-			var types = mockedMethodProvider.GetMockedMethodParameterTypes(invocation);
+			var types = GetMockedMethodParameterTypes(solution, invocation);
 			var variablesName = mockedMethod.Parameters.Select(p => p.ShortName);
 			var proposedCallback = $"Returns<{string.Join(",", types)}>(({string.Join(",", variablesName)}) => )";
 
