@@ -15,10 +15,10 @@ namespace Abc.MoqComplete.CodeAnalysis
 		/// <inheritdoc />
 		protected override void Run(IInvocationExpression element, ElementProblemAnalyzerData data, IHighlightingConsumer consumer)
 		{
-			var methodIdentifier = element.GetSolution().GetComponent<IAutoMockerMethodIdentifier>();
+			var methodIdentifier = element.GetSolution().GetComponent<IMoqMethodIdentifier>();
 			var mockedMethodProvider = element.GetSolution().GetComponent<IAutoMockerMockedMethodProvider>();
 
-			if (!methodIdentifier.IsAutoMockerCallbackMethod(element))
+			if (!methodIdentifier.IsMoqCallbackMethod(element))
 			{
 				return;
 			}

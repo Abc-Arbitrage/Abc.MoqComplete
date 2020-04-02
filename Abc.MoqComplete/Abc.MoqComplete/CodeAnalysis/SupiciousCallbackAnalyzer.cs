@@ -4,69 +4,85 @@ using JetBrains.DocumentModel;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Psi.CSharp.Conversions;
-using JetBrains.ReSharper.Psi.CSharp.Impl;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
 
 namespace Abc.MoqComplete.CodeAnalysis
 {
-    [ElementProblemAnalyzer(typeof(IInvocationExpression), HighlightingTypes = new[] { typeof(SuspiciousCallbackWarning) })]
-    public class SuspiciousCallbackAnalyzer : ElementProblemAnalyzer<IInvocationExpression>
-    {
-        protected override void Run(IInvocationExpression element, ElementProblemAnalyzerData data, IHighlightingConsumer consumer)
-        {
-            var methodIdentifier = element.GetSolution().GetComponent<IMoqMethodIdentifier>();
-            var mockedMethodProvider = element.GetSolution().GetComponent<IMockedMethodProvider>();
+	[ElementProblemAnalyzer(typeof(IInvocationExpression), HighlightingTypes = new[] { typeof(SuspiciousCallbackWarning) })]
+	public class SuspiciousCallbackAnalyzer : ElementProblemAnalyzer<IInvocationExpression>
+	{
+		protected override void Run(IInvocationExpression element, ElementProblemAnalyzerData data, IHighlightingConsumer consumer)
+		{
+			var methodIdentifier = element.GetSolution().GetComponent<IMoqMethodIdentifier>();
+			var mockedMethodProvider = element.GetSolution().GetComponent<IMockedMethodProvider>();
 
-            if (!methodIdentifier.IsMoqCallbackMethod(element))
-                return;
+			if (!methodIdentifier.IsMoqCallbackMethod(element))
+			{
+				return;
+			}
 
-            var expectedTypeParameters = element.TypeArguments;
-            if (expectedTypeParameters.Count == 0)
-                return;
+			var expectedTypeParameters = element.TypeArguments;
 
-            var pointer = element.InvokedExpression;
-            TreeNodeCollection<ICSharpArgument>? arguments = null;
+			if (expectedTypeParameters.Count == 0)
+			{
+				return;
+			}
 
-            while (pointer != null && arguments == null && pointer.FirstChild is IInvocationExpression methodInvocation)
-            {
-                arguments = mockedMethodProvider.GetMockedMethodParametersFromSetupMethod(methodInvocation);
-                pointer = methodInvocation.InvokedExpression;
-            }
+			var pointer = element.InvokedExpression;
+			TreeNodeCollection<ICSharpArgument>? arguments = null;
 
-            if (arguments == null)
-                return;
+			while (pointer != null && arguments == null && pointer.FirstChild is IInvocationExpression methodInvocation)
+			{
+				arguments = mockedMethodProvider.GetMockedMethodParametersFromSetupMethod(methodInvocation);
+				pointer = methodInvocation.InvokedExpression;
+			}
 
-            var actualTypesParameters = arguments.Value.Select(x => x.Value.Type()).ToArray();
-            var rule = element.GetPsiModule().GetTypeConversionRule();
+			if (arguments == null)
+			{
+				return;
+			}
 
-            if (actualTypesParameters.Length <= 0)
-                return;
+			var actualTypesParameters = arguments.Value.Select(x => x.Value.Type()).ToArray();
+			var rule = element.GetPsiModule().GetTypeConversionRule();
 
-            if (expectedTypeParameters.Count != actualTypesParameters.Length)
-                AddWarning(element, consumer);
-            else
-            {
-                for (int i = 0; i < expectedTypeParameters.Count; i++)
-                {
-                    var actualParameterType = actualTypesParameters[i];
-                    var expectedParameterType = expectedTypeParameters[i];
+			if (actualTypesParameters.Length <= 0)
+			{
+				return;
+			}
 
-                    if (!actualParameterType.Equals(expectedParameterType) && !actualParameterType.IsImplicitlyConvertibleTo(expectedParameterType, rule))
-                        AddWarning(element, consumer);
-                }
-            }
-        }
+			if (expectedTypeParameters.Count != actualTypesParameters.Length)
+			{
+				AddWarning(element, consumer);
+			} else
+			{
+				for (var i = 0; i < expectedTypeParameters.Count; i++)
+				{
+					var actualParameterType = actualTypesParameters[i];
+					var expectedParameterType = expectedTypeParameters[i];
 
-        private static void AddWarning(IInvocationExpression element, IHighlightingConsumer consumer)
-        {
-            DocumentRange range;
-            if (element.FirstChild?.LastChild is ITypeArgumentList typeInvocation)
-                range = typeInvocation.GetDocumentRange();
-            else
-                range = element.InvokedExpression.GetDocumentRange();
+					if (!actualParameterType.Equals(expectedParameterType)
+						&& !actualParameterType.IsImplicitlyConvertibleTo(expectedParameterType, rule))
+					{
+						AddWarning(element, consumer);
+					}
+				}
+			}
+		}
 
-            consumer.AddHighlighting(new SuspiciousCallbackWarning(element, range));
-        }
-    }
+		private static void AddWarning(IInvocationExpression element, IHighlightingConsumer consumer)
+		{
+			DocumentRange range;
+
+			if (element.FirstChild?.LastChild is ITypeArgumentList typeInvocation)
+			{
+				range = typeInvocation.GetDocumentRange();
+			} else
+			{
+				range = element.InvokedExpression.GetDocumentRange();
+			}
+
+			consumer.AddHighlighting(new SuspiciousCallbackWarning(element, range));
+		}
+	}
 }

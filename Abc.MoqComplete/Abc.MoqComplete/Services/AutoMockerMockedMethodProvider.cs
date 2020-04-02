@@ -12,9 +12,9 @@ namespace Abc.MoqComplete.Services
 	[SolutionComponent]
 	public class AutoMockerMockedMethodProvider : IAutoMockerMockedMethodProvider
 	{
-		private readonly IAutoMockerMethodIdentifier _methodIdentifier;
+		private readonly IMoqMethodIdentifier _methodIdentifier;
 
-		public AutoMockerMockedMethodProvider(IAutoMockerMethodIdentifier methodIdentifier)
+		public AutoMockerMockedMethodProvider(IMoqMethodIdentifier methodIdentifier)
 		{
 			_methodIdentifier = methodIdentifier;
 		}

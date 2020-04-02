@@ -41,10 +41,10 @@ namespace Abc.MoqComplete.CompletionProvider
 				return false;
 			}
 
-			var methodIdentifier = context.BasicContext.Solution.GetComponent<IAutoMockerMethodIdentifier>();
+			var methodIdentifier = context.BasicContext.Solution.GetComponent<IMoqMethodIdentifier>();
 			var mockedMethodProvider = context.BasicContext.Solution.GetComponent<IAutoMockerMockedMethodProvider>();
 
-			if (methodIdentifier.IsAutoMockerReturnMethod(invocation))
+			if (methodIdentifier.IsMoqReturnMethod(invocation))
 			{
 				invocation = invocation.InvokedExpression?.FirstChild as IInvocationExpression;
 			}

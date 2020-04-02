@@ -45,9 +45,9 @@ namespace Abc.MoqComplete.CompletionProvider
 				return false;
 			}
 
-			var methodIdentifier = context.BasicContext.Solution.GetComponent<IAutoMockerMethodIdentifier>();
+			var methodIdentifier = context.BasicContext.Solution.GetComponent<IMoqMethodIdentifier>();
 			var isSetup = methodIdentifier.IsAutoMockerSetupMethod(methodInvocation);
-			var isVerify = methodIdentifier.IsAutoMockerVerifyMethod(methodInvocation);
+			var isVerify = methodIdentifier.IsMoqVerifyMethod(methodInvocation);
 
 			if (!isSetup && !isVerify)
 			{
