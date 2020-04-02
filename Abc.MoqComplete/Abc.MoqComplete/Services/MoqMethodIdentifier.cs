@@ -1,10 +1,16 @@
-﻿using JetBrains.ProjectModel;
+﻿using System;
+using System.Linq;
+using JetBrains.Annotations;
+using JetBrains.ProjectModel;
+using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
+using JetBrains.ReSharper.Psi.Resolve;
+using JetBrains.ReSharper.Psi.Resx.Utils;
 
 namespace Abc.MoqComplete.Services
 {
 	[SolutionComponent]
-	public class MoqMethodIdentifier : BaseMethodIdentifier, IMoqMethodIdentifier
+	public class MoqMethodIdentifier : IMoqMethodIdentifier
 	{
 		/// <inheritdoc />
 		public bool IsAutoMockerSetupMethod(IInvocationExpression invocationExpression)
@@ -35,5 +41,38 @@ namespace Abc.MoqComplete.Services
 				declaredElement => IsMethodStartingWithString(declaredElement,
 					"Method:Moq.Language.ICallback.Callback(System.Action",
 					"Method:Moq.Language.ICallback`2.Callback(System.Action"));
+
+		private bool IsMethod([CanBeNull] IInvocationExpression invocationExpression,
+							Func<IDeclaredElement, bool> methodFilter)
+		{
+			if (invocationExpression?.Reference == null)
+			{
+				return false;
+			}
+
+			var resolveResult = invocationExpression.Reference.Resolve();
+
+			if (resolveResult.ResolveErrorType == ResolveErrorType.MULTIPLE_CANDIDATES)
+			{
+				return resolveResult.Result.Candidates.Any(methodFilter);
+			}
+
+			return methodFilter(resolveResult.DeclaredElement);
+		}
+
+		private bool IsMethodString([CanBeNull] IDeclaredElement declaredElement, params string[] methodName)
+		{
+			var declaredElementAsString = declaredElement.ConvertToString();
+
+			return methodName.Contains(declaredElementAsString);
+		}
+
+		private bool IsMethodStartingWithString([CanBeNull] IDeclaredElement declaredElement,
+												params string[] methodName)
+		{
+			var methodString = declaredElement.ConvertToString();
+
+			return methodString != null && methodName.Any(m => methodString.StartsWith(m));
+		}
 	}
 }
