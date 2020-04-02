@@ -5,27 +5,11 @@ using JetBrains.ReSharper.Psi.CSharp.Tree;
 namespace Abc.MoqComplete.CodeAnalysis
 {
 	[StaticSeverityHighlighting(Severity.WARNING, HighlightingGroupIds.GutterMarksGroup)]
-	public class AutoMockerSuspiciousCallbackWarning : IHighlighting
+	public sealed class AutoMockerSuspiciousCallbackWarning : BaseCallbackWarning
 	{
-		private readonly DocumentRange _documentRange;
-
 		public AutoMockerSuspiciousCallbackWarning(IInvocationExpression element, DocumentRange documentRange)
+			: base("AutoMocker suspicious Callback method call: Generic types do not match", documentRange)
 		{
-			_documentRange = documentRange;
 		}
-
-		public bool IsValid()
-		{
-			return true;
-		}
-
-		public DocumentRange CalculateRange()
-		{
-			return _documentRange;
-		}
-
-		public string ToolTip => "AutoMocker suspicious Callback method call: Generic types do not match";
-
-		public string ErrorStripeToolTip { get; }
 	}
 }

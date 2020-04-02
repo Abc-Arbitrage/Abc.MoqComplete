@@ -42,7 +42,7 @@ namespace Abc.MoqComplete.Services
 		{
 			var mockedMethod = GetMockedMethodFromSetupMethod(invocation);
 			var methodInvocation = GetMockedMethodInvocation(invocation);
-			var substitution = methodInvocation?.Reference?.Resolve()?.Substitution;
+			var substitution = methodInvocation?.Reference?.Resolve().Substitution;
 
 			return mockedMethod.Parameters.Select(p =>
 			{
