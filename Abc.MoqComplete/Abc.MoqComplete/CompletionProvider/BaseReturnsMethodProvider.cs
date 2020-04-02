@@ -33,8 +33,6 @@ namespace Abc.MoqComplete.CompletionProvider
 		/// <inheritdoc />
 		protected override bool AddLookupItems(CSharpCodeCompletionContext context, IItemsCollector collector)
 		{
-
-			var solution = context.BasicContext.Solution;
 			var identifier = context.TerminatedContext.TreeNode as IIdentifier;
 			var expression = identifier.GetParentSafe<IReferenceExpression>();
 
@@ -47,7 +45,10 @@ namespace Abc.MoqComplete.CompletionProvider
 			{
 				return false;
 			}
+
+			var solution = context.BasicContext.Solution;
 			var methodIdentifier = solution.GetComponent<IMoqMethodIdentifier>();
+
 			if (methodIdentifier.IsMoqCallbackMethod(invocation))
 			{
 				invocation = invocation.InvokedExpression?.FirstChild as IInvocationExpression;
