@@ -1,7 +1,7 @@
 [![Build Status](https://dev.azure.com/lconstantin0753/Abc.MoqComplete/_apis/build/status/Abc-Arbitrage.Abc.MoqComplete?branchName=master)](https://dev.azure.com/lconstantin0753/Abc.MoqComplete/_build/latest?definitionId=2&branchName=master)
 
 # Abc.MoqComplete
-MoqComplete is a Resharper plugin which provide auto-completion for the Moq framework<br/>
+MoqComplete is a Resharper plugin which provide auto-completion for the Moq framework (and Moq.AutoMock)<br/>
 Works with Resharper 2019 and Rider
 
 ## Features
