@@ -5,6 +5,7 @@ namespace Abc.MoqComplete.Services
 {
     public interface IMoqMethodIdentifier
     {
+		bool IsAutoMockerSetupMethod([CanBeNull]  IInvocationExpression invocationExpression);
         bool IsMoqSetupMethod([CanBeNull]  IInvocationExpression invocationExpression);
         bool IsMoqVerifyMethod([CanBeNull]  IInvocationExpression invocationExpression);
         bool IsMoqReturnMethod([CanBeNull]  IInvocationExpression invocationExpression);

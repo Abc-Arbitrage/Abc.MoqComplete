@@ -5,6 +5,7 @@
 	<Copyright>Copyright © ABC arbitrage Asset Management 2019</Copyright>
 	<IsPackable>True</IsPackable>
     <IncludeBuildOutput>false</IncludeBuildOutput>
+    <RootNamespace>Abc.MoqComplete</RootNamespace>
  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="JetBrains.Rider.SDK">

@@ -8,22 +8,22 @@ using JetBrains.ReSharper.Psi.CSharp.Tree;
 namespace Abc.MoqComplete.CompletionProvider
 {
 	[Language(typeof(CSharpLanguage))]
-	public class ReturnsMethodProvider : BaseReturnsMethodProvider
+	public class AutoMockerCallbackMethodProvider : BaseCallbackMethodProvider
 	{
 		/// <inheritdoc />
 		protected override IMethod GetMockedMethodFromSetupMethod(ISolution solution, IInvocationExpression invocation)
 		{
-			var methodProvider = solution.GetComponent<IMockedMethodProvider>();
+			var mockedMethodProvider = solution.GetComponent<IAutoMockerMockedMethodProvider>();
 
-			return methodProvider.GetMockedMethodFromSetupMethod(invocation);
+			return mockedMethodProvider.GetMockedMethodFromSetupMethod(invocation);
 		}
 
 		/// <inheritdoc />
 		protected override IEnumerable<string> GetMockedMethodParameterTypes(ISolution solution, IInvocationExpression invocation)
 		{
-			var methodProvider = solution.GetComponent<IMockedMethodProvider>();
+			var mockedMethodProvider = solution.GetComponent<IAutoMockerMockedMethodProvider>();
 
-			return methodProvider.GetMockedMethodParameterTypes(invocation);
+			return mockedMethodProvider.GetMockedMethodParameterTypes(invocation);
 		}
 	}
 }
