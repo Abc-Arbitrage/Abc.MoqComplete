@@ -19,9 +19,6 @@ namespace Abc.MoqComplete.CodeAnalysis
 			return mockedMethodProvider.GetMockedMethodParametersFromSetupMethod(methodInvocation);
 		}
 
-		protected override void AddHighlighting(IHighlightingConsumer consumer, DocumentRange range)
-		{
-			consumer.AddHighlighting(new SuspiciousCallbackWarning("AutoMocker suspicious Callback method call: Generic types do not match", range));
-		}
-	}
+        protected override string WarningText => "AutoMocker suspicious Callback method call: Generic types do not match";
+    }
 }

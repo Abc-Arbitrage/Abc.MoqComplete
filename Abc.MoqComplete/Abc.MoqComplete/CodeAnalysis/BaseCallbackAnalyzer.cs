@@ -12,8 +12,12 @@ namespace Abc.MoqComplete.CodeAnalysis
 	public abstract class BaseCallbackAnalyzer : ElementProblemAnalyzer<IInvocationExpression>
 	{
 		protected abstract TreeNodeCollection<ICSharpArgument>? GetArguments(ISolution solution, IInvocationExpression methodInvocation);
+        protected abstract string WarningText { get; }
 
-		protected abstract void AddHighlighting(IHighlightingConsumer consumer, DocumentRange range);
+        private void AddHighlighting(IHighlightingConsumer consumer, DocumentRange range)
+        {
+            consumer.AddHighlighting(new SuspiciousCallbackWarning(WarningText, range));
+        }
 
 		protected override void Run(IInvocationExpression element, ElementProblemAnalyzerData data, IHighlightingConsumer consumer)
 		{

@@ -9,7 +9,7 @@ namespace Abc.MoqComplete.CodeAnalysis
 {
 	[ElementProblemAnalyzer(typeof(IInvocationExpression), HighlightingTypes = new[] { typeof(SuspiciousCallbackWarning) })]
 	public class SuspiciousCallbackAnalyzer : BaseCallbackAnalyzer
-	{
+    {
 		protected override TreeNodeCollection<ICSharpArgument>? GetArguments(ISolution solution, IInvocationExpression methodInvocation)
 		{
 			var mockedMethodProvider = solution.GetComponent<IMockedMethodProvider>();
@@ -17,9 +17,6 @@ namespace Abc.MoqComplete.CodeAnalysis
 			return mockedMethodProvider.GetMockedMethodParametersFromSetupMethod(methodInvocation);
 		}
 
-		protected override void AddHighlighting(IHighlightingConsumer consumer, DocumentRange range)
-		{
-			consumer.AddHighlighting(new SuspiciousCallbackWarning("Suspicious Callback method call: Generic types do not match", range));
-		}
-	}
+        protected override string WarningText => "Suspicious Callback method call: Generic types do not match";
+    }
 }
