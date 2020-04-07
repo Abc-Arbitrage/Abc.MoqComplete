@@ -17,6 +17,8 @@ variables:
 steps:
 - task: NuGetToolInstaller@0
   displayName: Acquire Nuget
+  inputs:
+    versionSpec: '5.5.1'
 
 - task: PowerShell@2
   displayName: Update rider version from Directory.Build.props
