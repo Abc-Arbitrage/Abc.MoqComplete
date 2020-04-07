@@ -4,11 +4,11 @@ using JetBrains.ReSharper.Psi.CSharp.Tree;
 namespace Abc.MoqComplete.Services.MethodProvider
 {
 	[SolutionComponent]
-	public class MockedMethodProvider : BaseMethodProvider, IMockedMethodProvider
+	public class MoqMockedMethodProvider : BaseMethodProvider, IMoqMockedMethodProvider
 	{
 		private readonly IMoqMethodIdentifier _methodIdentifier;
 
-		public MockedMethodProvider(IMoqMethodIdentifier methodIdentifier)
+		public MoqMockedMethodProvider(IMoqMethodIdentifier methodIdentifier)
 		{
 			_methodIdentifier = methodIdentifier;
 		}

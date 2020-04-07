@@ -5,7 +5,7 @@ using JetBrains.ReSharper.Psi.CSharp.Tree;
 namespace Abc.MoqComplete.CodeAnalysis
 {
 	[ElementProblemAnalyzer(typeof(IInvocationExpression), HighlightingTypes = new[] { typeof(SuspiciousCallbackWarning) })]
-	public class SuspiciousCallbackAnalyzer : BaseCallbackAnalyzer<IMockedMethodProvider>
+	public class SuspiciousCallbackAnalyzer : BaseCallbackAnalyzer<IMoqMockedMethodProvider>
     {
         protected override string WarningText => "Suspicious Callback method call: Generic types do not match";
     }

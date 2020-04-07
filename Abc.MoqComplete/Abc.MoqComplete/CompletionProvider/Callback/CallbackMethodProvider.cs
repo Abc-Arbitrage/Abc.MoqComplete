@@ -5,7 +5,7 @@ using JetBrains.ReSharper.Psi.CSharp;
 namespace Abc.MoqComplete.CompletionProvider.Callback
 {
 	[Language(typeof(CSharpLanguage))]
-	public class CallbackMethodProvider : BaseCallbackMethodProvider<IMockedMethodProvider>
+	public class CallbackMethodProvider : BaseCallbackMethodProvider<IMoqMockedMethodProvider>
 	{
     }
 }

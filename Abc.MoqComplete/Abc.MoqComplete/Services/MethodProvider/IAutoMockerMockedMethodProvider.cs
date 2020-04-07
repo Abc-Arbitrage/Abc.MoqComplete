@@ -1,6 +1,6 @@
 ﻿namespace Abc.MoqComplete.Services.MethodProvider
 {
-	public interface IAutoMockerMockedMethodProvider : IMethodProvider
+	public interface IAutoMockerMockedMethodProvider : IMockedMethodProvider
 	{
     }
 }

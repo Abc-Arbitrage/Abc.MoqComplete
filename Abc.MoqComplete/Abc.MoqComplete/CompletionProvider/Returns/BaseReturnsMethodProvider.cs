@@ -17,7 +17,7 @@ using JetBrains.ReSharper.Psi.Tree;
 
 namespace Abc.MoqComplete.CompletionProvider.Returns
 {
-	public abstract class BaseReturnsMethodProvider<T> : ItemsProviderOfSpecificContext<CSharpCodeCompletionContext> where T : class, IMethodProvider
+	public abstract class BaseReturnsMethodProvider<T> : ItemsProviderOfSpecificContext<CSharpCodeCompletionContext> where T : class, IMockedMethodProvider
 	{
         private IMethod GetMockedMethodFromSetupMethod(ISolution solution, IInvocationExpression invocation)
         {

@@ -5,7 +5,7 @@ using JetBrains.ReSharper.Psi.CSharp;
 namespace Abc.MoqComplete.CompletionProvider.Returns
 {
 	[Language(typeof(CSharpLanguage))]
-	public class ReturnsMethodProvider : BaseReturnsMethodProvider<IMockedMethodProvider>
+	public class ReturnsMethodProvider : BaseReturnsMethodProvider<IMoqMockedMethodProvider>
 	{
     }
 }

@@ -10,7 +10,7 @@ using JetBrains.ReSharper.Psi.Tree;
 
 namespace Abc.MoqComplete.CodeAnalysis
 {
-	public abstract class BaseCallbackAnalyzer<T> : ElementProblemAnalyzer<IInvocationExpression> where T : class, IMethodProvider
+	public abstract class BaseCallbackAnalyzer<T> : ElementProblemAnalyzer<IInvocationExpression> where T : class, IMockedMethodProvider
 	{
         protected abstract string WarningText { get; }
         
