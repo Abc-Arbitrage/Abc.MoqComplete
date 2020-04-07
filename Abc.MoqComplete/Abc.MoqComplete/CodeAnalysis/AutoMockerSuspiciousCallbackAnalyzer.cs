@@ -9,10 +9,9 @@ using JetBrains.ReSharper.Psi.Tree;
 
 namespace Abc.MoqComplete.CodeAnalysis
 {
-	[ElementProblemAnalyzer(typeof(IInvocationExpression), HighlightingTypes = new[] { typeof(AutoMockerSuspiciousCallbackWarning) })]
+	[ElementProblemAnalyzer(typeof(IInvocationExpression), HighlightingTypes = new[] { typeof(SuspiciousCallbackWarning) })]
 	public class AutoMockerSuspiciousCallbackAnalyzer : BaseCallbackAnalyzer
 	{
-		/// <inheritdoc />
 		protected override TreeNodeCollection<ICSharpArgument>? GetArguments(ISolution solution, IInvocationExpression methodInvocation)
 		{
 			var mockedMethodProvider = solution.GetComponent<IAutoMockerMockedMethodProvider>();
@@ -20,10 +19,9 @@ namespace Abc.MoqComplete.CodeAnalysis
 			return mockedMethodProvider.GetMockedMethodParametersFromSetupMethod(methodInvocation);
 		}
 
-		/// <inheritdoc />
 		protected override void AddHighlighting(IHighlightingConsumer consumer, DocumentRange range)
 		{
-			consumer.AddHighlighting(new AutoMockerSuspiciousCallbackWarning(range));
+			consumer.AddHighlighting(new SuspiciousCallbackWarning("AutoMocker suspicious Callback method call: Generic types do not match", range));
 		}
 	}
 }
