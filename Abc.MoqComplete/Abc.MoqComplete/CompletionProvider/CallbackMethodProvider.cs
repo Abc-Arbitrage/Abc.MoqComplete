@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Abc.MoqComplete.Services;
+using Abc.MoqComplete.Services.MethodProvider;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;

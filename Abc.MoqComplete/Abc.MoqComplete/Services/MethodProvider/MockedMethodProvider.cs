@@ -1,21 +1,21 @@
 ﻿using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 
-namespace Abc.MoqComplete.Services
+namespace Abc.MoqComplete.Services.MethodProvider
 {
 	[SolutionComponent]
-	public class AutoMockerMockedMethodProvider : BaseMethodProvider, IAutoMockerMockedMethodProvider
+	public class MockedMethodProvider : BaseMethodProvider, IMockedMethodProvider
 	{
 		private readonly IMoqMethodIdentifier _methodIdentifier;
 
-		public AutoMockerMockedMethodProvider(IMoqMethodIdentifier methodIdentifier)
+		public MockedMethodProvider(IMoqMethodIdentifier methodIdentifier)
 		{
 			_methodIdentifier = methodIdentifier;
 		}
 
 		protected override bool IsSetupMethod(IInvocationExpression invocationExpression)
 		{
-			return _methodIdentifier.IsAutoMockerSetupMethod(invocationExpression);
+			return _methodIdentifier.IsMoqSetupMethod(invocationExpression);
 		}
 	}
 }

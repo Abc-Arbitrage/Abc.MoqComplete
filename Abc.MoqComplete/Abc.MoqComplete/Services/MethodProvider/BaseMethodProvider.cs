@@ -6,7 +6,7 @@ using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Tree;
 
-namespace Abc.MoqComplete.Services
+namespace Abc.MoqComplete.Services.MethodProvider
 {
 	public abstract class BaseMethodProvider
 	{
