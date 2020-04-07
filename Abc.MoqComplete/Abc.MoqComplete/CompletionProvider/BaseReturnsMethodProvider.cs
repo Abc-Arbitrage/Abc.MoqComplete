@@ -2,6 +2,7 @@
 using System.Linq;
 using Abc.MoqComplete.Extensions;
 using Abc.MoqComplete.Services;
+using Abc.MoqComplete.Services.MethodProvider;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion.Infrastructure;
@@ -16,11 +17,19 @@ using JetBrains.ReSharper.Psi.Tree;
 
 namespace Abc.MoqComplete.CompletionProvider
 {
-	public abstract class BaseReturnsMethodProvider : ItemsProviderOfSpecificContext<CSharpCodeCompletionContext>
+	public abstract class BaseReturnsMethodProvider<T> : ItemsProviderOfSpecificContext<CSharpCodeCompletionContext> where T : class, IMethodProvider
 	{
-		protected abstract IMethod GetMockedMethodFromSetupMethod(ISolution solution, IInvocationExpression invocation);
+        private IMethod GetMockedMethodFromSetupMethod(ISolution solution, IInvocationExpression invocation)
+        {
+            var methodProvider = solution.GetComponent<T>();
+            return methodProvider.GetMockedMethodFromSetupMethod(invocation);
+        }
 
-		protected abstract IEnumerable<string> GetMockedMethodParameterTypes(ISolution solution, IInvocationExpression invocation);
+        private  IEnumerable<string> GetMockedMethodParameterTypes(ISolution solution, IInvocationExpression invocation)
+        {
+            var methodProvider = solution.GetComponent<T>();
+            return methodProvider.GetMockedMethodParameterTypes(invocation);
+        }
         
 		protected override bool IsAvailable(CSharpCodeCompletionContext context)
 		{

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Abc.MoqComplete.Services;
+using Abc.MoqComplete.Services.MethodProvider;
 using JetBrains.DocumentModel;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.Daemon;
@@ -9,11 +10,16 @@ using JetBrains.ReSharper.Psi.Tree;
 
 namespace Abc.MoqComplete.CodeAnalysis
 {
-	public abstract class BaseCallbackAnalyzer : ElementProblemAnalyzer<IInvocationExpression>
+	public abstract class BaseCallbackAnalyzer<T> : ElementProblemAnalyzer<IInvocationExpression> where T : class, IMethodProvider
 	{
-		protected abstract TreeNodeCollection<ICSharpArgument>? GetArguments(ISolution solution, IInvocationExpression methodInvocation);
         protected abstract string WarningText { get; }
-
+        
+        private TreeNodeCollection<ICSharpArgument>? GetArguments(ISolution solution, IInvocationExpression methodInvocation)
+        {
+            var mockedMethodProvider = solution.GetComponent<T>();
+            return mockedMethodProvider.GetMockedMethodParametersFromSetupMethod(methodInvocation);
+        }
+        
         private void AddHighlighting(IHighlightingConsumer consumer, DocumentRange range)
         {
             consumer.AddHighlighting(new SuspiciousCallbackWarning(WarningText, range));

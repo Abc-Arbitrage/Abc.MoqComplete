@@ -2,6 +2,7 @@
 using System.Linq;
 using Abc.MoqComplete.Extensions;
 using Abc.MoqComplete.Services;
+using Abc.MoqComplete.Services.MethodProvider;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion.Infrastructure;
@@ -9,7 +10,6 @@ using JetBrains.ReSharper.Feature.Services.CodeCompletion.Infrastructure.LookupI
 using JetBrains.ReSharper.Feature.Services.CSharp.CodeCompletion.Infrastructure;
 using JetBrains.ReSharper.Features.Intellisense.CodeCompletion.CSharp;
 using JetBrains.ReSharper.Psi;
-using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.ExpectedTypes;
 using JetBrains.ReSharper.Psi.Resources;
@@ -17,12 +17,19 @@ using JetBrains.ReSharper.Psi.Tree;
 
 namespace Abc.MoqComplete.CompletionProvider
 {
-	[Language(typeof(CSharpLanguage))]
-	public abstract class BaseCallbackMethodProvider : ItemsProviderOfSpecificContext<CSharpCodeCompletionContext>
+    public abstract class BaseCallbackMethodProvider<T> : ItemsProviderOfSpecificContext<CSharpCodeCompletionContext> where T : class, IMethodProvider
 	{
-		protected abstract IMethod GetMockedMethodFromSetupMethod(ISolution solution, IInvocationExpression invocation);
+        private IMethod GetMockedMethodFromSetupMethod(ISolution solution, IInvocationExpression invocation)
+        {
+            var mockedMethodProvider = solution.GetComponent<T>();
+            return mockedMethodProvider.GetMockedMethodFromSetupMethod(invocation);
+        }
 
-		protected abstract IEnumerable<string> GetMockedMethodParameterTypes(ISolution solution, IInvocationExpression invocation);
+        private IEnumerable<string> GetMockedMethodParameterTypes(ISolution solution, IInvocationExpression invocation)
+        {
+            var mockedMethodProvider = solution.GetComponent<T>();
+            return mockedMethodProvider.GetMockedMethodParameterTypes(invocation);
+        }
 
 		protected override bool IsAvailable(CSharpCodeCompletionContext context)
 		{
