@@ -1,9 +1,6 @@
-﻿using System.Linq;
-using Abc.MoqComplete.Services;
-using JetBrains.DocumentModel;
+﻿using Abc.MoqComplete.Services;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.Daemon;
-using JetBrains.ReSharper.Psi.CSharp.Conversions;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
 

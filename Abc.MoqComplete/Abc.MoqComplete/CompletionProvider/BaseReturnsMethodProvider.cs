@@ -21,16 +21,14 @@ namespace Abc.MoqComplete.CompletionProvider
 		protected abstract IMethod GetMockedMethodFromSetupMethod(ISolution solution, IInvocationExpression invocation);
 
 		protected abstract IEnumerable<string> GetMockedMethodParameterTypes(ISolution solution, IInvocationExpression invocation);
-
-		/// <inheritdoc />
+        
 		protected override bool IsAvailable(CSharpCodeCompletionContext context)
 		{
 			var codeCompletionType = context.BasicContext.CodeCompletionType;
 
 			return codeCompletionType == CodeCompletionType.SmartCompletion || codeCompletionType == CodeCompletionType.BasicCompletion;
 		}
-
-		/// <inheritdoc />
+        
 		protected override bool AddLookupItems(CSharpCodeCompletionContext context, IItemsCollector collector)
 		{
 			var identifier = context.TerminatedContext.TreeNode as IIdentifier;

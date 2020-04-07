@@ -13,7 +13,6 @@ namespace Abc.MoqComplete.Services
 			_methodIdentifier = methodIdentifier;
 		}
 
-		/// <inheritdoc />
 		protected override bool IsSetupMethod(IInvocationExpression invocationExpression)
 		{
 			return _methodIdentifier.IsAutoMockerSetupMethod(invocationExpression);

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using JetBrains.ProjectModel;
 
 namespace Abc.MoqComplete.ContextActions.Services
 {

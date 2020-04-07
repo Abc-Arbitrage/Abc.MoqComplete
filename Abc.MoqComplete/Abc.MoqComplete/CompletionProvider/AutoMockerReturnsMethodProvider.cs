@@ -10,15 +10,13 @@ namespace Abc.MoqComplete.CompletionProvider
 	[Language(typeof(CSharpLanguage))]
 	public class AutoMockerReturnsMethodProvider : BaseReturnsMethodProvider
 	{
-		/// <inheritdoc />
-		protected override IMethod GetMockedMethodFromSetupMethod(ISolution solution, IInvocationExpression invocation)
+        protected override IMethod GetMockedMethodFromSetupMethod(ISolution solution, IInvocationExpression invocation)
 		{
 			var methodProvider = solution.GetComponent<IAutoMockerMockedMethodProvider>();
 
 			return methodProvider.GetMockedMethodFromSetupMethod(invocation);
 		}
-
-		/// <inheritdoc />
+        
 		protected override IEnumerable<string> GetMockedMethodParameterTypes(ISolution solution, IInvocationExpression invocation)
 		{
 			var methodProvider = solution.GetComponent<IAutoMockerMockedMethodProvider>();

@@ -14,7 +14,6 @@ using JetBrains.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.ReSharper.Psi.Impl.CodeStyle;
 using JetBrains.ReSharper.Psi.Parsing;
 using JetBrains.ReSharper.Psi.Tree;
 
