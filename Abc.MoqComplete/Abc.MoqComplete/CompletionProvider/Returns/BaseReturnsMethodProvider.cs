@@ -15,7 +15,7 @@ using JetBrains.ReSharper.Psi.ExpectedTypes;
 using JetBrains.ReSharper.Psi.Resources;
 using JetBrains.ReSharper.Psi.Tree;
 
-namespace Abc.MoqComplete.CompletionProvider
+namespace Abc.MoqComplete.CompletionProvider.Returns
 {
 	public abstract class BaseReturnsMethodProvider<T> : ItemsProviderOfSpecificContext<CSharpCodeCompletionContext> where T : class, IMethodProvider
 	{

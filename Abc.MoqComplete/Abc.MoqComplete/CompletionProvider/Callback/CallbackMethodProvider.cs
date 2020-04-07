@@ -2,10 +2,10 @@
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
 
-namespace Abc.MoqComplete.CompletionProvider
+namespace Abc.MoqComplete.CompletionProvider.Callback
 {
 	[Language(typeof(CSharpLanguage))]
-	public class AutoMockerCallbackMethodProvider : BaseCallbackMethodProvider<IAutoMockerMockedMethodProvider>
+	public class CallbackMethodProvider : BaseCallbackMethodProvider<IMockedMethodProvider>
 	{
-	}
+    }
 }
