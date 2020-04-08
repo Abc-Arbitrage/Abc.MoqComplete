@@ -63,7 +63,7 @@ namespace Abc.MoqComplete.CompletionProvider.Returns
 
 			var mockedMethod = GetMockedMethodFromSetupMethod(solution, invocation);
 
-			if (mockedMethod == null || mockedMethod.Parameters.Count == 0)
+			if (mockedMethod == null || mockedMethod.Parameters.Count == 0 || mockedMethod.ReturnType.IsVoid())
 			{
 				return false;
 			}
