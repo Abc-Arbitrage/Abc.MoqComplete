@@ -1,0 +1,27 @@
+﻿// ${COMPLETE_ITEM:It.IsAny<decimal>(), It.IsAny<decimal>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<decimal>()}
+using Moq;
+using Moq.AutoMock;
+using NUnit.Framework;
+
+namespace ConsoleApp1.Tests
+{
+    public interface ITestInterface
+    {
+        decimal GetGrossAmountInEuro(decimal price, decimal quantity, int securityId, int currencyId, decimal spotRateInEuro);
+        decimal GetGrossAmountInEuro(string message);
+        decimal GetGrossAmountInEuro(int trade);
+        
+        void Build(int temp);
+    }
+
+	[TestFixture]
+    public class Test1
+    {
+		[Test]
+        public void METHOD()
+        {
+            var mock = new AutoMocker();
+            mock.Setup<ITestInterface>(x=>x.GetGrossAmountInEuro(It.IsAny<decimal>(), It.IsAny<decimal>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<decimal>())){caret}
+        }
+    }
+}

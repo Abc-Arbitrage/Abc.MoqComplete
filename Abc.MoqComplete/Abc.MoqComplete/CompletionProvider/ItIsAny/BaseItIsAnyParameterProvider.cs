@@ -77,19 +77,18 @@ namespace Abc.MoqComplete.CompletionProvider.ItIsAny
 				return true;
 			}
 
-			var mockedMethodResolved = mockedMethodInvocationExpression.Reference.Resolve();
+			var candidates = mockedMethodInvocationExpression.InvocationExpressionReference.GetCandidates();
+			foreach (var candidate in candidates)
+            {
+                var method = candidate.GetDeclaredElement() as IMethod;
+                var substitution = candidate.GetSubstitution();
 
-			var declaredElements = Enumerable.Repeat(mockedMethodResolved.DeclaredElement, 1)
-				.Concat(mockedMethodResolved.Result.Candidates)
-				.Where(x => x != null);
+				if (method == null || method.Parameters.Count <= 1)
+					continue;
 
-			var methods = declaredElements.OfType<IMethod>().Where(x => x.Parameters.Count > 1).ToList();
-
-			foreach (var method in methods)
-			{
-				var parameter = method.Parameters.Select(x => GetItIsAny(x, mockedMethodResolved.Substitution));
-				var proposedCompletion = string.Join(", ", parameter);
-				AddLookup(context, collector, proposedCompletion, isSetup ? 2 : 1);
+                var parameter = method.Parameters.Select(x => GetItIsAny(x, substitution));
+                var proposedCompletion = string.Join(", ", parameter);
+                AddLookup(context, collector, proposedCompletion, isSetup ? 2 : 1);
 			}
 
 			return true;
