@@ -20,6 +20,7 @@ namespace Abc.MoqComplete.CompletionProvider.ItIsAny
 	public abstract class BaseItIsAnyParameterProvider : CSharpItemsProviderBase<CSharpCodeCompletionContext>
 	{
 		protected abstract bool IsSetupMethod(IMoqMethodIdentifier identifier, IInvocationExpression methodInvocation);
+		protected abstract bool IsVerifyMethod(IMoqMethodIdentifier identifier, IInvocationExpression methodInvocation);
 
 		protected override bool IsAvailable(CSharpCodeCompletionContext context)
 		{
@@ -48,7 +49,7 @@ namespace Abc.MoqComplete.CompletionProvider.ItIsAny
 
 			var methodIdentifier = context.BasicContext.Solution.GetComponent<IMoqMethodIdentifier>();
 			var isSetup = IsSetupMethod(methodIdentifier, methodInvocation);
-			var isVerify = methodIdentifier.IsMoqVerifyMethod(methodInvocation);
+            var isVerify = IsVerifyMethod(methodIdentifier, methodInvocation);
 
 			if (!isSetup && !isVerify)
 			{
@@ -91,7 +92,7 @@ namespace Abc.MoqComplete.CompletionProvider.ItIsAny
                 AddLookup(context, collector, proposedCompletion, isSetup ? 2 : 1);
 			}
 
-			return true;
+			return false;
 		}
 
 		private static string GetItIsAny(IParameter x, ISubstitution substitution)

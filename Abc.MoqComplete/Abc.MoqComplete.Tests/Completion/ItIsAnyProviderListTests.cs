@@ -12,6 +12,7 @@ namespace Abc.MoqComplete.Tests.Completion
         protected override string RelativeTestDataPath => "ItIsAnyCompletion";
         
         [TestCase("itIsAnyCompletionList")]
+        [TestCase("itIsAnyVerifyCompletionList")]
         public void should_fill_with_overloads(string src) => DoOneTest(src);
     }
 }

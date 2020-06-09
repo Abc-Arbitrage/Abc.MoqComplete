@@ -12,5 +12,10 @@ namespace Abc.MoqComplete.CompletionProvider.ItIsAny
 		{
 			return identifier.IsAutoMockerSetupMethod(methodInvocation);
 		}
-	}
+
+        protected override bool IsVerifyMethod(IMoqMethodIdentifier identifier, IInvocationExpression methodInvocation)
+        {
+            return false;
+        }
+    }
 }
