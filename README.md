@@ -49,4 +49,4 @@ Suggest the mock variable name
 ![](Media/proposeMockVarName.gif)
 
 ## Installation
-The plugin can be installed using the extension manager from Resharper menu in Visual Vtudio, or using the plugin menu from Rider settings
+The plugin can be installed using the extension manager from Resharper menu in Visual Studio, or using the plugin menu from Rider settings
