@@ -1,0 +1,42 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:         
+  build:
+    runs-on: windows-latest
+    name: Build
+    steps:
+    - uses: actions/checkout@v2
+     
+    - name: Setup
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+     
+    - name: Update rider version from Directory.Build.props
+      run: .\Abc.MoqComplete\Deployment\update_rider_version.ps1
+      shell: powershell
+         
+    - name: Install dependencies
+      run: dotnet restore Abc.MoqComplete\MoqComplete.sln
+    
+    - name: Build
+      run: dotnet build Abc.MoqComplete\MoqComplete.sln --configuration Release --no-restore
+    
+    - name: Test
+      run: dotnet test Abc.MoqComplete\Abc.MoqComplete.Tests\bin\Abc.MoqComplete.Tests\Release\Abc.MoqComplete.Tests.dll --no-restore --verbosity normal
+    
+    - name: Pack
+      run: dotnet pack Abc.MoqComplete\MoqComplete.sln --no-build --no-restore -c Release -o out
+      
+    - name: Fix rider plugin
+      run: .\Abc.MoqComplete\Deployment\build_rider_plugin.ps1 out
+      shell: powershell
+      
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: BuildResult
+        path: out
+    
