@@ -4,6 +4,8 @@
 MoqComplete is a Resharper plugin which provide auto-completion for the Moq framework (and Moq.AutoMock)<br/>
 Works with latest Resharper 2020 and Rider (non EAP)
 
+[<p align="center"><img src="Media/jetbrains.svg"></p>](https://www.jetbrains.com/?from=MoqComplete)
+
 ## Features
 ### It.IsAny completion
 Suggest `It.IsAny()` when setting up mocked method
