@@ -11,8 +11,8 @@ namespace Abc.MoqComplete.Tests.ContextAction
         protected override string RelativeTestDataPath => "ContextAction";
         protected override string ExtraPath => "";
 
-        [TestCase("available_action")]
-        [TestCase("unavailable_action")]
+        [TestCase("fill_with_mock_fields_available_action")]
+        [TestCase("fill_with_mock_fields_unavailable_action")]
         public void should_test_availability(string name)
         {
             DoOneTest(name);
