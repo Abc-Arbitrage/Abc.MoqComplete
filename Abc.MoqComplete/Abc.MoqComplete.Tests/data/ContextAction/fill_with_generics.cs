@@ -4,21 +4,20 @@ using Moq;
 
 namespace ConsoleApp1.Tests
 {
-    public class Test1
+    public interface IGeneric<T>
     {
-        public Test1(Func<ITest, ITest2> test, ITest2 test2)
-        {
 
-        }
-        
+    }
 
-        public interface ITest
+    public interface ITest2
+    {
+    }
+
+    public class Test2
+    {
+        public Test2(IGeneric<int> test, ITest2 test2)
         {
-            void Coco(ITest test, ITest test2, string test3);
-        }
-        public interface ITest2
-        {
-        }
+        }   
     }
 
     [TestFixture]
@@ -28,7 +27,7 @@ namespace ConsoleApp1.Tests
         [Test]
         public void METHOD()
         {
-            var t = new Test1({caret});
+            var t = new Test2({caret});
         }
     }
 }

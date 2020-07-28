@@ -4,35 +4,34 @@ using Moq;
 
 namespace ConsoleApp1.Tests
 {
-    public class Test1
+    public interface IGeneric<T>
     {
-        public Test1(Func<ITest, ITest2> test, ITest2 test2)
-        {
 
-        }
-        
+    }
 
-        public interface ITest
+    public interface ITest2
+    {
+    }
+
+    public class Test2
+    {
+        public Test2(IGeneric<int> test, ITest2 test2)
         {
-            void Coco(ITest test, ITest test2, string test3);
-        }
-        public interface ITest2
-        {
-        }
+        }   
     }
 
     [TestFixture]
     public class TestClass
     {
-      private Mock<Func<ITest, ITest2>> myTest;
+      private Mock<IGeneric<int>> myTest;
       private Mock<ITest2> myTest2;
 
       [Test]
         public void METHOD()
         {
-          myTest = new Mock<Func<ITest, ITest2>>();
+          myTest = new Mock<IGeneric<int>>();
           myTest2 = new Mock<ITest2>();
-          var t = new Test1(myTest.Object, myTest2.Object{caret});
+          var t = new Test2(myTest.Object, myTest2.Object{caret});
         }
     }
 }

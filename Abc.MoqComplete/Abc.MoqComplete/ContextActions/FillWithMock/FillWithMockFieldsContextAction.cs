@@ -53,7 +53,10 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
                 return false;
 
             var parameterCount = _selectedElement.ArgumentList?.Arguments.Count(x => x.Kind != ParameterKind.UNKNOWN);
-            _constructor = c.Constructors.ToArray().FirstOrDefault(x => !x.IsParameterless && x.Parameters.Count > parameterCount);
+            _constructor = c.Constructors.ToArray().FirstOrDefault(x => !x.IsParameterless 
+                                                                        && x.Parameters.Count > parameterCount
+                                                                        && x.Parameters.All(p => p.Type.GetScalarType()?.Resolve().DeclaredElement is IModifiersOwner modif 
+                                                                                                 && modif.IsAbstract));
             if (_constructor == null)
                 return false;
 
