@@ -1,5 +1,4 @@
-﻿using Abc.MoqComplete.CodeAnalysis;
-using JetBrains.ReSharper.FeaturesTestFramework.Daemon;
+﻿using JetBrains.ReSharper.FeaturesTestFramework.Daemon;
 using JetBrains.ReSharper.TestFramework;
 using NUnit.Framework;
 

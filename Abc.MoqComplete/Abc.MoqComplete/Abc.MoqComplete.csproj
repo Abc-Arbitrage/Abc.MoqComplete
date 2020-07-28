@@ -20,7 +20,4 @@
   </ItemGroup>
  <ItemGroup>
  </ItemGroup>
- <ItemGroup>
-   <Folder Include="ContextActions\Services\" />
- </ItemGroup>
 </Project>

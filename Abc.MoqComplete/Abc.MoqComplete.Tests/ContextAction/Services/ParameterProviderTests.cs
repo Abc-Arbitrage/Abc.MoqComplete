@@ -7,12 +7,12 @@ namespace Abc.MoqComplete.Tests.ContextAction.Services
     [TestFixture]
     public class ParameterProviderTests
     {
-        private ParameterProvider _provider;
+        private CsharpMemberProvider _provider;
 
         [SetUp]
         public void SetUp()
         {
-            _provider = new ParameterProvider();
+            _provider = new CsharpMemberProvider();
         }
 
         [Test]
@@ -22,7 +22,7 @@ namespace Abc.MoqComplete.Tests.ContextAction.Services
                 "CSharpConstructor:CurrencyChoiceHasSignificantSpreadRequirement(Func<CurrencyChoiceCorpAction,IValueWithSource>,ICurrencyAmountConverter,ICorporateActionRepository)";
             var expected = new[] { "Func<CurrencyChoiceCorpAction,IValueWithSource>", "ICurrencyAmountConverter", "ICorporateActionRepository" };
 
-            var parameters = _provider.GetParameters(constructorString).ToArray();
+            var parameters = _provider.GetConstructorParameters(constructorString).ToArray();
 
             Assert.That(parameters, Is.EquivalentTo(expected));
         }
@@ -34,7 +34,7 @@ namespace Abc.MoqComplete.Tests.ContextAction.Services
                 "CSharpConstructor:TestConstructor(ICurrencyAmountConverter,ICorporateActionRepository)";
             var expected = new[] { "ICurrencyAmountConverter", "ICorporateActionRepository" };
 
-            var parameters = _provider.GetParameters(constructorString).ToArray();
+            var parameters = _provider.GetConstructorParameters(constructorString).ToArray();
 
             Assert.That(parameters, Is.EquivalentTo(expected));
         }

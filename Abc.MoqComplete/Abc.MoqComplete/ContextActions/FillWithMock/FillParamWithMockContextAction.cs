@@ -1,4 +1,6 @@
-﻿using Abc.MoqComplete.ContextActions.Services;
+﻿using System;
+using System.Linq;
+using Abc.MoqComplete.ContextActions.Services;
 using Abc.MoqComplete.Services;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
@@ -9,15 +11,12 @@ using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Naming.Extentions;
 using JetBrains.ReSharper.Psi.Naming.Impl;
 using JetBrains.ReSharper.Psi.Naming.Settings;
-using JetBrains.TextControl;
-using JetBrains.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using JetBrains.ReSharper.Psi.Parsing;
 using JetBrains.ReSharper.Psi.Tree;
+using JetBrains.TextControl;
+using JetBrains.Util;
 
-namespace Abc.MoqComplete.ContextActions
+namespace Abc.MoqComplete.ContextActions.FillWithMock
 {
     [ContextAction(Group = "C#", Name = "Fill parameter with Mock", Description = "Fills the current parameter with mock", Priority = short.MinValue + 1)]
     public class FillParamWithMockContextAction : ContextActionBase
@@ -28,7 +27,7 @@ namespace Abc.MoqComplete.ContextActions
         private IClassBody _classBody;
         private IBlock _block;
         private IConstructor _constructor;
-        private IParameterProvider _parameterProvider;
+        private ICsharpMemberProvider _csharpMemberProvider;
 
         public FillParamWithMockContextAction(ICSharpContextActionDataProvider dataProvider)
         {
@@ -42,7 +41,7 @@ namespace Abc.MoqComplete.ContextActions
             if (!testProjectProvider.IsTestProject(_dataProvider.PsiModule))
                 return false;
 
-            _parameterProvider = ComponentResolver.GetComponent<IParameterProvider>(_dataProvider);
+            _csharpMemberProvider = ComponentResolver.GetComponent<ICsharpMemberProvider>(_dataProvider);
             _selectedElement = _dataProvider.GetSelectedElement<IObjectCreationExpression>(false, false);
             _block = _dataProvider.GetSelectedElement<IBlock>();
             _classBody = _dataProvider.GetSelectedElement<IClassBody>();
@@ -54,7 +53,7 @@ namespace Abc.MoqComplete.ContextActions
             if (!(_selectedElement.TypeReference?.Resolve().DeclaredElement is IClass c))
                 return false;
 
-            var parameterCount = _selectedElement.ArgumentList.Arguments.Count(x => x.Kind != ParameterKind.UNKNOWN);
+            var parameterCount = _selectedElement.ArgumentList?.Arguments.Count(x => x.Kind != ParameterKind.UNKNOWN);
             _constructor = c.Constructors.ToArray().FirstOrDefault(x => !x.IsParameterless && x.Parameters.Count > parameterCount);
             if (_constructor == null)
                 return false;
@@ -85,12 +84,12 @@ namespace Abc.MoqComplete.ContextActions
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
             var argumentList = _selectedElement.ArgumentList;
-            var parameters = _parameterProvider.GetParameters(_constructor.ToString()).ToArray();
-            var mockFieldsByType = GetFields(_classBody);
+            var parameters = _csharpMemberProvider.GetConstructorParameters(_constructor.ToString()).ToArray();
+            var mockFieldsByType = _csharpMemberProvider.GetClassFields(_classBody, _selectedElement.Language);
             var parameterNumber = GetCurrentParameterNumber();
             var shortName = _constructor.Parameters[parameterNumber].ShortName;
             var currentParam = parameters[parameterNumber];
-            var typeString = GetGenericMock(currentParam);
+            var typeString = _csharpMemberProvider.GetGenericMock(currentParam);
 
             if (!mockFieldsByType.TryGetValue(typeString, out var name))
             {
@@ -148,27 +147,6 @@ namespace Abc.MoqComplete.ContextActions
                 parameterNumber++;
 
             return parameterNumber;
-        }
-
-        private static string GetGenericMock(string typeStr) => $"Moq.Mock<{typeStr}>";
-
-        private Dictionary<string, string> GetFields(IClassBody classBody)
-        {
-            var dic = new Dictionary<string, string>();
-            var fields = classBody.FieldDeclarations.Select(x => x.TypeUsage.FirstChild as IReferenceName).Where(x => x != null && x.ShortName == "Mock").ToArray();
-
-            foreach (var referenceName in fields)
-            {
-                var types = referenceName.TypeArguments.Select(x => x.GetPresentableName(_selectedElement.Language, DeclaredElementPresenterTextStyles.Empty).Text);
-                var strType = string.Join(",", types);
-                var mockType = GetGenericMock(strType);
-                var field = (IFieldDeclaration)referenceName.Parent.NextSibling.NextSibling;
-
-                if (!dic.ContainsKey(mockType))
-                    dic.Add(mockType, field.DeclaredName);
-            }
-
-            return dic;
         }
 
         public override string Text => "Fill current parameter with Mock";

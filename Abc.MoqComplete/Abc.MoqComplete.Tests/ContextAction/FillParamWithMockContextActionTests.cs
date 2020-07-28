@@ -1,4 +1,4 @@
-﻿using Abc.MoqComplete.ContextActions;
+﻿using Abc.MoqComplete.ContextActions.FillWithMock;
 using JetBrains.ReSharper.FeaturesTestFramework.Intentions;
 using JetBrains.ReSharper.TestFramework;
 using NUnit.Framework;

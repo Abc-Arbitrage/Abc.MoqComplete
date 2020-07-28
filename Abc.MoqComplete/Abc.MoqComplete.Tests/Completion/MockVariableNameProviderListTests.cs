@@ -1,5 +1,4 @@
-﻿using Abc.MoqComplete.CompletionProvider;
-using JetBrains.ReSharper.FeaturesTestFramework.Completion;
+﻿using JetBrains.ReSharper.FeaturesTestFramework.Completion;
 using JetBrains.ReSharper.TestFramework;
 using NUnit.Framework;
 
