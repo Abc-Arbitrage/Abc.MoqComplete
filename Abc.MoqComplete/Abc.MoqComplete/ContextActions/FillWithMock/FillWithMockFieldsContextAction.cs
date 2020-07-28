@@ -32,6 +32,8 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
         [NotNull]
         public static readonly InvisibleAnchor Anchor = new InvisibleAnchor(_anchor);
 
+        private IConstructor _constructor;
+
         public FillWithMockFieldsContextAction(ICSharpContextActionDataProvider dataProvider)
         {
             _dataProvider = dataProvider;
@@ -47,6 +49,13 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
             var testProjectProvider = ComponentResolver.GetComponent<ITestProjectProvider>(_dataProvider);
             _selectedElement = _dataProvider.GetSelectedElement<IObjectCreationExpression>(false, false);
             _csharpMemberProvider = ComponentResolver.GetComponent<ICsharpMemberProvider>(_dataProvider);
+            if (!(_selectedElement?.TypeReference?.Resolve().DeclaredElement is IClass c))
+                return false;
+
+            var parameterCount = _selectedElement.ArgumentList?.Arguments.Count(x => x.Kind != ParameterKind.UNKNOWN);
+            _constructor = c.Constructors.ToArray().FirstOrDefault(x => !x.IsParameterless && x.Parameters.Count > parameterCount);
+            if (_constructor == null)
+                return false;
 
             var isAvailable = testProjectProvider.IsTestProject(_dataProvider.PsiModule) && _selectedElement != null && _selectedElement.Arguments.Count == 0;
             if (isAvailable)
@@ -63,21 +72,14 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
 
             if (classDeclaration == null || block == null)
                 return null;
-
-            if (!(_selectedElement.TypeReference.Resolve()?.DeclaredElement is IClass c))
-                return null;
-
-            var constructor = c.Constructors.OrderByDescending(x => x.Parameters.Count).FirstOrDefault(x => !x.IsParameterless);
-            if (constructor == null)
-                return null;
-
-            var parameters = _csharpMemberProvider.GetConstructorParameters(constructor.ToString()).ToArray();
+            
+            var parameters = _csharpMemberProvider.GetConstructorParameters(_constructor.ToString()).ToArray();
             var naming = _dataProvider.PsiServices.Naming;
             var mockFieldsByType = _csharpMemberProvider.GetClassFields(classBody, _selectedElement.Language);
 
-            for (int i = 0; i < constructor.Parameters.Count; i++)
+            for (int i = 0; i < _constructor.Parameters.Count; i++)
             {
-                var shortName = constructor.Parameters[i].ShortName;
+                var shortName = _constructor.Parameters[i].ShortName;
                 var typeString = _csharpMemberProvider.GetGenericMock(parameters[i]);
                 
                 if (!mockFieldsByType.TryGetValue(typeString, out var name))
