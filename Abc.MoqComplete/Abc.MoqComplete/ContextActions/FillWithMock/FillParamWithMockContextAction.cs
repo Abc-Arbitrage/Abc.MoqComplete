@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Abc.MoqComplete.ContextActions.Services;
 using Abc.MoqComplete.Services;
+using JetBrains.Annotations;
 using JetBrains.Application.Progress;
+using JetBrains.Application.UI.Controls.BulbMenu.Anchors;
 using JetBrains.ProjectModel;
+using JetBrains.ReSharper.Feature.Services.Bulbs;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
 using JetBrains.ReSharper.Feature.Services.CSharp.Analyses.Bulbs;
+using JetBrains.ReSharper.Feature.Services.Intentions;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Naming.Extentions;
@@ -28,10 +33,19 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
         private IBlock _block;
         private IConstructor _constructor;
         private ICsharpMemberProvider _csharpMemberProvider;
+        [NotNull]
+        private static readonly IAnchor _anchor = new SubmenuAnchor(IntentionsAnchors.ContextActionsAnchor, SubmenuBehavior.Executable);
+        [NotNull]
+        public static readonly InvisibleAnchor Anchor = new InvisibleAnchor(_anchor);
 
         public FillParamWithMockContextAction(ICSharpContextActionDataProvider dataProvider)
         {
             _dataProvider = dataProvider;
+        }
+
+        public override IEnumerable<IntentionAction> CreateBulbItems()
+        {
+            return this.ToContextActionIntentions(Anchor);
         }
 
         public override bool IsAvailable(IUserDataHolder cache)
@@ -72,21 +86,26 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
             if (previousTokenType == null || nextTokenType == null)
                 return false;
 
+            var isAvailable = false;
             if (previousTokenType.TokenRepresentation == "(")
-                return nextTokenType.TokenRepresentation == ")" || nextTokenType.TokenRepresentation == ",";
+                isAvailable = nextTokenType.TokenRepresentation == ")" || nextTokenType.TokenRepresentation == ",";
 
-            if (previousTokenType.TokenRepresentation == ",")
-                return !nextTokenType.IsIdentifier;
+            else if (previousTokenType.TokenRepresentation == ",")
+                isAvailable = !nextTokenType.IsIdentifier;
 
-            return false;
+            if (isAvailable)
+                cache.PutKey(AnchorKey.FillParamWithMockContextActionKey);
+
+            return isAvailable;
         }
 
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
             var argumentList = _selectedElement.ArgumentList;
+            var parameterProvider = ComponentResolver.GetComponent<ICsharpParameterProvider>(_dataProvider);
             var parameters = _csharpMemberProvider.GetConstructorParameters(_constructor.ToString()).ToArray();
             var mockFieldsByType = _csharpMemberProvider.GetClassFields(_classBody, _selectedElement.Language);
-            var parameterNumber = GetCurrentParameterNumber();
+            var parameterNumber = parameterProvider.GetCurrentParameterNumber(_selectedElement, _dataProvider);
             var shortName = _constructor.Parameters[parameterNumber].ShortName;
             var currentParam = parameters[parameterNumber];
             var typeString = _csharpMemberProvider.GetGenericMock(currentParam);
@@ -104,49 +123,7 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
                 _block.AddStatementBefore(statement, _selectedElement.GetContainingStatement());
             }
 
-            var argument = _dataProvider.ElementFactory.CreateArgument(ParameterKind.VALUE, _dataProvider.ElementFactory.CreateExpression($"{name}.Object"));
-            ICSharpArgument arg;
-            var shouldRemoveEndComma = true;
-
-            if (argumentList.Arguments.Count <= 1)
-                arg = _selectedElement.AddArgumentAfter(argument, null);
-            else if (parameterNumber != 0)
-                arg = _selectedElement.AddArgumentAfter(argument, argumentList.Arguments[parameterNumber - 1]);
-            else
-            {
-                arg = _selectedElement.AddArgumentBefore(argument, argumentList.Arguments[1]);
-                shouldRemoveEndComma = false;
-            }
-
-            var argumentRange = arg.GetDocumentRange();
-
-            // Remove last comma Hack!
-            return textControl =>
-            {
-                TextRange range;
-                
-                if (shouldRemoveEndComma)
-                    range = new TextRange(argumentRange.EndOffset.Offset, argumentRange.EndOffset.Offset + 1);
-                else
-                    range = new TextRange(argumentRange.StartOffset.Offset - 2, argumentRange.StartOffset.Offset);
-
-                var text = textControl.Document.GetText(range);
-                
-                if (text.Contains(","))
-                    textControl.Document.DeleteText(range);
-            };
-        }
-
-        private int GetCurrentParameterNumber()
-        {
-            var delimiterPositions = _selectedElement.Delimiters.Select(x => x.GetNavigationRange().StartOffset.Offset).ToArray();
-            var currentPosition = _dataProvider.DocumentSelection.StartOffset.Offset;
-
-            var parameterNumber = 0;
-            while (parameterNumber < delimiterPositions.Length && currentPosition > delimiterPositions[parameterNumber])
-                parameterNumber++;
-
-            return parameterNumber;
+            return parameterProvider.FillCurrentParameterWithMock(name, argumentList, _selectedElement, parameterNumber, _dataProvider);
         }
 
         public override string Text => "Fill current parameter with Mock";

@@ -27,20 +27,19 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
         private readonly ICSharpContextActionDataProvider _dataProvider;
         private IObjectCreationExpression _selectedElement;
         private ICsharpMemberProvider _csharpMemberProvider;
-
         [NotNull]
         private static readonly IAnchor _anchor = new SubmenuAnchor(IntentionsAnchors.ContextActionsAnchor, SubmenuBehavior.Executable);
         [NotNull]
         public static readonly InvisibleAnchor Anchor = new InvisibleAnchor(_anchor);
 
-        public override IEnumerable<IntentionAction> CreateBulbItems()
-        {
-            return this.ToContextActionIntentions(Anchor);
-        }
-
         public FillWithMockFieldsContextAction(ICSharpContextActionDataProvider dataProvider)
         {
             _dataProvider = dataProvider;
+        }
+
+        public override IEnumerable<IntentionAction> CreateBulbItems()
+        {
+            return this.ToContextActionIntentions(Anchor);
         }
 
         public override bool IsAvailable(IUserDataHolder cache)
