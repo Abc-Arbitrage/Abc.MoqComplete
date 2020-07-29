@@ -44,14 +44,13 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
             var csharpMemberProvider = ComponentResolver.GetComponent<ICsharpMemberProvider>(_dataProvider);
-            var parameterProvider = ComponentResolver.GetComponent<ICsharpParameterProvider>(_dataProvider);
             var selectedElement = _dataProvider.GetSelectedElement<IObjectCreationExpression>(false, false);
             var argumentList = selectedElement.ArgumentList;
             var @class = (IClass)selectedElement.TypeReference?.Resolve().DeclaredElement;
             var parameterCount = selectedElement.ArgumentList?.Arguments.Count(x => x.Kind != ParameterKind.UNKNOWN);
             var constructor = @class.Constructors.ToArray().FirstOrDefault(x => !x.IsParameterless && x.Parameters.Count > parameterCount);
             var parameters = csharpMemberProvider.GetConstructorParameters(constructor.ToString()).ToArray();
-            var parameterNumber = parameterProvider.GetCurrentParameterNumber(selectedElement, _dataProvider);
+            var parameterNumber = csharpMemberProvider.GetCurrentParameterNumber(selectedElement, _dataProvider);
             var shortName = constructor.Parameters[parameterNumber].ShortName;
             var currentParam = parameters[parameterNumber];
             var block = _dataProvider.GetSelectedElement<IBlock>();
@@ -59,7 +58,7 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
             
             block.AddStatementBefore(localVariableStatement, selectedElement.GetContainingStatement());
 
-            return parameterProvider.FillCurrentParameterWithMock(shortName, argumentList, selectedElement, parameterNumber, _dataProvider);
+            return csharpMemberProvider.FillCurrentParameterWithMock(shortName, argumentList, selectedElement, parameterNumber, _dataProvider);
         }
     }
 }

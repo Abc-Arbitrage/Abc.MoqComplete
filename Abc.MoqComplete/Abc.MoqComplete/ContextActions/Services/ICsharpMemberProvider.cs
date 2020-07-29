@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using JetBrains.ReSharper.Feature.Services.CSharp.Analyses.Bulbs;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
+using JetBrains.TextControl;
 
 namespace Abc.MoqComplete.ContextActions.Services
 {
@@ -10,5 +13,11 @@ namespace Abc.MoqComplete.ContextActions.Services
         Dictionary<string, string> GetClassFields(IClassBody classBody, PsiLanguageType languageType);
         string GetGenericMock(string typeStr);
         bool IsAbstractOrInterface(IParameter parameter);
+        int GetCurrentParameterNumber(IObjectCreationExpression selectedElement, ICSharpContextActionDataProvider dataProvider);
+        Action<ITextControl> FillCurrentParameterWithMock(string shortName,
+                                                          IArgumentList argumentList,
+                                                          IObjectCreationExpression selectedElement,
+                                                          int parameterNumber,
+                                                          ICSharpContextActionDataProvider dataProvider);
     }
 }

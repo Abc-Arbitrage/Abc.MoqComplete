@@ -33,7 +33,6 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
         private IBlock _block;
         private IConstructor _constructor;
         private ICsharpMemberProvider _csharpMemberProvider;
-        private ICsharpParameterProvider _parameterProvider;
         [NotNull]
         private static readonly IAnchor _anchor = new SubmenuAnchor(IntentionsAnchors.ContextActionsAnchor, SubmenuBehavior.Executable);
         [NotNull]
@@ -57,7 +56,6 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
             if (!testProjectProvider.IsTestProject(_dataProvider.PsiModule))
                 return false;
 
-            _parameterProvider = ComponentResolver.GetComponent<ICsharpParameterProvider>(_dataProvider);
             _csharpMemberProvider = ComponentResolver.GetComponent<ICsharpMemberProvider>(_dataProvider);
             _selectedElement = _dataProvider.GetSelectedElement<IObjectCreationExpression>(false, false);
             _block = _dataProvider.GetSelectedElement<IBlock>();
@@ -99,7 +97,7 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
             if (!isAvailable)
                 return false;
 
-            _parameterNumber = _parameterProvider.GetCurrentParameterNumber(_selectedElement, _dataProvider);
+            _parameterNumber = _csharpMemberProvider.GetCurrentParameterNumber(_selectedElement, _dataProvider);
             var parameter = _constructor.Parameters[_parameterNumber];
 
             if (!_csharpMemberProvider.IsAbstractOrInterface(parameter))
@@ -132,7 +130,7 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
                 _block.AddStatementBefore(statement, _selectedElement.GetContainingStatement());
             }
 
-            return _parameterProvider.FillCurrentParameterWithMock(name, argumentList, _selectedElement, _parameterNumber, _dataProvider);
+            return _csharpMemberProvider.FillCurrentParameterWithMock(name, argumentList, _selectedElement, _parameterNumber, _dataProvider);
         }
 
         public override string Text => "Fill current parameter with Mock";
