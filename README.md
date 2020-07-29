@@ -41,7 +41,7 @@ Or new `Mock` in constructor
 ![](Media/MockProposalCompletion.gif)
 
 ### Fill with Mock
-Fill an object with `Mock` objects
+Fill an object with `Mock` objects (using fields or local variables)
 
 ![](Media/fillWithMock.gif)
 
