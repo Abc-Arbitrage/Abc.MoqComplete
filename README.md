@@ -21,15 +21,15 @@ Suggest full `Callback<...>` method
 
 ![](Media/CallbackCompletion.gif)
 
+### Returns Completion
+Suggest full `Returns<...>` method
+
+![](Media/ReturnsCompletion.gif)
+
 ### Suspicious Callback Detection
 Detect suspicious `Callback`
 
 ![](Media/SuspiciousCallback.gif)
-
-### Returns Completion
-Suggest full `Returns` method
-
-![](Media/ReturnsCompletion.gif)
 
 ### Mock suggestion
 Suggest existing `mock.Object`
