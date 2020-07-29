@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Abc.MoqComplete.ContextActions.Services;
+﻿using Abc.MoqComplete.ContextActions.Services;
 using Abc.MoqComplete.Services;
 using JetBrains.Annotations;
 using JetBrains.Application.Progress;
@@ -18,6 +15,9 @@ using JetBrains.ReSharper.Psi.Naming.Impl;
 using JetBrains.ReSharper.Psi.Naming.Settings;
 using JetBrains.TextControl;
 using JetBrains.Util;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Abc.MoqComplete.ContextActions.FillWithMock
 {
@@ -53,10 +53,9 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
                 return false;
 
             var parameterCount = _selectedElement.ArgumentList?.Arguments.Count(x => x.Kind != ParameterKind.UNKNOWN);
-            _constructor = c.Constructors.ToArray().FirstOrDefault(x => !x.IsParameterless 
-                                                                        && x.Parameters.Count > parameterCount
-                                                                        && x.Parameters.All(p => p.Type.GetScalarType()?.Resolve().DeclaredElement is IModifiersOwner modif 
-                                                                                                 && modif.IsAbstract));
+            _constructor = c.Constructors.FirstOrDefault(x => !x.IsParameterless
+                                                            && x.Parameters.Count > parameterCount
+                                                            && x.Parameters.All(_csharpMemberProvider.IsAbstractOrInterface));
             if (_constructor == null)
                 return false;
 
@@ -75,7 +74,7 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
 
             if (classDeclaration == null || block == null)
                 return null;
-            
+
             var parameters = _csharpMemberProvider.GetConstructorParameters(_constructor.ToString()).ToArray();
             var naming = _dataProvider.PsiServices.Naming;
             var mockFieldsByType = _csharpMemberProvider.GetClassFields(classBody, _selectedElement.Language);
@@ -84,7 +83,7 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
             {
                 var shortName = _constructor.Parameters[i].ShortName;
                 var typeString = _csharpMemberProvider.GetGenericMock(parameters[i]);
-                
+
                 if (!mockFieldsByType.TryGetValue(typeString, out var name))
                 {
                     var mockType = TypeFactory.CreateTypeByCLRName(typeString, _dataProvider.PsiModule);

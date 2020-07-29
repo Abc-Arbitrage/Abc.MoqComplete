@@ -33,10 +33,12 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
         private IBlock _block;
         private IConstructor _constructor;
         private ICsharpMemberProvider _csharpMemberProvider;
+        private ICsharpParameterProvider _parameterProvider;
         [NotNull]
         private static readonly IAnchor _anchor = new SubmenuAnchor(IntentionsAnchors.ContextActionsAnchor, SubmenuBehavior.Executable);
         [NotNull]
         public static readonly InvisibleAnchor Anchor = new InvisibleAnchor(_anchor);
+        private int _parameterNumber;
 
         public FillParamWithMockContextAction(ICSharpContextActionDataProvider dataProvider)
         {
@@ -55,6 +57,7 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
             if (!testProjectProvider.IsTestProject(_dataProvider.PsiModule))
                 return false;
 
+            _parameterProvider = ComponentResolver.GetComponent<ICsharpParameterProvider>(_dataProvider);
             _csharpMemberProvider = ComponentResolver.GetComponent<ICsharpMemberProvider>(_dataProvider);
             _selectedElement = _dataProvider.GetSelectedElement<IObjectCreationExpression>(false, false);
             _block = _dataProvider.GetSelectedElement<IBlock>();
@@ -93,21 +96,27 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
             else if (previousTokenType.TokenRepresentation == ",")
                 isAvailable = !nextTokenType.IsIdentifier;
 
-            if (isAvailable)
-                cache.PutKey(AnchorKey.FillParamWithMockContextActionKey);
+            if (!isAvailable)
+                return false;
 
-            return isAvailable;
+            _parameterNumber = _parameterProvider.GetCurrentParameterNumber(_selectedElement, _dataProvider);
+            var parameter = _constructor.Parameters[_parameterNumber];
+
+            if (!_csharpMemberProvider.IsAbstractOrInterface(parameter))
+                return false;
+
+            cache.PutKey(AnchorKey.FillParamWithMockContextActionKey);
+
+            return true;
         }
 
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
             var argumentList = _selectedElement.ArgumentList;
-            var parameterProvider = ComponentResolver.GetComponent<ICsharpParameterProvider>(_dataProvider);
             var parameters = _csharpMemberProvider.GetConstructorParameters(_constructor.ToString()).ToArray();
             var mockFieldsByType = _csharpMemberProvider.GetClassFields(_classBody, _selectedElement.Language);
-            var parameterNumber = parameterProvider.GetCurrentParameterNumber(_selectedElement, _dataProvider);
-            var shortName = _constructor.Parameters[parameterNumber].ShortName;
-            var currentParam = parameters[parameterNumber];
+            var shortName = _constructor.Parameters[_parameterNumber].ShortName;
+            var currentParam = parameters[_parameterNumber];
             var typeString = _csharpMemberProvider.GetGenericMock(currentParam);
 
             if (!mockFieldsByType.TryGetValue(typeString, out var name))
@@ -123,7 +132,7 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
                 _block.AddStatementBefore(statement, _selectedElement.GetContainingStatement());
             }
 
-            return parameterProvider.FillCurrentParameterWithMock(name, argumentList, _selectedElement, parameterNumber, _dataProvider);
+            return _parameterProvider.FillCurrentParameterWithMock(name, argumentList, _selectedElement, _parameterNumber, _dataProvider);
         }
 
         public override string Text => "Fill current parameter with Mock";

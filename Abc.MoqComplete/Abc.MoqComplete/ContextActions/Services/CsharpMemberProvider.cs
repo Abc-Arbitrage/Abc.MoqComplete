@@ -62,5 +62,10 @@ namespace Abc.MoqComplete.ContextActions.Services
         {
             return $"Moq.Mock<{typeStr}>";
         }
+
+        public bool IsAbstractOrInterface(IParameter parameter)
+        {
+            return parameter.Type.GetScalarType()?.Resolve().DeclaredElement is IModifiersOwner modif && modif.IsAbstract;
+        }
     }
 }

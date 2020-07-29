@@ -9,5 +9,6 @@ namespace Abc.MoqComplete.ContextActions.Services
         IEnumerable<string> GetConstructorParameters(string constructorString);
         Dictionary<string, string> GetClassFields(IClassBody classBody, PsiLanguageType languageType);
         string GetGenericMock(string typeStr);
+        bool IsAbstractOrInterface(IParameter parameter);
     }
 }

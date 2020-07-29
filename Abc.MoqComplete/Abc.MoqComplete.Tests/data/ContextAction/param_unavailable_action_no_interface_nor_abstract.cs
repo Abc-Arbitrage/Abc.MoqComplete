@@ -14,7 +14,7 @@ namespace ConsoleApp1.Tests
         {
 
         }
-        public Test1(ITest test, ITest2 test2, ITest3 test3)
+        public Test1(ITest test, ITest2 test2, int test3)
         {
 
         }
@@ -25,9 +25,6 @@ namespace ConsoleApp1.Tests
         void Coco(ITest test, ITest test2, int test3);
     }
     public interface ITest2
-    {
-    }
-    public interface ITest3
     {
     }
 
@@ -42,7 +39,7 @@ namespace ConsoleApp1.Tests
         {
             myTest = new Mock<ITest>();
             myTest2 = new Mock<ITest2>();
-            var t = new Test1(myTest.Object{off}, myTest2.Object{off},{on});
+            var t = new Test1(myTest.Object{off}, myTest2.Object{off},{off});
         }
     }
 }
