@@ -3,7 +3,7 @@ using JetBrains.ReSharper.Feature.Services.Daemon;
 
 namespace Abc.MoqComplete.CodeAnalysis
 {
-    [StaticSeverityHighlighting(Severity.WARNING, HighlightingGroupIds.GutterMarksGroup)]
+    [StaticSeverityHighlighting(Severity.WARNING, typeof(HighlightingGroupIds.GutterMarks))]
 	public class SuspiciousCallbackWarning : IHighlighting
 	{
 		private readonly DocumentRange _documentRange;
