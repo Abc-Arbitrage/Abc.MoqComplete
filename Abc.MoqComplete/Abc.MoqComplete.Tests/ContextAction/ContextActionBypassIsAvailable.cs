@@ -19,11 +19,14 @@ namespace Abc.MoqComplete.Tests.ContextAction
     public abstract class ContextActionBypassIsAvailable<TAction> : ContextActionExecuteTestBase<TAction>
         where TAction : ContextActionBase
     {
-        protected override void ProcessAction(Lifetime lifetime, Func<ITextControl, TAction> actionCreator, IProject project)
+        protected override void ProcessAction(Lifetime lifetime, Func<ITextControl, TAction> actionCreator,
+            IProject project)
         {
             var solution = project.GetSolution();
             var documentManager = solution.GetComponent<DocumentManager>();
-            var caretPosition = GetCaretPosition() ?? CaretPositionsProcessor.PositionNames.SelectMany(_ => CaretPositionsProcessor.Positions(_) as IEnumerable<CaretPosition>).First("Caret position is not set. Please add {caret} or {selstart} to a test file.");
+            var caretPosition = GetCaretPosition() ?? CaretPositionsProcessor.PositionNames
+                .SelectMany(_ => CaretPositionsProcessor.Positions(_) as IEnumerable<CaretPosition>)
+                .First("Caret position is not set. Please add {caret} or {selstart} to a test file.");
             var textControl = OpenTextControl(lifetime, project, caretPosition);
             var name = InitTextControl(textControl);
             var contextAction = actionCreator(textControl);
@@ -54,9 +57,10 @@ namespace Abc.MoqComplete.Tests.ContextAction
                             while (!currentSession.HotspotSession.IsFinished)
                             {
                                 ProcessHotspot(textControl, currentSession.HotspotSession.CurrentHotspot.NotNull());
-                                currentSession.HotspotSession.GoToNextHotspot();
+                                currentSession.HotspotSession.GoToNextHotspotSync();
                             }
                         }
+
                         var projectFile = documentManager.TryGetProjectFile(document);
                         if (projectFile == null)
                         {
@@ -68,7 +72,8 @@ namespace Abc.MoqComplete.Tests.ContextAction
                             WriteCodeBehind(document, sw);
                             if (LanguageForDumpRanges == null)
                                 return;
-                            DumpRanges(projectFile.ToSourceFile().NotNull(), sw, false, LanguageForDumpRanges.GetType());
+                            DumpRanges(projectFile.ToSourceFile().NotNull(), sw, false,
+                                LanguageForDumpRanges.GetType());
                         }
                     }
                 }
@@ -77,7 +82,9 @@ namespace Abc.MoqComplete.Tests.ContextAction
             foreach (var allProjectFile in project.GetAllProjectFiles())
             {
                 var projectFile = allProjectFile;
-                if (!(projectFile.Location == caretPosition.FileName) && !Enumerable.Contains(CaretPositionsProcessor.SkipExtensions, projectFile.Location.ExtensionWithDot, StringComparer.OrdinalIgnoreCase))
+                if (!(projectFile.Location == caretPosition.FileName) && !Enumerable.Contains(
+                    CaretPositionsProcessor.SkipExtensions, projectFile.Location.ExtensionWithDot,
+                    StringComparer.OrdinalIgnoreCase))
                     ExecuteWithGold(projectFile, sw =>
                     {
                         var document = documentManager.GetOrCreateDocument(projectFile);
