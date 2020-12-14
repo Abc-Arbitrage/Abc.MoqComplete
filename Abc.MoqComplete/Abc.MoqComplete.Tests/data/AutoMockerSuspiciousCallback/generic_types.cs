@@ -15,7 +15,7 @@ namespace ConsoleApp1.Tests
         {
             var _mocker = new AutoMocker();
             var i = 0;
-            _mocker.Setup<ITestInterface>(x => x.Do(It.IsAny<int>())).Callback<int>(item => i++);
+            _mocker.Setup<ITestInterface>(x => x.Do(It.IsAny<int>())).Callback<int>(_ => i++);
             Console.WriteLine(i);
         }
     }

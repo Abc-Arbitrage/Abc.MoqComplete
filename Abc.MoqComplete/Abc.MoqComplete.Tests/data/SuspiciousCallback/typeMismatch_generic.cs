@@ -19,7 +19,7 @@ namespace ConsoleApp1.Tests
         {
             var temp = new Mock<ITestInterface>();
             var i = 0;
-            temp.Setup(x => x.Do(It.IsAny<TheClass>())).Callback<int>(item => i++);
+            temp.Setup(x => x.Do(It.IsAny<TheClass>())).Callback<int>(_ => i++);
             Console.WriteLine(i);
         }
     }

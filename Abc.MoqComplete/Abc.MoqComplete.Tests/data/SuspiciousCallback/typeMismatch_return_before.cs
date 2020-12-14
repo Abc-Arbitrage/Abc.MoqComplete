@@ -16,7 +16,7 @@ namespace ConsoleApp1.Tests
             var count = 0;
             mock.Setup(x => x.BuildSomething(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<bool>()))
                 .Returns(0)
-                .Callback<int, string, string>((i, s, arg3) => count += i);
+                .Callback<int, string, string>((i, _, _) => count += i);
             Console.WriteLine(count);
         }
     }

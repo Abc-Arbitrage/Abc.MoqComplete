@@ -26,7 +26,7 @@ namespace ConsoleApp1.Tests
         {
             var test2 = new Test2();
             var _mocker = new AutoMocker();
-            _mocker.Setup<ITest>(x => x.Do(It.IsAny<ITest>(), test2, It.IsAny<string>())).Callback<ITest, ITest2, string>((test, ptest2, test3 ) => ptest2.Temp());
+            _mocker.Setup<ITest>(x => x.Do(It.IsAny<ITest>(), test2, It.IsAny<string>())).Callback<ITest, ITest2, string>((_, ptest2, _) => ptest2.Temp());
         }
     }
 }
