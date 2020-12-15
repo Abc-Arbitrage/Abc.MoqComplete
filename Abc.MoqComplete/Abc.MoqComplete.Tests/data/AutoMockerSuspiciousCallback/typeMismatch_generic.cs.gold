@@ -20,10 +20,11 @@ namespace ConsoleApp1.Tests
         {
             var _mocker = new AutoMocker();
             var i = 0;
-            _mocker.Setup<ITestInterface>(x => x.Do(It.IsAny<TheClass>())).Callback|<int>|(0)(item => i++);
+            _mocker.Setup<ITestInterface>(x => x.Do(It.IsAny<TheClass>())).Callback|<int>|(0)(|item|(1) => i++);
             Console.WriteLine(i);
         }
     }
 }
 ---------------------------------------------------------
 (0): ReSharper Warning: (T) 'AutoMocker suspicious Callback method call: Generic types do not match' (E) ''
+(1): ReSharper Dead Code: Parameter 'item' is never used

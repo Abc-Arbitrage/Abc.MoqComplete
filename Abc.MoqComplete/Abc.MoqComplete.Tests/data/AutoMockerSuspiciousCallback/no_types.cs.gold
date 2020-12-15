@@ -17,9 +17,11 @@ namespace ConsoleApp1.Tests
             var count = 0;
             _mocker.Setup<ITestInterface, int>(x => x.BuildSomething(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<bool>()))
                 .Returns(0)
-                .Callback<int, string, bool>((i, s, arg3) => count += i);
+                .Callback<int, string, bool>((i, |s|(0), |arg3|(1)) => count += i);
             Console.WriteLine(count);
         }
     }
 }
 ---------------------------------------------------------
+(0): ReSharper Dead Code: Parameter 's' is never used
+(1): ReSharper Dead Code: Parameter 'arg3' is never used

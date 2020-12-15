@@ -17,10 +17,12 @@ namespace ConsoleApp1.Tests
             var count = 0;
             _mocker.Setup<ITestInterface, int>(x => x.BuildSomething(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<bool>()))
                 .Returns(0)
-                .Callback|<int, string, string>|(0)((i, s, arg3) => count += i);
+                .Callback|<int, string, string>|(0)((i, |s|(1), |arg3|(2)) => count += i);
             Console.WriteLine(count);
         }
     }
 }
 ---------------------------------------------------------
 (0): ReSharper Warning: (T) 'AutoMocker suspicious Callback method call: Generic types do not match' (E) ''
+(1): ReSharper Dead Code: Parameter 's' is never used
+(2): ReSharper Dead Code: Parameter 'arg3' is never used

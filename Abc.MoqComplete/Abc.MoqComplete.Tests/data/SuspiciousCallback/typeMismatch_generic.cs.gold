@@ -19,10 +19,11 @@ namespace ConsoleApp1.Tests
         {
             var temp = new Mock<ITestInterface>();
             var i = 0;
-            temp.Setup(x => x.Do(It.IsAny<TheClass>())).Callback|<int>|(0)(item => i++);
+            temp.Setup(x => x.Do(It.IsAny<TheClass>())).Callback|<int>|(0)(|item|(1) => i++);
             Console.WriteLine(i);
         }
     }
 }
 ---------------------------------------------------------
 (0): ReSharper Warning: (T) 'Suspicious Callback method call: Generic types do not match' (E) ''
+(1): ReSharper Dead Code: Parameter 'item' is never used

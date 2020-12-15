@@ -54,7 +54,7 @@ namespace Abc.MoqComplete.Tests.ContextAction
                             while (!currentSession.HotspotSession.IsFinished)
                             {
                                 ProcessHotspot(textControl, currentSession.HotspotSession.CurrentHotspot.NotNull());
-                                currentSession.HotspotSession.GoToNextHotspot();
+                                currentSession.HotspotSession.GoToNextHotspotAsync().RunSynchronously();
                             }
                         }
                         var projectFile = documentManager.TryGetProjectFile(document);
