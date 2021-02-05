@@ -69,7 +69,10 @@ namespace Abc.MoqComplete.ContextActions.Services
 
         public bool IsAbstractOrInterface(IParameter parameter)
         {
-            return parameter.Type.GetScalarType()?.Resolve().DeclaredElement is IModifiersOwner modif && modif.IsAbstract;
+            var declaredElement = parameter.Type.GetScalarType()?.Resolve().DeclaredElement;
+
+            return declaredElement is IInterface 
+                   || declaredElement is IClass c && c.IsAbstract;
         }
 
         public int GetCurrentParameterNumber(IObjectCreationExpression selectedElement, ICSharpContextActionDataProvider dataProvider)
