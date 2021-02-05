@@ -17,6 +17,9 @@ jobs:
     - name: Update rider version from Directory.Build.props
       run: .\Abc.MoqComplete\Deployment\update_rider_version.ps1
       shell: powershell
+      
+    - name: Clean
+      run: dotnet clean Abc.MoqComplete\MoqComplete.sln --configuration Release && dotnet nuget locals all --clear
          
     - name: Install dependencies
       run: dotnet restore Abc.MoqComplete\MoqComplete.sln
