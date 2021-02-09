@@ -54,4 +54,4 @@ Suggest the mock variable name
 The plugin can be installed using the extension manager from Resharper menu in Visual Studio, or using the plugin menu from Rider settings
 
 # Privacy Policy
-The plugin doesn't store any data, so you're good to go :)
+The plugin doesn't store any personal data, so you're good to go :)
