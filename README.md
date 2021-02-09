@@ -6,7 +6,7 @@ Works with latest Resharper 2021 and Rider (**non EAP**)
 
 [<p align="center"><img src="Media/jetbrains.svg"></p>](https://www.jetbrains.com/?from=MoqComplete)
 
-## Features
+# Features
 ### It.IsAny completion
 Suggest `It.IsAny()` when setting up mocked method
 
@@ -50,7 +50,7 @@ Suggest the mock variable name
 
 ![](Media/proposeMockVarName.gif)
 
-## Installation
+# Installation
 The plugin can be installed using the extension manager from Resharper menu in Visual Studio, or using the plugin menu from Rider settings
 
 # Privacy Policy
