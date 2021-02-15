@@ -51,4 +51,4 @@ Suggest the mock variable name
 ![](Media/proposeMockVarName.gif)
 
 # Other questions
-Please see [FAQ](https://github.com/Abc-Arbitrage/Abc.MoqComplete/wiki/Frequently-Asked-Questions) before creating an issue.
+Please see the [FAQ](https://github.com/Abc-Arbitrage/Abc.MoqComplete/wiki/Frequently-Asked-Questions) before creating an issue.
