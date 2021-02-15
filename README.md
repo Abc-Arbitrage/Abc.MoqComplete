@@ -50,8 +50,5 @@ Suggest the mock variable name
 
 ![](Media/proposeMockVarName.gif)
 
-# Installation
-The plugin can be installed using the extension manager from Resharper menu in Visual Studio, or using the plugin menu from Rider settings
-
-# Privacy Policy
-The plugin doesn't store any personal data, so you're good to go :)
+# Other questions
+Please see [FAQ](https://github.com/Abc-Arbitrage/Abc.MoqComplete/wiki/Frequently-Asked-Questions) before creating an issue.
