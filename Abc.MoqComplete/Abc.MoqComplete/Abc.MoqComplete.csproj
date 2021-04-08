@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
 	<Company>ABC arbitrage Asset Management</Company>
-	<Copyright>Copyright © ABC arbitrage Asset Management 2019</Copyright>
+	<Copyright>Copyright © ABC arbitrage Asset Management 2021</Copyright>
 	<IsPackable>True</IsPackable>
     <IncludeBuildOutput>false</IncludeBuildOutput>
   </PropertyGroup>
