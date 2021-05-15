@@ -20,7 +20,8 @@ namespace Abc.MoqComplete.Services
         {
             if (!_isMoqContainedByProjectName.TryGetValue(psiModule.DisplayName, out var isMoqContained))
             {
-                isMoqContained = psiModule.GetReferences(null).Any(r => MoqReferenceNames.Contains(r.Module.Name));
+                IReadOnlyList<IPsiModuleReference> references = psiModule.GetPsiServices().Modules.GetModuleReferences(psiModule);
+                isMoqContained = references.Any(r => MoqReferenceNames.Contains(r.Module.Name));
                 _isMoqContainedByProjectName.Add(psiModule.DisplayName, isMoqContained);
             }
 
