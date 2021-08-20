@@ -1,4 +1,4 @@
-<idea-plugin>
+<idea-plugin require-restart="true">
   <depends>com.intellij.modules.rider</depends>
   <idea-version since-build="211.6693" />
   <id>Abc.MoqComplete.Rider</id>
