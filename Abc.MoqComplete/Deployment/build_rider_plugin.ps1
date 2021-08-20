@@ -39,6 +39,14 @@ function Zip
 }
 
 Unzip "$artifactDirectory\$PluginId.Rider.$Version.nupkg" "$artifactDirectory\$PluginId.Rider"
+
+# Move META-INF into its own JAR file
+$metaInfSourceLocation = "$artifactDirectory\$PluginId.Rider\META-INF"
+$libDirectory = "$artifactDirectory\$PluginId.Rider\lib"
+New-Item -Type Directory $libDirectory
+Zip "$libDirectory\$PluginId-$Version.jar" $metaInfSourceLocation
+Remove-Item -Recurse $metaInfSourceLocation
+
 rm "$artifactDirectory\$PluginId.Rider\_rels" -Force -Recurse
 rm "$artifactDirectory\$PluginId.Rider\package" -Force -Recurse
 rm "$artifactDirectory\$PluginId.Rider\*.xml"
