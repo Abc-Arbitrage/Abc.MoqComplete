@@ -1,5 +1,6 @@
 <Project>
   <PropertyGroup>
+    <!-- The used sdk version -->
     <SdkVersion>2022.2.0-eap01</SdkVersion>
     <Title>MoqComplete</Title>
     <Description>Code completion for Moq</Description>

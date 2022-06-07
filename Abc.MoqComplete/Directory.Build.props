@@ -22,6 +22,7 @@
   </PropertyGroup>
   
   <PropertyGroup>
+    <!-- The version of the MoqComplete plugin -->
     <Version>2022.2.0.1</Version>
   </PropertyGroup>
   
