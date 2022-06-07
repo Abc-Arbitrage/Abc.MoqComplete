@@ -50,7 +50,7 @@ namespace Abc.MoqComplete.ContextActions.Services
 
             foreach (var referenceName in fields)
             {
-                var types = referenceName.TypeArguments.Select(x => x.GetPresentableName(languageType, DeclaredElementPresenterTextStyles.Empty).Text);
+                var types = referenceName.TypeArguments.Select(x => x.GetPresentableName(languageType, TypePresentationStyle.Default).Text);
                 var strType = string.Join(",", types);
                 var mockType = GetGenericMock(strType);
                 var field = (IFieldDeclaration)referenceName.Parent.NextSibling.NextSibling;
