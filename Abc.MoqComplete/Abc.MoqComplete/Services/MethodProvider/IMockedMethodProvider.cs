@@ -10,6 +10,6 @@ namespace Abc.MoqComplete.Services.MethodProvider
     {
         IMethod GetMockedMethodFromSetupMethod([CanBeNull] IInvocationExpression invocationExpression);
         TreeNodeCollection<ICSharpArgument>? GetMockedMethodParametersFromSetupMethod(IInvocationExpression invocationExpression);
-        IEnumerable<string> GetMockedMethodParameterTypes(IInvocationExpression invocationExpression);
+        IEnumerable<string> GetMockedMethodParameterTypesString(IInvocationExpression invocationExpression);
     }
 }

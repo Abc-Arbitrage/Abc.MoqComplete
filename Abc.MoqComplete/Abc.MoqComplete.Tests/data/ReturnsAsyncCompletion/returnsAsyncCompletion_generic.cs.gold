@@ -1,0 +1,31 @@
+// ${COMPLETE_ITEM:ReturnsAsync((ITest2 test, double test2, string test3) => )}
+using NUnit.Framework;
+using Moq;
+using System.Threading.Tasks;
+
+namespace ConsoleApp1.Tests
+{
+    public interface ITest<T, U>
+    {
+        Task<int> Coco(ITest2 test, T test2, U test3);
+
+    }
+    public interface ITest2 : ITest<double, string>
+    {
+        
+    }
+
+    [TestFixture]
+    public class TestClass
+    {
+
+        [Test]
+        public void METHOD()
+        {
+            var m = new Mock<ITest2>();
+            m.Setup(x=>x.Coco(It.IsAny<ITest2>(), It.IsAny<double>(), It.IsAny<string>()))
+             .ReturnsAsync((ITest2 test, double test2, string test3) => {caret})
+
+        }
+    }
+}

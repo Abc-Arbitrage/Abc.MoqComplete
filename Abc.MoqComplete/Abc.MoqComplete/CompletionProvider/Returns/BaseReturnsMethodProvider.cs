@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Abc.MoqComplete.Extensions;
 using Abc.MoqComplete.Services;
 using Abc.MoqComplete.Services.MethodProvider;
@@ -59,10 +62,27 @@ namespace Abc.MoqComplete.CompletionProvider.Returns
                 return false;
             }
 
-            List<string> types = methodProvider.GetMockedMethodParameterTypes(invocation).ToList();
+            List<string> types = methodProvider.GetMockedMethodParameterTypesString(invocation).ToList();
             List<string> variablesName = mockedMethod.Parameters.Select(p => p.ShortName).ToList();
             string returnCallback = $"Returns<{string.Join(", ", types)}>(({string.Join(", ", variablesName)}) => )";
             AddProposedCallback(context, collector, returnCallback);
+
+            IType returnType = mockedMethod.ReturnType;
+
+            if (returnType.IsGenericTask() || returnType.IsGenericValueTask())
+            {
+                var returnsAsyncCallback = new StringBuilder("ReturnsAsync((");
+                for (var i = 0; i < types.Count; i++)
+                {
+                    returnsAsyncCallback.Append($"{types[i]} {variablesName[i]}, ");
+                }
+                
+                // Remove last space and comma
+                returnsAsyncCallback.Remove(returnsAsyncCallback.Length - 2, 2);
+                returnsAsyncCallback.Append(") => )");
+                
+                AddProposedCallback(context, collector, returnsAsyncCallback.ToString());
+            }
 
             return true;
         }

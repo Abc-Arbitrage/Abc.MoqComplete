@@ -1,0 +1,3 @@
+
+Returns<int, string, bool>((i, toto, ok) => )
+Returns{caret}

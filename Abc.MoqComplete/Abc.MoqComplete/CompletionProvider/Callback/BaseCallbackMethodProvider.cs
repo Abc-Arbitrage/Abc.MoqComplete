@@ -28,7 +28,7 @@ namespace Abc.MoqComplete.CompletionProvider.Callback
         private IEnumerable<string> GetMockedMethodParameterTypes(ISolution solution, IInvocationExpression invocation)
         {
             var mockedMethodProvider = solution.GetComponent<T>();
-            return mockedMethodProvider.GetMockedMethodParameterTypes(invocation);
+            return mockedMethodProvider.GetMockedMethodParameterTypesString(invocation);
         }
 
 		protected override bool IsAvailable(CSharpCodeCompletionContext context)
