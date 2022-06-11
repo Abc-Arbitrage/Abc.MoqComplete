@@ -1,4 +1,4 @@
-// ${COMPLETE_ITEM:Returns<ITest2,double,string>((test,test2,test3) => )}
+// ${COMPLETE_ITEM:Returns<ITest2, double, string>((test, test2, test3) => )}
 using NUnit.Framework;
 using Moq;
 
@@ -23,7 +23,7 @@ namespace ConsoleApp1.Tests
         {
             var m = new Mock<ITest2>();
             m.Setup(x=>x.Coco(It.IsAny<ITest2>(), It.IsAny<double>(), It.IsAny<string>()))
-             .Returns<ITest2,double,string>((test,test2,test3) => {caret})
+             .Returns<ITest2, double, string>((test, test2, test3) => {caret})
 
         }
     }

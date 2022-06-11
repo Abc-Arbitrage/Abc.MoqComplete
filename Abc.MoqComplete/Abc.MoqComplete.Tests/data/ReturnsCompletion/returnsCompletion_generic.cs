@@ -1,4 +1,4 @@
-// ${COMPLETE_ITEM:Returns<ITest2,double,string>((test,test2,test3) => )}
+// ${COMPLETE_ITEM:Returns<ITest2, double, string>((test, test2, test3) => )}
 using NUnit.Framework;
 using Moq;
 
