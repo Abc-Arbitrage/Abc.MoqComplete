@@ -9,6 +9,7 @@ namespace Abc.MoqComplete.Services
         bool IsMoqSetupMethod([CanBeNull]  IInvocationExpression invocationExpression);
         bool IsMoqVerifyMethod([CanBeNull]  IInvocationExpression invocationExpression);
         bool IsMoqReturnMethod([CanBeNull]  IInvocationExpression invocationExpression);
+        bool IsMoqReturnAsyncMethod([CanBeNull]  IInvocationExpression invocationExpression);
         bool IsMoqCallbackMethod([CanBeNull]  IInvocationExpression invocationExpression);
     }
 }

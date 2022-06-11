@@ -36,6 +36,12 @@ namespace Abc.MoqComplete.Services
 					"Method:Moq.Language.IReturns`2.Returns",
 					"Method:Moq.Language.IReturns`1.Returns"));
 
+		public bool IsMoqReturnAsyncMethod(IInvocationExpression invocationExpression)
+			=> IsMethod(invocationExpression,
+				declaredElement => IsMethodStartingWithString(declaredElement,
+					"Method:Moq.GeneratedReturnsExtensions.ReturnsAsync(Moq.Language.IReturns`2",
+					"Method:Moq.ReturnsExtensions.ReturnsAsync(Moq.Language.IReturns`2"));
+
 		public bool IsMoqCallbackMethod(IInvocationExpression expression)
 			=> IsMethod(expression,
 				declaredElement => IsMethodStartingWithString(declaredElement,

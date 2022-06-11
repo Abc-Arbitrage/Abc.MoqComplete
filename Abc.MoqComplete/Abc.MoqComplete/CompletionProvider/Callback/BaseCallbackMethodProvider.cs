@@ -56,7 +56,7 @@ namespace Abc.MoqComplete.CompletionProvider.Callback
 			var solution = context.BasicContext.Solution;
 			var methodIdentifier = solution.GetComponent<IMoqMethodIdentifier>();
 
-			if (methodIdentifier.IsMoqReturnMethod(invocation))
+			if (methodIdentifier.IsMoqReturnMethod(invocation) || methodIdentifier.IsMoqReturnAsyncMethod(invocation))
 			{
 				invocation = invocation.InvokedExpression?.FirstChild as IInvocationExpression;
 			}

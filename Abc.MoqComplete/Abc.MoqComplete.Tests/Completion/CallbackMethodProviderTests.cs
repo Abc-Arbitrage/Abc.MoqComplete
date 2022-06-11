@@ -12,6 +12,9 @@ namespace Abc.MoqComplete.Tests.Completion
 
         [TestCase("callbackCompletion")]
         [TestCase("callbackCompletion_afterReturn")]
+        [TestCase("callbackCompletion_afterReturnAsync")]
+        [TestCase("callbackCompletion_afterReturnAsyncMultiple")]
+        [TestCase("callbackCompletion_afterReturnAsyncMultiple2")]
         [TestCase("callbackCompletion_generic")]
         public void should_fill_with_callback(string testSrc) => DoOneTest(testSrc);
     }
