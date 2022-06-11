@@ -70,7 +70,7 @@ namespace Abc.MoqComplete.CompletionProvider.Callback
 
 			var types = GetMockedMethodParameterTypes(solution, invocation);
 			var variablesName = mockedMethod.Parameters.Select(p => p.ShortName);
-			var proposedCallback = $"Callback<{string.Join(",", types)}>(({string.Join(",", variablesName)}) => {{}})";
+			var proposedCallback = $"Callback<{string.Join(", ", types)}>(({string.Join(", ", variablesName)}) => {{}})";
 
 			var item = CSharpLookupItemFactory.Instance.CreateKeywordLookupItem(context,
 				proposedCallback,

@@ -1,4 +1,4 @@
-// ${COMPLETE_ITEM:Callback<int,string,bool>((i,toto,ok) => {\})}
+// ${COMPLETE_ITEM:Callback<int, string, bool>((i, toto, ok) => {\})}
 using Moq;
 using Moq.AutoMock;
 using NUnit.Framework;
@@ -19,7 +19,7 @@ namespace ConsoleApp1.Tests
             var _mocker = new AutoMocker();
             _mocker.Setup<ITestInterface>(x => x.BuildSomething(It.IsAny<int>(),It.IsAny<string>(), It.IsAny<bool>()))
 				.Returns(0)
-                .Callback<int,string,bool>((i,toto,ok) => {{caret}})
+                .Callback<int, string, bool>((i, toto, ok) => {{caret}})
         }
     }
 }

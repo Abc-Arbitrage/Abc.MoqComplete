@@ -1,4 +1,4 @@
-// ${COMPLETE_ITEM:Callback<int,string,bool>((i,toto,ok) => {\})}
+// ${COMPLETE_ITEM:Callback<int, string, bool>((i, toto, ok) => {\})}
 using Moq;
 using Moq.AutoMock;
 using NUnit.Framework;
