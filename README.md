@@ -2,7 +2,7 @@
 
 # Abc.MoqComplete
 MoqComplete is a Resharper plugin which provide auto-completion for the Moq framework (and Moq.AutoMock)<br/>
-Works with latest Resharper 2021 and Rider (**non EAP**)
+Works with latest Resharper 2022 and Rider (**non EAP**)
 
 [<p align="center"><img src="Media/jetbrains.svg"></p>](https://www.jetbrains.com/?from=MoqComplete)
 
