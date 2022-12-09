@@ -24,7 +24,7 @@
   
   <PropertyGroup>
     <!-- The version of the MoqComplete plugin -->
-    <Version>$(SdkVersion).1</Version>
+    <Version>$(SdkVersion).0</Version>
   </PropertyGroup>
   
 </Project>

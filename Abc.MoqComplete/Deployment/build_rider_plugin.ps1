@@ -1,11 +1,16 @@
 $artifactDirectory = $args[0]
 $PluginId = "Abc.MoqComplete"
 $BuildPropsFilePath = "Abc.MoqComplete\Directory.Build.props"
+$PluginPropsFilePath = "Abc.MoqComplete\Plugin.props"
 
 # Get the version number
 if (Test-Path $BuildPropsFilePath) {
-	$PluginXml = [xml] (Get-Content $BuildPropsFilePath)
-	$Version = $PluginXml.SelectSingleNode(".//Project/PropertyGroup/Version").innerText
+	$BuildPropsXml = [xml] (Get-Content $BuildPropsFilePath)
+	$PluginPropsXml = [xml] (Get-Content $PluginPropsFilePath)
+	$Version = $BuildPropsXml.SelectSingleNode(".//Project/PropertyGroup/Version").innerText
+	$SdkVersion = $PluginPropsXml.SelectSingleNode(".//Project/PropertyGroup/SdkVersion").innerText
+	Write-Host "Version is $Version SdkVersion is $SdkVersion"
+	$Version = $Version.Replace("`$(SdkVersion)", $SdkVersion)
 }
 
 Write-Host "Generating Rider package"
