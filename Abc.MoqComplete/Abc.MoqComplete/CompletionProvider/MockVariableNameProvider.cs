@@ -34,7 +34,7 @@ namespace Abc.MoqComplete.CompletionProvider
 
             var localVarDeclaration = identifier.Parent as ILocalVariableDeclaration;
             var fieldDeclaration = identifier.Parent as IFieldDeclaration;
-            var regularParameterDeclaration = identifier.Parent as IRegularParameterDeclaration;
+            var regularParameterDeclaration = identifier.Parent as ITypeMemberRegularParameterDeclaration;
 
             var (kind, scalarTypeName) = GetKindAndDeclaration(localVarDeclaration, fieldDeclaration, regularParameterDeclaration);
 
@@ -45,7 +45,7 @@ namespace Abc.MoqComplete.CompletionProvider
         }
 
         private static (NamedElementKinds?, IReferenceName) GetKindAndDeclaration(ILocalVariableDeclaration localVarDeclaration, IFieldDeclaration fieldDeclaration,
-                                                  IRegularParameterDeclaration regularParameterDeclaration)
+            ITypeMemberRegularParameterDeclaration regularParameterDeclaration)
         {
             NamedElementKinds? kind = null;
             IReferenceName scalarTypeName = null;
