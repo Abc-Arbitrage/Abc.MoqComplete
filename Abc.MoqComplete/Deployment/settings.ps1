@@ -1,17 +1,17 @@
-$PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
 $PluginId = "Abc.MoqComplete"
 $SolutionPath = "$PSScriptRoot\..\MoqComplete.sln"
 $SourceBasePath = "$PSScriptRoot\..\"
 
-$VsWhereOutput = [xml] (& "vswhere.exe" -format xml)
+$VsWhereOutput = [xml] (& "vswhere.exe" -format xml -products *)
 $VisualStudio = $VsWhereOutput.instances.instance |
-    Where { $_.channelId -match "Release" } |
+    Where-Object { $_.channelId -match "Release" } |
+    Sort-Object -Property installationVersion |
     Select-Object -Last 1
 
 $VisualStudioBaseDirectory = $VisualStudio.installationPath
 $VisualStudioMajorVersion = ($VisualStudio.installationVersion -split '\.')[0]
 $VisualStudioInstanceId = $VisualStudio.instanceId
-$DevEnvPath = Get-ChildItem "$VisualStudioBaseDirectory\Common7\IDE\devenv.exe"
+$DevEnvPath = Get-ChildItem "$VisualStudioBaseDirectory\*\IDE\devenv.exe"
 $MSBuildPath = Get-ChildItem "$VisualStudioBaseDirectory\MSBuild\*\Bin\MSBuild.exe"
 
 $OutputDirectory = "$PSScriptRoot\output"
