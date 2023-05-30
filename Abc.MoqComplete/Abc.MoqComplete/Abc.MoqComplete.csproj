@@ -10,7 +10,7 @@
     <PackageReference Include="JetBrains.ReSharper.SDK" Version="$(SdkVersion)">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Wave" Version="[$(WaveVersion)]"/>	
+    <PackageReference Include="Wave" Version="$(WaveVersion)" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="*\plugin.xml" />
