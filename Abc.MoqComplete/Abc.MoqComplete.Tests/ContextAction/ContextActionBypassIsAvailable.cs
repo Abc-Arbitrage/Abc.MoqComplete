@@ -24,7 +24,7 @@ namespace Abc.MoqComplete.Tests.ContextAction
             var solution = project.GetSolution();
             var documentManager = solution.GetComponent<DocumentManager>();
             var caretPosition = GetCaretPosition() ?? CaretPositionsProcessor.PositionNames.SelectMany(_ => CaretPositionsProcessor.Positions(_) as IEnumerable<CaretPosition>).First("Caret position is not set. Please add {caret} or {selstart} to a test file.");
-            var textControl = OpenTextControl(lifetime, project, caretPosition);
+            var textControl = OpenTextControl(lifetime, caretPosition);
             var name = InitTextControl(textControl);
             var contextAction = actionCreator(textControl);
             ExecuteWithGold(textControl.Document, sw =>

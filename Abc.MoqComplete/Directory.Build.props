@@ -17,14 +17,12 @@
   <Import Project="Plugin.props" />
 
   <PropertyGroup>
-<!--    <WaveVersionBase>2$(SdkVersion.Substring(2,2))</WaveVersionBase>-->
-<!--    <WaveVersion>$(WaveVersionBase).0.0</WaveVersion>-->
-    <WaveVersion>232.0.0.0</WaveVersion>
+    <WaveVersion>233.0.0.0</WaveVersion>
   </PropertyGroup>
   
   <PropertyGroup>
     <!-- The version of the MoqComplete plugin -->
-    <Version>2023.2.0.1</Version>
+    <Version>2023.3.0.0</Version>
   </PropertyGroup>
   
 </Project>

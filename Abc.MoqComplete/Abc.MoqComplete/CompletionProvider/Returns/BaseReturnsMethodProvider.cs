@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Abc.MoqComplete.Extensions;
 using Abc.MoqComplete.Services;
 using Abc.MoqComplete.Services.MethodProvider;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion.Infrastructure;
-using JetBrains.ReSharper.Feature.Services.CodeCompletion.Infrastructure.AspectLookupItems.BaseInfrastructure;
-using JetBrains.ReSharper.Feature.Services.CodeCompletion.Infrastructure.AspectLookupItems.Info;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion.Infrastructure.LookupItems;
 using JetBrains.ReSharper.Feature.Services.CSharp.CodeCompletion.Infrastructure;
 using JetBrains.ReSharper.Features.Intellisense.CodeCompletion.CSharp;
@@ -89,7 +85,7 @@ namespace Abc.MoqComplete.CompletionProvider.Returns
 
         private static void AddProposedCallback(CSharpCodeCompletionContext context, IItemsCollector collector, string proposedCallback)
         {
-            LookupItem<TextualInfo> item = CSharpLookupItemFactory.Instance.CreateKeywordLookupItem(context,
+            var item = CSharpLookupItemFactory.Instance.CreateKeywordLookupItem(context,
                 proposedCallback,
                 TailType.None,
                 PsiSymbolsThemedIcons.Method.Id);

@@ -34,4 +34,4 @@ packages/
 *.nupkg
 */.idea/*
 *.zip
-*.nupkg
+*.lock

@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <!-- The used sdk version -->
-    <SdkVersion>2023.2.0-eap02</SdkVersion>
+    <SdkVersion>2023.3.0</SdkVersion>
     <Title>MoqComplete</Title>
     <Description>Code completion for Moq</Description>
     <Authors>ABC Arbitrage Asset Management</Authors>
