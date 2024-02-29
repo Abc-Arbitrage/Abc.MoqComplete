@@ -6,6 +6,7 @@ using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.CSharp.ContextActions;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
+using JetBrains.ReSharper.Psi.Util;
 using JetBrains.TextControl;
 using JetBrains.Util;
 
@@ -14,34 +15,7 @@ namespace Abc.MoqComplete.ContextActions.Services
     [SolutionComponent]
     public class CsharpMemberProvider : ICsharpMemberProvider
     {
-        public IEnumerable<string> GetConstructorParameters(string constructorString)
-        {
-            var index = 0;
-            var openedBracket = 0;
-
-            while (constructorString[index] != '(')
-                index++;
-
-            var sb = new StringBuilder();
-            while (constructorString[index] != ')')
-            {
-                index++;
-                
-                if (constructorString[index] == '<')
-                    openedBracket++;
-                
-                else if (constructorString[index] == '>')
-                    openedBracket--;
-
-                if (openedBracket ==0 && (constructorString[index] == ',' || constructorString[index] == ')'))
-                {
-                    yield return sb.ToString();
-                    sb.Clear();
-                }
-                else
-                    sb.Append(constructorString[index]);
-            }
-        }
+        public IEnumerable<string> GetConstructorParameters(IConstructor constructor) => constructor.Parameters.Select(s => s.Type.GetPresentableName(constructor.PresentationLanguage));
 
         public Dictionary<string, string> GetClassFields(IClassBody classBody, PsiLanguageType languageType)
         {

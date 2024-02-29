@@ -9,7 +9,7 @@ namespace Abc.MoqComplete.ContextActions.Services
 {
     public interface ICsharpMemberProvider
     {
-        IEnumerable<string> GetConstructorParameters(string constructorString);
+        IEnumerable<string> GetConstructorParameters(IConstructor constructor);
         Dictionary<string, string> GetClassFields(IClassBody classBody, PsiLanguageType languageType);
         string GetGenericMock(string typeStr);
         bool IsAbstractOrInterface(IParameter parameter);

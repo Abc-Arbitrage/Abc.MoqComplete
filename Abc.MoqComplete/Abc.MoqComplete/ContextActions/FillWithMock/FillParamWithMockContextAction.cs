@@ -111,7 +111,7 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
             var argumentList = _selectedElement.ArgumentList;
-            var parameters = _csharpMemberProvider.GetConstructorParameters(_constructor.ToString()).ToArray();
+            var parameters = _csharpMemberProvider.GetConstructorParameters(_constructor).ToArray();
             var mockFieldsByType = _csharpMemberProvider.GetClassFields(_classBody, _selectedElement.Language);
             var shortName = _constructor.Parameters[_parameterNumber].ShortName;
             var currentParam = parameters[_parameterNumber];
