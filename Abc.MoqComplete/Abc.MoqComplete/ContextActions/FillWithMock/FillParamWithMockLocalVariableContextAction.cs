@@ -49,7 +49,7 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
             var @class = (IClass)selectedElement.TypeReference?.Resolve().DeclaredElement;
             var parameterCount = selectedElement.ArgumentList?.Arguments.Count(x => x.Kind != ParameterKind.UNKNOWN);
             var constructor = @class.Constructors.ToArray().FirstOrDefault(x => !x.IsParameterless && x.Parameters.Count > parameterCount);
-            var parameters = csharpMemberProvider.GetConstructorParameters(constructor.ToString()).ToArray();
+            var parameters = csharpMemberProvider.GetConstructorParameters(constructor).ToArray();
             var parameterNumber = csharpMemberProvider.GetCurrentParameterNumber(selectedElement, _dataProvider);
             var shortName = constructor.Parameters[parameterNumber].ShortName;
             var currentParam = parameters[parameterNumber];

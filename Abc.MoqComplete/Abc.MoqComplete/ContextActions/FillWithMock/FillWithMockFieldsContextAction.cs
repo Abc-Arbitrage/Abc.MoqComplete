@@ -58,7 +58,7 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
                                                             && x.Parameters.All(_csharpMemberProvider.IsAbstractOrInterface));
             if (_constructor == null)
                 return false;
-
+            
             var isAvailable = testProjectProvider.IsTestProject(_dataProvider.PsiModule) && _selectedElement != null && _selectedElement.Arguments.Count == 0;
             if (isAvailable)
                 cache.PutKey(AnchorKey.FillWithMockContextActionKey);
@@ -75,7 +75,7 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
             if (classDeclaration == null || block == null)
                 return null;
 
-            var parameters = _csharpMemberProvider.GetConstructorParameters(_constructor.ToString()).ToArray();
+            var parameters = _csharpMemberProvider.GetConstructorParameters(_constructor).ToArray();
             var naming = _dataProvider.PsiServices.Naming;
             var mockFieldsByType = _csharpMemberProvider.GetClassFields(classBody, _selectedElement.Language);
 

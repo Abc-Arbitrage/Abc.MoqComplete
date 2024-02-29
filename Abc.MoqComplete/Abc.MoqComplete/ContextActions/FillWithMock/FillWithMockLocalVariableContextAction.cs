@@ -54,7 +54,7 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
             if (constructor == null)
                 return null;
 
-            var parameters = _csharpMemberProvider.GetConstructorParameters(constructor.ToString()).ToArray();
+            var parameters = _csharpMemberProvider.GetConstructorParameters(constructor).ToArray();
 
             for (int i = 0; i < constructor.Parameters.Count; i++)
             {
