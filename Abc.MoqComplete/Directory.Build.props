@@ -1,10 +1,10 @@
 <Project>
-  
+
   <PropertyGroup>
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
-    
+
     <BaseIntermediateOutputPath>obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
     <DefaultItemExcludes>$(DefaultItemExcludes);obj\**</DefaultItemExcludes>
     <OutputPath>bin\$(MSBuildProjectName)\$(Configuration)\</OutputPath>
@@ -19,10 +19,10 @@
   <PropertyGroup>
     <WaveVersion>233.0.0.0</WaveVersion>
   </PropertyGroup>
-  
+
   <PropertyGroup>
     <!-- The version of the MoqComplete plugin -->
-    <Version>2023.3.0.1</Version>
+    <Version>2023.3.0.2</Version>
   </PropertyGroup>
-  
+
 </Project>
