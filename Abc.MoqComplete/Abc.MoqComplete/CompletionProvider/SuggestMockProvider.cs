@@ -2,13 +2,16 @@
 using Abc.MoqComplete.Services;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion;
+using JetBrains.ReSharper.Feature.Services.CodeCompletion.Infrastructure;
 using JetBrains.ReSharper.Feature.Services.CodeCompletion.Infrastructure.LookupItems;
 using JetBrains.ReSharper.Feature.Services.CSharp.CodeCompletion.Infrastructure;
 using JetBrains.ReSharper.Features.Intellisense.CodeCompletion.CSharp;
 using JetBrains.ReSharper.Features.Intellisense.CodeCompletion.CSharp.Rules;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
+using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.ExpectedTypes;
+using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 using JetBrains.ReSharper.Psi.Resources;
 using JetBrains.ReSharper.Psi.Util;
 
@@ -50,7 +53,16 @@ namespace Abc.MoqComplete.CompletionProvider
         private static ILookupItem GetLookupItem(CSharpCodeCompletionContext context, string proposedCompletion)
         {
             var lookupItem = CSharpLookupItemFactory.Instance.CreateKeywordLookupItem(context, proposedCompletion, TailType.None, PsiSymbolsThemedIcons.Variable.Id);
-            lookupItem.WithInitializedRanges(context.CompletionRanges, context.BasicContext);
+
+            var node = context.NodeInFile;
+            while (!(node is ICSharpArgument) && node != null) node = node?.Parent;
+            if (node != null)
+            {
+                var arg = (ICSharpArgument)node;
+                var range = arg.GetExtendedDocumentRange();
+                lookupItem.SetRanges(context.CompletionRanges.WithReplaceRange(range));
+            }
+
             lookupItem.SetTopPriority();
             return lookupItem;
         }
