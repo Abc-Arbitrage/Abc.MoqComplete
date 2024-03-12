@@ -62,6 +62,10 @@ namespace Abc.MoqComplete.CompletionProvider
                 var range = arg.GetExtendedDocumentRange();
                 lookupItem.SetRanges(context.CompletionRanges.WithReplaceRange(range));
             }
+            else
+            {
+                lookupItem.WithInitializedRanges(context.CompletionRanges, context.BasicContext);
+            }
 
             lookupItem.SetTopPriority();
             return lookupItem;
