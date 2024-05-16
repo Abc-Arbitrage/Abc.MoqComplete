@@ -18,7 +18,7 @@ using JetBrains.Util;
 
 namespace Abc.MoqComplete.ContextActions.FillWithMock
 {
-    [ContextAction(Group = "C#", Name = "With local variables", Description = "Fill with mock using local variables", Priority = short.MinValue)]
+    [ContextAction(GroupType = typeof(CSharpContextActions), Name = "With local variables", Description = "Fill with mock using local variables", Priority = short.MinValue)]
     public sealed class FillWithMockLocalVariableContextAction : ContextActionBase
     {
         [NotNull]

@@ -8,6 +8,7 @@
     <BaseIntermediateOutputPath>obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
     <DefaultItemExcludes>$(DefaultItemExcludes);obj\**</DefaultItemExcludes>
     <OutputPath>bin\$(MSBuildProjectName)\$(Configuration)\</OutputPath>
+    <NoWarn>$(NoWarn);MSB3277;NU1603</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">

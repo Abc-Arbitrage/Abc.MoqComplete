@@ -21,7 +21,7 @@ using JetBrains.ReSharper.Feature.Services.CSharp.ContextActions;
 
 namespace Abc.MoqComplete.ContextActions.FillWithMock
 {
-    [ContextAction(Group = "C#", Name = "Fill with Mock", Description = "Fills the constructor with mocks")]
+    [ContextAction(GroupType = typeof(CSharpContextActions), Name = "Fill with Mock", Description = "Fills the constructor with mocks")]
     public class FillWithMockFieldsContextAction : ContextActionBase
     {
         private readonly ICSharpContextActionDataProvider _dataProvider;

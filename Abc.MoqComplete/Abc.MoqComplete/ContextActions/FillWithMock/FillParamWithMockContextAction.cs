@@ -23,7 +23,7 @@ using JetBrains.Util;
 
 namespace Abc.MoqComplete.ContextActions.FillWithMock
 {
-    [ContextAction(Group = "C#", Name = "Fill parameter with Mock", Description = "Fills the current parameter with mock", Priority = short.MinValue + 1)]
+    [ContextAction(GroupType = typeof(CSharpContextActions), Name = "Fill parameter with Mock", Description = "Fills the current parameter with mock", Priority = short.MinValue + 1)]
     public class FillParamWithMockContextAction : ContextActionBase
     {
         private readonly ICSharpContextActionDataProvider _dataProvider;
