@@ -5,25 +5,22 @@
 	<Copyright>Copyright © ABC arbitrage Asset Management 2021</Copyright>
 	<IsPackable>False</IsPackable>
  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Abc.MoqComplete\Abc.MoqComplete.csproj" />
   </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="JetBrains.ReSharper.SDK.Tests" Version="$(SdkVersion)" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
-    <PackageReference Include="Moq">
-      <Version>4.13.1</Version>
-    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageReference Include="Moq" Version="4.13.1" />
     <PackageReference Include="Moq.AutoMock" Version="2.0.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
   </ItemGroup>
+
   <ItemGroup>
     <Compile Remove="data\**\*" />
     <Content Include="data\**\*" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="data\AutoMockerSuspiciousCallback" />
-    <Folder Include="data\MockVariableNameCompletion\" />
   </ItemGroup>
 
 </Project>
