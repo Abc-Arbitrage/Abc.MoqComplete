@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Application.Components;
 using JetBrains.Diagnostics;
 using JetBrains.DocumentManagers;
 using JetBrains.Lifetimes;
@@ -10,8 +8,6 @@ using JetBrains.ReSharper.Feature.Services.ContextActions;
 using JetBrains.ReSharper.Feature.Services.LiveTemplates.Hotspots;
 using JetBrains.ReSharper.FeaturesTestFramework.Intentions;
 using JetBrains.ReSharper.Psi;
-using JetBrains.ReSharper.TestFramework;
-using JetBrains.TextControl;
 using NUnit.Framework;
 
 namespace Abc.MoqComplete.Tests.ContextAction
@@ -19,14 +15,14 @@ namespace Abc.MoqComplete.Tests.ContextAction
     public abstract class ContextActionBypassIsAvailable<TAction> : ContextActionExecuteTestBase<TAction>
         where TAction : ContextActionBase
     {
-        protected override void ProcessAction(Lifetime lifetime, Func<ITextControl, TAction> actionCreator, IProject project)
+        protected override void ProcessAction(Lifetime lifetime, IProject project)
         {
             var solution = project.GetSolution();
             var documentManager = solution.GetComponent<DocumentManager>();
-            var caretPosition = GetCaretPosition() ?? CaretPositionsProcessor.PositionNames.SelectMany(_ => CaretPositionsProcessor.Positions(_) as IEnumerable<CaretPosition>).First("Caret position is not set. Please add {caret} or {selstart} to a test file.");
+            var caretPosition = GetCaretPosition() ?? CaretPositionsProcessor.PositionNames.SelectMany(i => CaretPositionsProcessor.Positions(i)).First("Caret position is not set. Please add {caret} or {selstart} to a test file.");
             var textControl = OpenTextControl(lifetime, caretPosition);
             var name = InitTextControl(textControl);
-            var contextAction = actionCreator(textControl);
+            var contextAction = CreateContextActionCheckAvailability(textControl);
             ExecuteWithGold(textControl.Document, sw =>
             {
                 Assert.NotNull(contextAction);
@@ -48,12 +44,12 @@ namespace Abc.MoqComplete.Tests.ContextAction
                     {
                         var document = textControl.Document;
                         ExecuteItem(textControl, bulbAction1, solution);
-                        var currentSession = ShellInstance.GetComponent<HotspotSessionExecutor>().CurrentSession;
+                        var currentSession = HotspotSessionExecutor.Instance.CurrentSession;
                         if (currentSession != null)
                         {
                             while (!currentSession.HotspotSession.IsFinished)
                             {
-                                ProcessHotspot(textControl, currentSession.HotspotSession.CurrentHotspot.NotNull());
+                                ProcessHotspot(textControl);
                                 currentSession.HotspotSession.GoToNextHotspotSync();
                             }
                         }

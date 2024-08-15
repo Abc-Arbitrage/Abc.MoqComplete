@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <!-- The used sdk version -->
-    <SdkVersion>2024.1.2</SdkVersion>
+    <SdkVersion>2024.2.0</SdkVersion>
     <Title>MoqComplete</Title>
     <Description>Code completion for Moq</Description>
     <Authors>ABC Arbitrage Asset Management</Authors>
