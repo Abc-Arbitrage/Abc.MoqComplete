@@ -73,14 +73,12 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
             if (_constructor == null)
                 return false;
 
-            var previousToken = _dataProvider.GetSelectedTreeNode<ITreeNode>();
+            var previousToken = _dataProvider.GetSelectedTreeNode<ITreeNode>()?.GetPreviousMeaningfulToken(includeThisNode: true);
             var previousTokenType = previousToken?.NodeType as ITokenNodeType;
             if (previousTokenType == null)
                 return false;
-            if (previousTokenType.TokenRepresentation == " ")
-                previousTokenType = previousToken.GetPreviousMeaningfulToken()?.NodeType as ITokenNodeType;
-            var nextTokenType = previousToken.GetNextMeaningfulToken()?.NodeType as ITokenNodeType;
-            if (previousTokenType == null || nextTokenType == null)
+            var nextTokenType = previousToken.GetNextMeaningfulToken(includeThisNode: false)?.NodeType as ITokenNodeType;
+            if (nextTokenType == null)
                 return false;
 
             var isAvailable = false;
