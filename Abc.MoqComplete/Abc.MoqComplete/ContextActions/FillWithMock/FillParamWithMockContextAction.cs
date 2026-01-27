@@ -75,16 +75,11 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
 
             var previousToken = _dataProvider.GetSelectedTreeNode<ITreeNode>();
             var previousTokenType = previousToken?.NodeType as ITokenNodeType;
-            var nextTokenType = previousToken?.GetNextToken()?.NodeType as ITokenNodeType;
-            if (previousTokenType == null || nextTokenType == null)
+            if (previousTokenType == null)
                 return false;
-
             if (previousTokenType.TokenRepresentation == " ")
-                previousTokenType = _dataProvider.PsiFile.FindTokenAt(previousToken.GetTreeStartOffset() - 1)?.NodeType as ITokenNodeType;
-
-            if (nextTokenType.TokenRepresentation == " ")
-                nextTokenType = _dataProvider.PsiFile.FindTokenAt(previousToken.GetTreeEndOffset() + 1)?.NodeType as ITokenNodeType;
-
+                previousTokenType = previousToken.GetPreviousMeaningfulToken()?.NodeType as ITokenNodeType;
+            var nextTokenType = previousToken.GetNextMeaningfulToken()?.NodeType as ITokenNodeType;
             if (previousTokenType == null || nextTokenType == null)
                 return false;
 
