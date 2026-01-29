@@ -1,4 +1,4 @@
-![Build](https://github.com/Abc-Arbitrage/Abc.MoqComplete/workflows/Build/badge.svg)
+[![Build](https://github.com/Abc-Arbitrage/Abc.MoqComplete/actions/workflows/build.yml/badge.svg?branch=master&event=push)](https://github.com/Abc-Arbitrage/Abc.MoqComplete/actions/workflows/build.yml)
 
 # Abc.MoqComplete
 MoqComplete is a Resharper plugin which provide auto-completion for the Moq framework (and Moq.AutoMock)<br/>
