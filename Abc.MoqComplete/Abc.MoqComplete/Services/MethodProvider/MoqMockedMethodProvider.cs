@@ -1,9 +1,10 @@
-﻿using JetBrains.ProjectModel;
+﻿using JetBrains.Application.Parts;
+using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 
 namespace Abc.MoqComplete.Services.MethodProvider
 {
-	[SolutionComponent]
+	[SolutionComponent(Instantiation.ContainerAsyncPrimaryThread)]
 	public class MoqMockedMethodProvider : BaseMethodProvider, IMoqMockedMethodProvider
 	{
 		private readonly IMoqMethodIdentifier _methodIdentifier;

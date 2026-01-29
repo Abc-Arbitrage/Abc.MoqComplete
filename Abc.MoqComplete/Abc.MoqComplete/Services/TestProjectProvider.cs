@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Application.Parts;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi.Modules;
 
 namespace Abc.MoqComplete.Services
 {
-    [SolutionComponent]
+    [SolutionComponent(Instantiation.ContainerAsyncPrimaryThread)]
     public class TestProjectProvider : ITestProjectProvider
     {
         private readonly Dictionary<string, bool> _isMoqContainedByProjectName = new Dictionary<string, bool>();

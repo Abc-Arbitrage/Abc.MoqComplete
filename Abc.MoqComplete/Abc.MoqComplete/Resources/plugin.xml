@@ -1,9 +1,9 @@
 <idea-plugin require-restart="true">
   <depends>com.intellij.modules.rider</depends>
-  <idea-version since-build="242.20224.401" />
+  <idea-version since-build="251.23774.437" />
   <id>Abc.MoqComplete.Rider</id>
   <name>MoqComplete</name>
-  <version>2024.2.0.1</version>
+  <version>2025.1.0.1</version>
   <vendor url="https://github.com/Abc-Arbitrage/Abc.MoqComplete">abc-arbitrage</vendor>
   <description><![CDATA[
 <p>Code completion for Moq: Provide completion for It.IsAny, Callback, suggest mock in constructor</p>

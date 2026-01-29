@@ -44,7 +44,7 @@ namespace Abc.MoqComplete.Tests.ContextAction
                     {
                         var document = textControl.Document;
                         ExecuteItem(textControl, bulbAction1, solution);
-                        var currentSession = HotspotSessionExecutor.Instance.CurrentSession;
+                        var currentSession = HotspotSessionExecutor.InstanceForCurrentClient.CurrentSession;
                         if (currentSession != null)
                         {
                             while (!currentSession.HotspotSession.IsFinished)

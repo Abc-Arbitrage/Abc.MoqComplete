@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using JetBrains.Annotations;
+using JetBrains.Application.Parts;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
@@ -9,7 +10,7 @@ using JetBrains.ReSharper.Psi.Resx.Utils;
 
 namespace Abc.MoqComplete.Services
 {
-	[SolutionComponent]
+	[SolutionComponent(Instantiation.ContainerAsyncPrimaryThread)]
 	public class MoqMethodIdentifier : IMoqMethodIdentifier
 	{
 		/// <inheritdoc />
