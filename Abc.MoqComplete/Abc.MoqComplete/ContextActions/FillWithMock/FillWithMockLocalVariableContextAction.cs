@@ -24,7 +24,6 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
         [NotNull]
         private static readonly InvisibleAnchor _anchor = FillWithMockFieldsContextAction.Anchor.CreateNext(true);
         private readonly ICSharpContextActionDataProvider _dataProvider;
-        private ICsharpMemberProvider _csharpMemberProvider;
         public override string Text => "With local variables";
 
         public FillWithMockLocalVariableContextAction(ICSharpContextActionDataProvider dataProvider)
@@ -34,7 +33,6 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
 
         public override bool IsAvailable(IUserDataHolder cache)
         {
-            _csharpMemberProvider = ComponentResolver.GetComponent<ICsharpMemberProvider>(_dataProvider);
             return cache.HasKey(AnchorKey.FillWithMockContextActionKey);
         }
 
@@ -54,7 +52,8 @@ namespace Abc.MoqComplete.ContextActions.FillWithMock
             if (constructor == null)
                 return null;
 
-            var parameters = _csharpMemberProvider.GetConstructorParameters(constructor).ToArray();
+            var csharpMemberProvider = ComponentResolver.GetComponent<ICsharpMemberProvider>(_dataProvider);
+            var parameters = csharpMemberProvider.GetConstructorParameters(constructor).ToArray();
 
             for (int i = 0; i < constructor.Parameters.Count; i++)
             {

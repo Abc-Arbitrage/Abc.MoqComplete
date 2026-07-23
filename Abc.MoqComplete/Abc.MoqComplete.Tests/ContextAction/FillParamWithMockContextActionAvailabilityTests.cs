@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace Abc.MoqComplete.Tests.ContextAction
 {
-    [TestNetCore21("Moq/4.10.1")]
+    [TestNetCore21("Moq/4.16.1")]
     public class FillParamWithMockContextActionAvailabilityTests : ContextActionAvailabilityTestBase<FillParamWithMockContextAction>
     {
         protected override string RelativeTestDataPath => "ContextAction";

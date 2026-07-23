@@ -7,7 +7,7 @@ namespace ConsoleApp1.Tests
 {
     public interface ITestInterface
     {
-        void BuildSomething(int i, string toto, bool ok);
+        int BuildSomething(int i, string toto, bool ok);
     }
 
     [TestFixture]

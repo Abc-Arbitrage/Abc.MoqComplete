@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace Abc.MoqComplete.Tests.Completion
 {
-    [TestNetCore21("Moq/4.18.1")]
+    [TestNetCore21("Moq/4.16.1")]
     public class ReturnsAsyncMethodProviderTests: CodeCompletionTestBase
     {
         protected override CodeCompletionTestType TestType => CodeCompletionTestType.Action;

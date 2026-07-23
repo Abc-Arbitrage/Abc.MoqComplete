@@ -22,6 +22,6 @@ namespace ConsoleApp1.Tests
     }
 }
 ---------------------------------------------------------
-(0): ReSharper Warning: (T) 'Suspicious Callback method call: Generic types do not match' (E) ''
+(0): ReSharper Warning: Suspicious Callback method call: Generic types do not match
 (1): ReSharper Dead Code: Parameter 's' is never used
 (2): ReSharper Dead Code: Parameter 'arg3' is never used

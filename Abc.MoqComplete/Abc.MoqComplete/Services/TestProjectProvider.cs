@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Application.Parts;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi.Modules;
 
 namespace Abc.MoqComplete.Services
 {
-    [SolutionComponent]
+    [SolutionComponent(Instantiation.DemandAnyThreadUnsafe)]
     public class TestProjectProvider : ITestProjectProvider
     {
-        private readonly Dictionary<string, bool> _isMoqContainedByProjectName = new Dictionary<string, bool>();
+        private readonly ConcurrentDictionary<string, bool> _isMoqContainedByProjectName = new ConcurrentDictionary<string, bool>();
 
         private static readonly string[] MoqReferenceNames =
         {
@@ -20,9 +22,9 @@ namespace Abc.MoqComplete.Services
         {
             if (!_isMoqContainedByProjectName.TryGetValue(psiModule.DisplayName, out var isMoqContained))
             {
-                IReadOnlyList<IPsiModuleReference> references = psiModule.GetPsiServices().Modules.GetModuleReferences(psiModule);
+                var references = psiModule.GetPsiServices().Modules.GetModuleReferences(psiModule);
                 isMoqContained = references.Any(r => MoqReferenceNames.Contains(r.Module.Name));
-                _isMoqContainedByProjectName.Add(psiModule.DisplayName, isMoqContained);
+                _isMoqContainedByProjectName[psiModule.DisplayName] = isMoqContained;
             }
 
             return isMoqContained;

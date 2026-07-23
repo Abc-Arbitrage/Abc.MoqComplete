@@ -1,4 +1,3 @@
-// ${COMPLETE_ITEM:It.IsAny<int>(), It.IsAny<string>(), It.IsAny<bool>()}
 using Moq;
 using NUnit.Framework;
 

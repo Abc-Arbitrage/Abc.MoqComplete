@@ -1,4 +1,4 @@
-// ${COMPLETE_ITEM:ReturnsAsync((int i, string toto, bool ok) => )}
+// ${COMPLETE_ITEM:Returns<int, string, bool>((i, toto, ok) => )}
 using Moq;
 using NUnit.Framework;
 using System.Threading.Tasks;

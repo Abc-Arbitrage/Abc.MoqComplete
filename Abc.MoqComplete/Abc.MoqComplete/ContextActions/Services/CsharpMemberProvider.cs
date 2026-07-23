@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using JetBrains.Application.Parts;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.CSharp.ContextActions;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
-using JetBrains.ReSharper.Psi.Util;
 using JetBrains.TextControl;
 using JetBrains.Util;
 
 namespace Abc.MoqComplete.ContextActions.Services
 {
-    [SolutionComponent]
+    [SolutionComponent(Instantiation.DemandAnyThreadUnsafe)]
     public class CsharpMemberProvider : ICsharpMemberProvider
     {
         public IEnumerable<string> GetConstructorParameters(IConstructor constructor) => constructor.Parameters.Select(s => s.Type.GetPresentableName(constructor.PresentationLanguage));
